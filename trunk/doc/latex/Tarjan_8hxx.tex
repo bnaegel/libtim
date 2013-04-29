@@ -1,0 +1,34 @@
+\section{Algorithms/Tarjan.hxx File Reference}
+\label{Tarjan_8hxx}\index{Algorithms/Tarjan.hxx@{Algorithms/Tarjan.hxx}}
+{\tt \#include $<$vector$>$}\par
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf Lib\-TIM}
+\end{CompactItemize}
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef vector$<$ int $>$ {\bf Lib\-TIM::tree\-Type}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void {\bf Lib\-TIM::Make\-Set} ({\bf tree\-Type} \&tree, const int \&offset)
+\item 
+int {\bf Lib\-TIM::Find} ({\bf tree\-Type} \&tree, const int \&offset)
+\item 
+int {\bf Lib\-TIM::Find\-Simple} ({\bf tree\-Type} \&tree, const int \&offset)
+\item 
+int {\bf Lib\-TIM::Link} ({\bf tree\-Type} \&tree, int \&x, int \&y)
+\item 
+void {\bf Lib\-TIM::Make\-Set} (int $\ast$tree, const int \&offset)
+\item 
+int {\bf Lib\-TIM::Find} (int $\ast$tree, const int \&offset)
+\item 
+int {\bf Lib\-TIM::Link} (int $\ast$tree, int \&x, int \&y)
+\item 
+template$<$class T$>$ Image$<$ {\bf TLabel} $>$ {\bf Lib\-TIM::label\-Connected\-Components\-Tarjan} (const Image$<$ T $>$ \&im, const Flat\-SE \&se)
+\item 
+template$<$class T$>$ Image$<$ {\bf TLabel} $>$ {\bf Lib\-TIM::label\-Connected\-Components\-Tarjan2} (const Image$<$ T $>$ \&im, const Flat\-SE \&se)
+\end{CompactItemize}

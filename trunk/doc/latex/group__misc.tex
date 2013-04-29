@@ -1,0 +1,67 @@
+\section{Misc Functions}
+\label{group__misc}\index{Misc Functions@{Misc Functions}}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+template$<$class T$>$ void {\bf Lib\-TIM::adjust\-Contrast} (Image$<$ T $>$ \&im)
+\item 
+template$<$class T$>$ void {\bf Lib\-TIM::adjust\-Contrast} (Image$<$ T $>$ \&im, T A, T B)
+\begin{CompactList}\small\item\em Same thing but with A and B given in parameters. \item\end{CompactList}\item 
+template$<$class T, class T2$>$ Image$<$ T $>$ {\bf Lib\-TIM::compute\-Marker\-Mean} (Image$<$ T $>$ \&src, Image$<$ T2 $>$ \&marker)
+\begin{CompactList}\small\item\em For each marker compute the mean of the points on original image. \item\end{CompactList}\item 
+template$<$class T, class T2$>$ Image$<$ T $>$ {\bf Lib\-TIM::compute\-Marker\-Mean\-Fast} (Image$<$ T $>$ \&src, Image$<$ T2 $>$ \&marker)
+\begin{CompactList}\small\item\em For each marker compute the mean of the points on original image. \item\end{CompactList}\item 
+template$<$class T$>$ void {\bf Lib\-TIM::decimate\-Template} (Image$<$ T $>$ \&im, int nx=1, int ny=1, int nz=1)
+\begin{CompactList}\small\item\em {\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} decimation by imposing a regular grid -$>$ useful for simplifying structuring elements. \item\end{CompactList}\item 
+std::map$<$ {\bf TLabel}, Point$<$ double $>$ $>$ {\bf Lib\-TIM::centroids} (Image$<$ {\bf TLabel} $>$ \&im)
+\begin{CompactList}\small\item\em compute the centroids of labelled objects (first moments) in 2D images \item\end{CompactList}\item 
+template$<$class T$>$ void {\bf Lib\-TIM::draw\-Contour} (Image$<$ T $>$ \&im, const Image$<$ {\bf U8} $>$ \&mask, const T val)
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{misc@{misc}!adjustContrast@{adjustContrast}}
+\index{adjustContrast@{adjustContrast}!misc@{misc}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void Lib\-TIM::adjust\-Contrast (Image$<$ T $>$ \& {\em im}, T {\em A}, T {\em B})}\label{group__misc_ga1}
+
+
+Same thing but with A and B given in parameters. 
+
+\index{misc@{misc}!adjustContrast@{adjustContrast}}
+\index{adjustContrast@{adjustContrast}!misc@{misc}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void Lib\-TIM::adjust\-Contrast (Image$<$ T $>$ \& {\em im})}\label{group__misc_ga0}
+
+
+Scale image intensity according to the linear relation: x  [a,b], f(x)  [A,B] f(x)=A+(x-a)(B-A)/(b-a) In this version a=im.get\-Min(), b=im.get\-Max(), A=type\-Min(), B=type\-Max \index{misc@{misc}!centroids@{centroids}}
+\index{centroids@{centroids}!misc@{misc}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}std::map$<${\bf TLabel},Point$<$double$>$ $>$ Lib\-TIM::centroids (Image$<$ {\bf TLabel} $>$ \& {\em im})\hspace{0.3cm}{\tt  [inline]}}\label{group__misc_ga5}
+
+
+compute the centroids of labelled objects (first moments) in 2D images 
+
+\index{misc@{misc}!computeMarkerMean@{computeMarkerMean}}
+\index{computeMarkerMean@{computeMarkerMean}!misc@{misc}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T, class T2$>$ Image$<$T$>$ Lib\-TIM::compute\-Marker\-Mean (Image$<$ T $>$ \& {\em src}, Image$<$ T2 $>$ \& {\em marker})}\label{group__misc_ga2}
+
+
+For each marker compute the mean of the points on original image. 
+
+\index{misc@{misc}!computeMarkerMeanFast@{computeMarkerMeanFast}}
+\index{computeMarkerMeanFast@{computeMarkerMeanFast}!misc@{misc}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T, class T2$>$ Image$<$T$>$ Lib\-TIM::compute\-Marker\-Mean\-Fast (Image$<$ T $>$ \& {\em src}, Image$<$ T2 $>$ \& {\em marker})}\label{group__misc_ga3}
+
+
+For each marker compute the mean of the points on original image. 
+
+\index{misc@{misc}!decimateTemplate@{decimateTemplate}}
+\index{decimateTemplate@{decimateTemplate}!misc@{misc}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void Lib\-TIM::decimate\-Template (Image$<$ T $>$ \& {\em im}, int {\em nx} = {\tt 1}, int {\em ny} = {\tt 1}, int {\em nz} = {\tt 1})}\label{group__misc_ga4}
+
+
+{\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} decimation by imposing a regular grid -$>$ useful for simplifying structuring elements. 
+
+\index{misc@{misc}!drawContour@{drawContour}}
+\index{drawContour@{drawContour}!misc@{misc}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void Lib\-TIM::draw\-Contour (Image$<$ T $>$ \& {\em im}, const Image$<$ {\bf U8} $>$ \& {\em mask}, const T {\em val})}\label{group__misc_ga6}
+
+

@@ -1,0 +1,16 @@
+\section{Algorithms/Template\-Matching.hxx File Reference}
+\label{TemplateMatching_8hxx}\index{Algorithms/TemplateMatching.hxx@{Algorithms/TemplateMatching.hxx}}
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf Lib\-TIM}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+template$<$class T$>$ Image$<$ int $>$ {\bf Lib\-TIM::template\-Matching\-L2} (const Image$<$ T $>$ \&im, const Non\-Flat\-SE$<$ {\bf U8} $>$ \&mask)
+\item 
+template$<$class T, class T2$>$ Image$<$ T $>$ {\bf Lib\-TIM::print\-Best\-Template} (const Image$<$ T2 $>$ \&res\-TM, const Image$<$ T $>$ \&im, const Flat\-SE \&A, T2 value)
+\begin{CompactList}\small\item\em Same thing but with two templates: one for foreground (255), the other for background (0). \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ double $>$ {\bf Lib\-TIM::template\-Matching\-Correlation} (const Image$<$ T $>$ \&im, const Non\-Flat\-SE$<$ {\bf U8} $>$ \&mask)
+\end{CompactItemize}

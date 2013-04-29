@@ -1,0 +1,276 @@
+\section{Lib\-TIM::Image$<$ T $>$ Class Template Reference}
+\label{classLibTIM_1_1Image}\index{LibTIM::Image@{LibTIM::Image}}
+Container base for images of generic type T in {\bf Lib\-TIM}{\rm (p.\,\pageref{namespaceLibTIM})}.  
+
+
+{\tt \#include $<$Image.h$>$}
+
+\subsection*{Public Types}
+\begin{CompactItemize}
+\item 
+typedef {\bf Image\-Iterator}$<$ {\bf Image}, T $>$ {\bf iterator}
+\begin{CompactList}\small\item\em Iterators. \item\end{CompactList}\item 
+typedef {\bf Image\-Iterator}$<$ const {\bf Image}, const T $>$ {\bf const\_\-iterator}
+\item 
+typedef {\bf Image\-Iterator\-XYZ}$<$ {\bf Image}, T $>$ {\bf iterator\-XYZ}
+\item 
+typedef {\bf Image\-Iterator\-XYZ}$<$ const {\bf Image}, const T $>$ {\bf const\_\-iterator\-XYZ}
+\item 
+typedef std::reverse\_\-iterator$<$ {\bf const\_\-iterator} $>$ {\bf const\_\-reverse\_\-iterator}
+\item 
+typedef std::reverse\_\-iterator$<$ {\bf iterator} $>$ {\bf reverse\_\-iterator}
+\end{CompactItemize}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+void {\bf save} (const char $\ast$filename)
+\begin{CompactList}\small\item\em Save image file. \item\end{CompactList}\item 
+{\bf Image} (const {\bf TSize} $\ast$size)
+\begin{CompactList}\small\item\em Constructors. \item\end{CompactList}\item 
+{\bf Image} (const {\bf TSize} x\-Size=1, const {\bf TSize} y\-Size=1, const {\bf TSize} z\-Size=1)
+\item 
+{\bf Image} (const {\bf TSize} $\ast$size, const {\bf TSpacing} $\ast$spacing, const T $\ast$data)
+\item 
+{\bf $\sim$Image} ()
+\begin{CompactList}\small\item\em Destructor (delete the buffer). \item\end{CompactList}\item 
+{\bf Image} (const {\bf Image}$<$ T $>$ \&im)
+\begin{CompactList}\small\item\em Copy constructor. \item\end{CompactList}\item 
+{\bf Image}$<$ T $>$ \& {\bf operator=} (const {\bf Image}$<$ T $>$ \&im)
+\begin{CompactList}\small\item\em Assignment operator. \item\end{CompactList}\item 
+template$<$class T2$>$ {\bf Image} (const {\bf Image}$<$ T2 $>$ \&im)
+\begin{CompactList}\small\item\em Type conversion. \item\end{CompactList}\item 
+{\bf TSize} $\ast$ {\bf get\-Size} () const 
+\item 
+{\bf TSize} {\bf get\-Size\-X} () const 
+\item 
+{\bf TSize} {\bf get\-Size\-Y} () const 
+\item 
+{\bf TSize} {\bf get\-Size\-Z} () const 
+\item 
+void {\bf set\-Size} ({\bf TSize} $\ast$size)
+\item 
+void {\bf set\-Size} ({\bf TSize} x, {\bf TSize} y, {\bf TSize} z)
+\item 
+{\bf TSpacing} $\ast$ {\bf get\-Spacing} ()
+\item 
+{\bf TSpacing} {\bf get\-Spacing\-X} () const 
+\item 
+{\bf TSpacing} {\bf get\-Spacing\-Y} () const 
+\item 
+{\bf TSpacing} {\bf get\-Spacing\-Z} () const 
+\item 
+void {\bf set\-Spacing\-X} ({\bf TSpacing} vx)
+\item 
+void {\bf set\-Spacing\-Y} ({\bf TSpacing} vy)
+\item 
+void {\bf set\-Spacing\-Z} ({\bf TSpacing} vz)
+\item 
+{\bf TOffset} {\bf get\-Buf\-Size} () const 
+\item 
+T $\ast$ {\bf get\-Data} ()
+\item 
+{\bf iterator} {\bf begin} ()
+\item 
+{\bf const\_\-iterator} {\bf begin} () const 
+\item 
+{\bf iterator} {\bf end} ()
+\item 
+{\bf const\_\-iterator} {\bf end} () const 
+\item 
+{\bf reverse\_\-iterator} {\bf rbegin} ()
+\item 
+{\bf const\_\-reverse\_\-iterator} {\bf rbegin} () const 
+\item 
+{\bf reverse\_\-iterator} {\bf rend} ()
+\item 
+{\bf const\_\-reverse\_\-iterator} {\bf rend} () const 
+\item 
+T \& {\bf operator()} ({\bf TCoord} x, {\bf TCoord} y, {\bf TCoord} z=0)
+\begin{CompactList}\small\item\em Coordinates write version. \item\end{CompactList}\item 
+T {\bf operator()} ({\bf TCoord} x, {\bf TCoord} y, {\bf TCoord} z=0) const 
+\begin{CompactList}\small\item\em Coordinates read-only version. \item\end{CompactList}\item 
+T \& {\bf operator()} ({\bf TOffset} offset)
+\begin{CompactList}\small\item\em Offset write version. \item\end{CompactList}\item 
+T {\bf operator()} ({\bf TOffset} offset) const 
+\begin{CompactList}\small\item\em Offset read-only version. \item\end{CompactList}\item 
+T \& {\bf operator()} ({\bf Point}$<$ {\bf TCoord} $>$ p)
+\begin{CompactList}\small\item\em {\bf Point}{\rm (p.\,\pageref{classLibTIM_1_1Point})} write version. \item\end{CompactList}\item 
+T {\bf operator()} ({\bf Point}$<$ {\bf TCoord} $>$ p) const 
+\begin{CompactList}\small\item\em {\bf Point}{\rm (p.\,\pageref{classLibTIM_1_1Point})} read-only version. \item\end{CompactList}\item 
+{\bf Image} \& {\bf operator+=} ({\bf Image}$<$ T $>$ \&op)
+\begin{CompactList}\small\item\em {\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} operators. \item\end{CompactList}\item 
+{\bf Image} \& {\bf operator-=} ({\bf Image}$<$ T $>$ \&op)
+\item 
+{\bf Image} \& {\bf operator $\ast$=} ({\bf Image}$<$ T $>$ \&op)
+\item 
+{\bf Image} \& {\bf operator/=} ({\bf Image}$<$ T $>$ \&op)
+\item 
+{\bf Image} \& {\bf operator \&=} ({\bf Image}$<$ T $>$ \&op)
+\begin{CompactList}\small\item\em Pointwise minimum and maximum. \item\end{CompactList}\item 
+{\bf Image} \& {\bf operator$|$=} ({\bf Image}$<$ T $>$ \&op)
+\item 
+{\bf Image} \& {\bf operator!} (void)
+\begin{CompactList}\small\item\em Negative. \item\end{CompactList}\item 
+bool {\bf operator==} ({\bf Image}$<$ T $>$ \&op)
+\item 
+template$<$class T2$>$ void {\bf set\-Image\-Infos} ({\bf Image}$<$ T2 $>$ \&im)
+\item 
+T {\bf get\-Max} () const 
+\begin{CompactList}\small\item\em Min and max. \item\end{CompactList}\item 
+T {\bf get\-Min} () const 
+\item 
+void {\bf fill} (const T value)
+\begin{CompactList}\small\item\em {\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} misc. \item\end{CompactList}\item 
+{\bf Image}$<$ T $>$ {\bf crop} (const {\bf TCoord} from\-X=0, const {\bf TCoord} to\-X=1, const {\bf TCoord} from\-Y=0, const {\bf TCoord} to\-Y=1, const {\bf TCoord} from\-Z=0, const {\bf TCoord} to\-Z=1)
+\item 
+void {\bf copy} ({\bf Image}$<$ T $>$ \&im, {\bf TCoord} x1, {\bf TCoord} y1, {\bf TCoord} z1, {\bf TCoord} x2, {\bf TCoord} y2, {\bf TCoord} z2, {\bf TCoord} px, {\bf TCoord} py, {\bf TCoord} pz)
+\item 
+void {\bf copy\-Fast} ({\bf Image}$<$ T $>$ \&im, int x1, int y1, int z1, int x2, int y2, int z2, int px, int py, int pz)
+\item 
+void {\bf copy\-Fast} ({\bf Image}$<$ T $>$ \&im, {\bf TCoord} px, {\bf TCoord} py, {\bf TCoord} pz)
+\item 
+void {\bf copy} ({\bf Image}$<$ T $>$ \&im, {\bf TCoord} px, {\bf TCoord} py, {\bf TCoord} pz)
+\item 
+void {\bf enlarge} ()
+\item 
+int {\bf get\-Offset} (int x, int y, int z)
+\item 
+{\bf Image}$<$ T $>$ {\bf get\-Reflection} ()
+\item 
+void {\bf print} ()
+\item 
+bool {\bf is\-Pos\-Valid} ({\bf TCoord} x, {\bf TCoord} y, {\bf TCoord} z=0) const 
+\item 
+bool {\bf is\-Pos\-Valid} ({\bf TOffset} offset) const 
+\item 
+bool {\bf is\-Pos\-Valid} ({\bf Point}$<$ {\bf TCoord} $>$ p) const 
+\item 
+template$<$$>$ int {\bf load} (const char $\ast$filename, {\bf Image}$<$ {\bf U8} $>$ \&im)
+\item 
+template$<$$>$ int {\bf load} (const char $\ast$filename, {\bf Image}$<$ {\bf U16} $>$ \&im)
+\item 
+template$<$$>$ int {\bf load} (const char $\ast$filename, {\bf Image}$<$ {\bf RGB} $>$ \&im)
+\item 
+template$<$$>$ void {\bf save} (const char $\ast$filename)
+\item 
+template$<$$>$ void {\bf save} (const char $\ast$filename)
+\item 
+template$<$$>$ void {\bf save} (const char $\ast$filename)
+\end{CompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{CompactItemize}
+\item 
+static int {\bf load} (const char $\ast$filename, {\bf Image}$<$ T $>$ \&im)
+\begin{CompactList}\small\item\em {\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} file loader. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$class T$>$ class Lib\-TIM::Image$<$ T $>$}
+
+Container base for images of generic type T in {\bf Lib\-TIM}{\rm (p.\,\pageref{namespaceLibTIM})}. 
+
+This structure represents the base image class of {\bf Lib\-TIM}{\rm (p.\,\pageref{namespaceLibTIM})}. It contains a buffer of elements of type T of size size[0]$\ast$size[1]$\ast$size[2] x,y and z voxels spacings are recorded in spacing[] \begin{Desc}
+\item[Accessing elements]To access element (x,y,z) or offset (q), use: 
+
+\footnotesize\begin{verbatim}val=im(x,y,z) \end{verbatim}
+\normalsize
+ 
+
+\footnotesize\begin{verbatim}val=im(q) \end{verbatim}
+\normalsize
+ To write element (x,y,z) or offset (q), use: 
+
+\footnotesize\begin{verbatim}im(x,y,z)=val \end{verbatim}
+\normalsize
+ 
+
+\footnotesize\begin{verbatim}im(q)=val \end{verbatim}
+\normalsize
+\end{Desc}
+\begin{Desc}
+\item[Iterators]To iterate through elements, you should use iterators. There is two types of iterator: \begin{itemize}
+\item 
+
+\footnotesize\begin{verbatim}iterator \end{verbatim}
+\normalsize
+ to scan image in raster scan \item 
+
+\footnotesize\begin{verbatim}reverse_iterator \end{verbatim}
+\normalsize
+ to scan image in anti-raster scan \item 
+
+\footnotesize\begin{verbatim}iteratorXYZ \end{verbatim}
+\normalsize
+ to scan image in raster scan with the knowledge of coordinates \item 
+
+\footnotesize\begin{verbatim}reverse_iteratorXYZ \end{verbatim}
+\normalsize
+ to scan image in anti-raster scan with the knowledge of coordinates\end{itemize}
+{\bf begin()}{\rm (p.\,\pageref{group__Image_ga33})} and {\bf end()}{\rm (p.\,\pageref{group__Image_ga35})} methods return iterators on the beginning and the end of the {\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} {\bf rbegin()}{\rm (p.\,\pageref{group__Image_ga37})} and {\bf rend()}{\rm (p.\,\pageref{group__Image_ga39})} methods are used with reverse\_\-iterators \end{Desc}
+\begin{Desc}
+\item[Example:]This piece of code initialized all elements of {\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} to 0. (note that to do this you should better use the fill method) 
+
+\footnotesize\begin{verbatim}	Image <U8> im;
+	...
+	Image<U8>::iterator it;
+	Image<U8>::iterator end=im.end();
+	for(it=im.begin(); it!=end; ++it)
+		*it=0
+	\end{verbatim}
+\normalsize
+\end{Desc}
+Same thing with coordinates access (slower):
+
+
+
+\footnotesize\begin{verbatim}	Image <U8> im;
+	...
+	Image<U8>::iteratorXYZ it;
+	Image<U8>::iteratorXYZ end=im.end();
+	for(it=im.begin(); it!=end; ++it)
+		im(it.x,it.y,it.z)=0
+	\end{verbatim}
+\normalsize
+
+
+Note that (as in these examples) it is faster to put im.end() in a variable.
+
+
+
+\subsection{Member Function Documentation}
+\index{LibTIM::Image@{Lib\-TIM::Image}!load@{load}}
+\index{load@{load}!LibTIM::Image@{Lib\-TIM::Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ int {\bf Lib\-TIM::Image}$<$ {\bf RGB} $>$::load (const char $\ast$ {\em filename}, {\bf Image}$<$ {\bf RGB} $>$ \& {\em im})\hspace{0.3cm}{\tt  [inline]}}\label{classLibTIM_1_1Image_a63}
+
+
+\index{LibTIM::Image@{Lib\-TIM::Image}!load@{load}}
+\index{load@{load}!LibTIM::Image@{Lib\-TIM::Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ int {\bf Lib\-TIM::Image}$<$ {\bf U16} $>$::load (const char $\ast$ {\em filename}, {\bf Image}$<$ {\bf U16} $>$ \& {\em im})\hspace{0.3cm}{\tt  [inline]}}\label{classLibTIM_1_1Image_a62}
+
+
+\index{LibTIM::Image@{Lib\-TIM::Image}!load@{load}}
+\index{load@{load}!LibTIM::Image@{Lib\-TIM::Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ int {\bf Lib\-TIM::Image}$<$ {\bf U8} $>$::load (const char $\ast$ {\em filename}, {\bf Image}$<$ {\bf U8} $>$ \& {\em im})\hspace{0.3cm}{\tt  [inline]}}\label{classLibTIM_1_1Image_a61}
+
+
+\index{LibTIM::Image@{Lib\-TIM::Image}!save@{save}}
+\index{save@{save}!LibTIM::Image@{Lib\-TIM::Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ void {\bf Lib\-TIM::Image}$<$ {\bf RGB} $>$::save (const char $\ast$ {\em filename})\hspace{0.3cm}{\tt  [inline]}}\label{classLibTIM_1_1Image_a66}
+
+
+\index{LibTIM::Image@{Lib\-TIM::Image}!save@{save}}
+\index{save@{save}!LibTIM::Image@{Lib\-TIM::Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ void {\bf Lib\-TIM::Image}$<$ {\bf U16} $>$::save (const char $\ast$ {\em filename})\hspace{0.3cm}{\tt  [inline]}}\label{classLibTIM_1_1Image_a65}
+
+
+\index{LibTIM::Image@{Lib\-TIM::Image}!save@{save}}
+\index{save@{save}!LibTIM::Image@{Lib\-TIM::Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$$>$ void {\bf Lib\-TIM::Image}$<$ {\bf U8} $>$::save (const char $\ast$ {\em filename})\hspace{0.3cm}{\tt  [inline]}}\label{classLibTIM_1_1Image_a64}
+
+
+
+
+The documentation for this class was generated from the following files:\begin{CompactItemize}
+\item 
+Common/{\bf Image.h}\item 
+Common/{\bf Image.hxx}\end{CompactItemize}

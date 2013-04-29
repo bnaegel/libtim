@@ -1,0 +1,140 @@
+\section{Basis Functions}
+\label{group__basisFunctions}\index{Basis Functions@{Basis Functions}}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+template$<$class T$>$ void {\bf Lib\-TIM::add\-Borders} (Image$<$ T $>$ \&im, {\bf TCoord} $\ast$pre\-Width, {\bf TCoord} $\ast$post\-Width, T value)
+\item 
+template$<$class T$>$ void {\bf Lib\-TIM::add\-Borders} (Image$<$ T $>$ \&im, Flat\-SE \&se, T value)
+\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::dilation} (Image$<$ T $>$ im, Flat\-SE se)
+\begin{CompactList}\small\item\em Basic flat-dilation algorithm. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::erosion} (Image$<$ T $>$ im, Flat\-SE se)
+\begin{CompactList}\small\item\em Basic flat-erosion algorithm. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::dilation\-Border\-Max} (Image$<$ T $>$ im, Flat\-SE se)
+\begin{CompactList}\small\item\em Border max version of dilation. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::erosion\-Border\-Min} (Image$<$ T $>$ im, Flat\-SE se)
+\begin{CompactList}\small\item\em Border min version of erosion. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::opening} (Image$<$ T $>$ im, Flat\-SE se)
+\begin{CompactList}\small\item\em Opening. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::closing} (Image$<$ T $>$ im, Flat\-SE se)
+\begin{CompactList}\small\item\em Closing. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::morphological\-Gradient} (Image$<$ T $>$ im, Flat\-SE se)
+\begin{CompactList}\small\item\em Morphological gradient. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::internal\-Morphological\-Gradient} (Image$<$ T $>$ im, Flat\-SE se)
+\begin{CompactList}\small\item\em Internal morphological gradient. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::external\-Morphological\-Gradient} (Image$<$ T $>$ im, Flat\-SE se)
+\begin{CompactList}\small\item\em External morphological gradient. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::rank\-Filter} (Image$<$ T $>$ im, Flat\-SE se, int rank)
+\begin{CompactList}\small\item\em Rank filter. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{basisFunctions@{basis\-Functions}!addBorders@{addBorders}}
+\index{addBorders@{addBorders}!basisFunctions@{basis\-Functions}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void Lib\-TIM::add\-Borders (Image$<$ T $>$ \& {\em im}, Flat\-SE \& {\em se}, T {\em value})}\label{group__basisFunctions_ga1}
+
+
+\index{basisFunctions@{basis\-Functions}!addBorders@{addBorders}}
+\index{addBorders@{addBorders}!basisFunctions@{basis\-Functions}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void Lib\-TIM::add\-Borders (Image$<$ T $>$ \& {\em im}, {\bf TCoord} $\ast$ {\em pre\-Width}, {\bf TCoord} $\ast$ {\em post\-Width}, T {\em value})}\label{group__basisFunctions_ga0}
+
+
+\index{basisFunctions@{basis\-Functions}!closing@{closing}}
+\index{closing@{closing}!basisFunctions@{basis\-Functions}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$T$>$ Lib\-TIM::closing (Image$<$ T $>$ {\em im}, Flat\-SE {\em se})}\label{group__basisFunctions_ga7}
+
+
+Closing. 
+
+Computes the closing of im by se\index{basisFunctions@{basis\-Functions}!dilation@{dilation}}
+\index{dilation@{dilation}!basisFunctions@{basis\-Functions}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$T$>$ Lib\-TIM::dilation (Image$<$ T $>$ {\em im}, Flat\-SE {\em se})}\label{group__basisFunctions_ga2}
+
+
+Basic flat-dilation algorithm. 
+
+Computes the dilation of im by flat structuring element se according to Heijman's definition (different from Soille)\index{basisFunctions@{basis\-Functions}!dilationBorderMax@{dilationBorderMax}}
+\index{dilationBorderMax@{dilationBorderMax}!basisFunctions@{basis\-Functions}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$T$>$ Lib\-TIM::dilation\-Border\-Max (Image$<$ T $>$ {\em im}, Flat\-SE {\em se})}\label{group__basisFunctions_ga4}
+
+
+Border max version of dilation. 
+
+Computes the dilation but with border set to the maximum possible value of the image type Useful for template matching, when one not want to detect something when hitting the border\index{basisFunctions@{basis\-Functions}!erosion@{erosion}}
+\index{erosion@{erosion}!basisFunctions@{basis\-Functions}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$T$>$ Lib\-TIM::erosion (Image$<$ T $>$ {\em im}, Flat\-SE {\em se})}\label{group__basisFunctions_ga3}
+
+
+Basic flat-erosion algorithm. 
+
+Computes the erosion of im by flat structuring element se.\index{basisFunctions@{basis\-Functions}!erosionBorderMin@{erosionBorderMin}}
+\index{erosionBorderMin@{erosionBorderMin}!basisFunctions@{basis\-Functions}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$T$>$ Lib\-TIM::erosion\-Border\-Min (Image$<$ T $>$ {\em im}, Flat\-SE {\em se})}\label{group__basisFunctions_ga5}
+
+
+Border min version of erosion. 
+
+Computes the erosion but with border set to the minimum possible value of the image type Useful for template matching, when one not want to detect something when hitting the border\index{basisFunctions@{basis\-Functions}!externalMorphologicalGradient@{externalMorphologicalGradient}}
+\index{externalMorphologicalGradient@{externalMorphologicalGradient}!basisFunctions@{basis\-Functions}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$T$>$ Lib\-TIM::external\-Morphological\-Gradient (Image$<$ T $>$ {\em im}, Flat\-SE {\em se})}\label{group__basisFunctions_ga10}
+
+
+External morphological gradient. 
+
+Computes the external morphological gradient \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em im}]The source image (not modified) \item[{\em se}]The structuring element (not modified) \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The external morphological gradient of im\end{Desc}
+\index{basisFunctions@{basis\-Functions}!internalMorphologicalGradient@{internalMorphologicalGradient}}
+\index{internalMorphologicalGradient@{internalMorphologicalGradient}!basisFunctions@{basis\-Functions}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$T$>$ Lib\-TIM::internal\-Morphological\-Gradient (Image$<$ T $>$ {\em im}, Flat\-SE {\em se})}\label{group__basisFunctions_ga9}
+
+
+Internal morphological gradient. 
+
+Computes the internal morphological gradient \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em im}]The source image (not modified) \item[{\em se}]The structuring element (not modified) \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The internal morphological gradient of im\end{Desc}
+\index{basisFunctions@{basis\-Functions}!morphologicalGradient@{morphologicalGradient}}
+\index{morphologicalGradient@{morphologicalGradient}!basisFunctions@{basis\-Functions}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$T$>$ Lib\-TIM::morphological\-Gradient (Image$<$ T $>$ {\em im}, Flat\-SE {\em se})}\label{group__basisFunctions_ga8}
+
+
+Morphological gradient. 
+
+Computes the morphological gradient (or Beucher gradient) \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em im}]The source image (not modified) \item[{\em se}]The structuring element (not modified) \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The morphological gradient of im\end{Desc}
+\index{basisFunctions@{basis\-Functions}!opening@{opening}}
+\index{opening@{opening}!basisFunctions@{basis\-Functions}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$T$>$ Lib\-TIM::opening (Image$<$ T $>$ {\em im}, Flat\-SE {\em se})}\label{group__basisFunctions_ga6}
+
+
+Opening. 
+
+Computes the opening of im by se\index{basisFunctions@{basis\-Functions}!rankFilter@{rankFilter}}
+\index{rankFilter@{rankFilter}!basisFunctions@{basis\-Functions}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$T$>$ Lib\-TIM::rank\-Filter (Image$<$ T $>$ {\em im}, Flat\-SE {\em se}, int {\em rank})}\label{group__basisFunctions_ga11}
+
+
+Rank filter. 
+
+Computes the rank filter. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em im}]The source image \item[{\em se}]The structuring element \item[{\em rank}]The rank of the filter(rank=0 is equivalent to erosion; rank=se.get\-Nb\-Points()-1 is equivalent to dilation) \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]The filtered image.\end{Desc}

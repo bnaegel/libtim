@@ -1,0 +1,31 @@
+\section{Algorithms/Region\-Growing.hxx File Reference}
+\label{RegionGrowing_8hxx}\index{Algorithms/RegionGrowing.hxx@{Algorithms/RegionGrowing.hxx}}
+{\tt \#include \char`\"{}Common/Flat\-SE.h\char`\"{}}\par
+{\tt \#include \char`\"{}Common/Image.h\char`\"{}}\par
+{\tt \#include \char`\"{}Algorithms/Misc.h\char`\"{}}\par
+{\tt \#include $<$list$>$}\par
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf Lib\-TIM}
+\end{CompactItemize}
+\subsection*{Classes}
+\begin{CompactItemize}
+\item 
+struct {\bf Lib\-TIM::Region}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+int {\bf Lib\-TIM::label\-To\-Offset} ({\bf TLabel} label)
+\item 
+double {\bf Lib\-TIM::compute\-Priority} (pair$<$ long int, int $>$ offset, Image$<$ {\bf U8} $>$ \&src, struct Region \&region)
+\item 
+template$<$class T, class T2$>$ void {\bf Lib\-TIM::Region\-Growing\-Criterion} (Image$<$ T $>$ \&src, Image$<$ T2 $>$ \&marker, Flat\-SE \&se, bool observe=false)
+\item 
+template$<$class T$>$ void {\bf Lib\-TIM::seeded\-Region\-Growing\-Exact\-Algorithm} (Image$<$ T $>$ \&im, Image$<$ {\bf TLabel} $>$ \&marker, Flat\-SE \&se, bool observe=false)
+\begin{CompactList}\small\item\em Seeded region-growing algorithm: non-biased implementation. \item\end{CompactList}\item 
+template$<$class T, class T2$>$ void {\bf Lib\-TIM::seeded\-Region\-Growing} (Image$<$ T $>$ \&img, Image$<$ T2 $>$ \&marker, Flat\-SE \&se, bool observe=false)
+\item 
+template$<$class T, class T2$>$ void {\bf Lib\-TIM::seeded\-Region\-Growing0} (Image$<$ T $>$ \&img, Image$<$ T2 $>$ \&marker, Flat\-SE \&se, bool observe=false)
+\end{CompactItemize}

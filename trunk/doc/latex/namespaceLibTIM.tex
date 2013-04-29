@@ -1,0 +1,425 @@
+\section{Lib\-TIM Namespace Reference}
+\label{namespaceLibTIM}\index{LibTIM@{LibTIM}}
+Lib\-TIM library.  
+
+
+\subsection*{Classes}
+\begin{CompactItemize}
+\item 
+struct {\bf Node}
+\item 
+class {\bf Image\-Regions\-Infos}
+\item 
+struct {\bf Region}
+\item 
+class {\bf Flat\-SE}
+\begin{CompactList}\small\item\em Container base class for flat structuring elements (or binary masks). \item\end{CompactList}\item 
+class {\bf Histogram}
+\begin{CompactList}\small\item\em Container for histograms. \item\end{CompactList}\item 
+class {\bf Image}
+\begin{CompactList}\small\item\em Container base for images of generic type T in {\bf Lib\-TIM}{\rm (p.\,\pageref{namespaceLibTIM})}. \item\end{CompactList}\item 
+class {\bf Image\-Iterator}
+\item 
+class {\bf Image\-Iterator\-XYZ}
+\item 
+class {\bf Non\-Flat\-SE}
+\begin{CompactList}\small\item\em Non-flat structuring elements (or ponderated masks). \item\end{CompactList}\item 
+class {\bf Ordered\-Queue}
+\begin{CompactList}\small\item\em Ordered {\bf Queue}{\rm (p.\,\pageref{classLibTIM_1_1Queue})}. \item\end{CompactList}\item 
+class {\bf Ordered\-Queue\-Double}
+\begin{CompactList}\small\item\em Ordered {\bf Queue}{\rm (p.\,\pageref{classLibTIM_1_1Queue})} with double priority. \item\end{CompactList}\item 
+class {\bf Queue}
+\item 
+class {\bf Point}
+\begin{CompactList}\small\item\em {\bf Point}{\rm (p.\,\pageref{classLibTIM_1_1Point})} Structure. \item\end{CompactList}\item 
+struct {\bf Table}
+\end{CompactItemize}
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef {\bf Node} {\bf t\-Node}
+\item 
+typedef vector$<$ int $>$ {\bf tree\-Type}
+\item 
+typedef unsigned char {\bf U8}
+\item 
+typedef signed char {\bf S8}
+\item 
+typedef unsigned short {\bf U16}
+\item 
+typedef signed short {\bf S16}
+\item 
+typedef unsigned long {\bf U32}
+\item 
+typedef signed long {\bf S32}
+\item 
+typedef {\bf Table}$<$ {\bf U8}, 3 $>$ {\bf RGB}
+\item 
+typedef unsigned short {\bf TSize}
+\item 
+typedef double {\bf TSpacing}
+\item 
+typedef int {\bf TCoord}
+\item 
+typedef unsigned long {\bf TLabel}
+\item 
+typedef long {\bf TOffset}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+template$<$class T$>$ void {\bf dynamic\-Se\-Norm\-L2} ({\bf Image}$<$ T $>$ \&img, const {\bf Point}$<$ {\bf TCoord} $>$ \&p, const {\bf Flat\-SE} \&B, int param, {\bf Flat\-SE} \&se)
+\item 
+template$<$class T$>$ void {\bf dynamic\-Se\-Norm\-L2Rand} ({\bf Image}$<$ T $>$ \&img, const {\bf Point}$<$ {\bf TCoord} $>$ \&p, const {\bf Flat\-SE} \&B, int param, {\bf Flat\-SE} \&se, int nb\-Points)
+\item 
+template$<$class T$>$ void {\bf dynamic\-Se\-Norm\-L2NPoints} ({\bf Image}$<$ T $>$ \&img, const {\bf Point}$<$ {\bf TCoord} $>$ \&p, const {\bf Flat\-SE} \&B, int NPoints, {\bf Flat\-SE} \&se)
+\item 
+template$<$class T$>$ {\bf Image}$<$ unsigned char $>$ {\bf compute\-Neighborhood\-S1} (const {\bf Image}$<$ T $>$ \&im)
+\item 
+template$<$class T$>$ {\bf Image}$<$ vector$<$ bool $>$ $>$ {\bf compute\-Neighborhood\-S1v2} (const {\bf Image}$<$ T $>$ \&im)
+\item 
+template$<$class T$>$ void {\bf dynamic\-Se\-S1} ({\bf Image}$<$ T $>$ \&img, const {\bf Point}$<$ {\bf TCoord} $>$ \&p, int param, {\bf Flat\-SE} \&se)
+\item 
+void {\bf dynamic\-Se\-S1v2} ({\bf Image}$<$ vector$<$ bool $>$ $>$ \&img, const {\bf Point}$<$ {\bf TCoord} $>$ \&p, int param, {\bf Flat\-SE} \&se)
+\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf print\-Se\-At\-Point} ({\bf Image}$<$ T $>$ \&img, {\bf Flat\-SE} \&se, {\bf Point}$<$ {\bf TCoord} $>$ \&p)
+\item 
+vector$<$ long int $>$ {\bf merge\_\-pixels} ({\bf t\-Node} $\ast$tree)
+\begin{CompactList}\small\item\em Aggregate all subpixels from the node tree. \item\end{CompactList}\item 
+void {\bf filter\-Area} ({\bf t\-Node} $\ast$root, int area)
+\item 
+void {\bf print\-Tree} ({\bf t\-Node} $\ast$tree)
+\item 
+void {\bf make\_\-father} ({\bf t\-Node} $\ast$$\ast$$\ast$index, int label1, int label2, int h1, int h2)
+\item 
+{\bf t\-Node} $\ast$ {\bf init\_\-tree} (void)
+\item 
+{\bf Image}$<$ {\bf U8} $>$ {\bf reconstruct\-Image} ({\bf t\-Node} $\ast$tree, const {\bf TSize} $\ast$size)
+\begin{CompactList}\small\item\em Reconstruct image from tree. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf t\-Node} $\ast$ {\bf compute\-Component\-Tree} ({\bf Image}$<$ T $>$ \&im, {\bf Flat\-SE} \&se)
+\item 
+void {\bf father} ({\bf t\-Node} $\ast$tree, {\bf t\-Node} $\ast$child)
+\item 
+{\bf t\-Node} $\ast$ {\bf init\_\-tree} (int h, int n)
+\item 
+template$<$class T$>$ {\bf t\-Node} $\ast$ {\bf compute\-Component\-Tree\-Bens\-Method} ({\bf Image}$<$ T $>$ \&im, {\bf Flat\-SE} \&se)
+\item 
+int {\bf compute\-Area} ({\bf t\-Node} $\ast$tree)
+\item 
+template$<$class T$>$ int {\bf flood} ({\bf Image}$<$ T $>$ \&im, std::map$<$ int, std::queue$<$ int $>$ $>$ \&oq, int h, int h\-Min, vector$<$ int $>$ \&STATUS, vector$<$ int $>$ \&number\_\-nodes, vector$<$ bool $>$ \&node\_\-at\_\-level, {\bf Flat\-SE} \&se, std::map$<$ T, std::map$<$ {\bf TLabel}, struct {\bf Node} $\ast$ $>$ $>$ \&index)
+\item 
+template$<$class T$>$ int {\bf flood2} ({\bf Image}$<$ T $>$ \&im, std::map$<$ int, std::queue$<$ int $>$ $>$ \&oq, int h, int h\-Min, vector$<$ int $>$ \&STATUS, vector$<$ int $>$ \&number\_\-nodes, vector$<$ bool $>$ \&node\_\-at\_\-level, {\bf Flat\-SE} \&se, std::map$<$ T, std::map$<$ {\bf TLabel}, struct {\bf Node} $\ast$ $>$ $>$ \&index)
+\begin{CompactList}\small\item\em New method to deal with neighbors. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf t\-Node} $\ast$ {\bf compute\-Component\-Tree2V1} ({\bf Image}$<$ T $>$ \&im, {\bf Flat\-SE} \&se)
+\begin{CompactList}\small\item\em Following Salembier recursive implementation... \item\end{CompactList}\item 
+template$<$class T$>$ {\bf t\-Node} $\ast$ {\bf compute\-Component\-Tree2} ({\bf Image}$<$ T $>$ \&im, {\bf Flat\-SE} \&se)
+\begin{CompactList}\small\item\em Following Salembier recursive implementation... \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ {\bf TLabel} $>$ {\bf label\-Connected\-Components} ({\bf Image}$<$ T $>$ \&img, {\bf Flat\-SE} \&se)
+\item 
+void {\bf keep\-Iest\-Largest\-Component} ({\bf Image}$<$ {\bf TLabel} $>$ \&img, {\bf Flat\-SE} \&se, int Iest)
+\item 
+template$<$class T, class T2$>$ {\bf Image}$<$ {\bf U16} $>$ {\bf chamfer\-Distance\-Transform} ({\bf Image}$<$ T $>$ \&im, {\bf Non\-Flat\-SE}$<$ T2 $>$ \&mask)
+\item 
+template$<$class T$>$ {\bf Image}$<$ {\bf TLabel} $>$ {\bf k\-Means\-Scalar\-Image} (const {\bf Image}$<$ T $>$ \&img, std::vector$<$ double $>$ \&centroids)
+\item 
+template$<$class T$>$ void {\bf adjust\-Contrast} ({\bf Image}$<$ T $>$ \&im)
+\item 
+template$<$class T$>$ void {\bf adjust\-Contrast} ({\bf Image}$<$ T $>$ \&im, T A, T B)
+\begin{CompactList}\small\item\em Same thing but with A and B given in parameters. \item\end{CompactList}\item 
+template$<$class T, class T2$>$ {\bf Image}$<$ T $>$ {\bf compute\-Marker\-Mean} ({\bf Image}$<$ T $>$ \&src, {\bf Image}$<$ T2 $>$ \&marker)
+\begin{CompactList}\small\item\em For each marker compute the mean of the points on original image. \item\end{CompactList}\item 
+template$<$class T, class T2$>$ {\bf Image}$<$ T $>$ {\bf compute\-Marker\-Mean\-Fast} ({\bf Image}$<$ T $>$ \&src, {\bf Image}$<$ T2 $>$ \&marker)
+\begin{CompactList}\small\item\em For each marker compute the mean of the points on original image. \item\end{CompactList}\item 
+template$<$class T$>$ void {\bf decimate\-Template} ({\bf Image}$<$ T $>$ \&im, int nx=1, int ny=1, int nz=1)
+\begin{CompactList}\small\item\em {\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} decimation by imposing a regular grid -$>$ useful for simplifying structuring elements. \item\end{CompactList}\item 
+std::map$<$ {\bf TLabel}, {\bf Point}$<$ double $>$ $>$ {\bf centroids} ({\bf Image}$<$ {\bf TLabel} $>$ \&im)
+\begin{CompactList}\small\item\em compute the centroids of labelled objects (first moments) in 2D images \item\end{CompactList}\item 
+template$<$class T$>$ void {\bf draw\-Contour} ({\bf Image}$<$ T $>$ \&im, const {\bf Image}$<$ {\bf U8} $>$ \&mask, const T val)
+\item 
+template$<$class T$>$ void {\bf add\-Borders} ({\bf Image}$<$ T $>$ \&im, {\bf TCoord} $\ast$pre\-Width, {\bf TCoord} $\ast$post\-Width, T value)
+\item 
+template$<$class T$>$ void {\bf add\-Borders} ({\bf Image}$<$ T $>$ \&im, {\bf Flat\-SE} \&se, T value)
+\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf dilation} ({\bf Image}$<$ T $>$ im, {\bf Flat\-SE} se)
+\begin{CompactList}\small\item\em Basic flat-dilation algorithm. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf erosion} ({\bf Image}$<$ T $>$ im, {\bf Flat\-SE} se)
+\begin{CompactList}\small\item\em Basic flat-erosion algorithm. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf dilation\-Border\-Max} ({\bf Image}$<$ T $>$ im, {\bf Flat\-SE} se)
+\begin{CompactList}\small\item\em Border max version of dilation. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf erosion\-Border\-Min} ({\bf Image}$<$ T $>$ im, {\bf Flat\-SE} se)
+\begin{CompactList}\small\item\em Border min version of erosion. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf opening} ({\bf Image}$<$ T $>$ im, {\bf Flat\-SE} se)
+\begin{CompactList}\small\item\em Opening. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf closing} ({\bf Image}$<$ T $>$ im, {\bf Flat\-SE} se)
+\begin{CompactList}\small\item\em Closing. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf morphological\-Gradient} ({\bf Image}$<$ T $>$ im, {\bf Flat\-SE} se)
+\begin{CompactList}\small\item\em Morphological gradient. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf internal\-Morphological\-Gradient} ({\bf Image}$<$ T $>$ im, {\bf Flat\-SE} se)
+\begin{CompactList}\small\item\em Internal morphological gradient. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf external\-Morphological\-Gradient} ({\bf Image}$<$ T $>$ im, {\bf Flat\-SE} se)
+\begin{CompactList}\small\item\em External morphological gradient. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf rank\-Filter} ({\bf Image}$<$ T $>$ im, {\bf Flat\-SE} se, int rank)
+\begin{CompactList}\small\item\em Rank filter. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ {\bf U8} $>$ {\bf regional\-Minima} ({\bf Image}$<$ T $>$ img, {\bf Flat\-SE} se)
+\begin{CompactList}\small\item\em Regional Minima Extraction. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ {\bf U8} $>$ {\bf regional\-Maxima} ({\bf Image}$<$ T $>$ img, {\bf Flat\-SE} se)
+\begin{CompactList}\small\item\em Regional Maxima Extraction. \item\end{CompactList}\item 
+template$<$class T$>$ void {\bf geodesic\-Reconstruction\-By\-Erosion} ({\bf Image}$<$ T $>$ \&marker, {\bf Image}$<$ T $>$ mask, {\bf Flat\-SE} \&se)
+\begin{CompactList}\small\item\em Geodesic reconstruction by erosion. \item\end{CompactList}\item 
+template$<$class T$>$ void {\bf geodesic\-Reconstruction\-By\-Dilation} ({\bf Image}$<$ T $>$ \&marker, {\bf Image}$<$ T $>$ mask, {\bf Flat\-SE} \&se)
+\begin{CompactList}\small\item\em Geodesic reconstruction by dilation. \item\end{CompactList}\item 
+template$<$class T$>$ void {\bf h\-Min\-Filter} ({\bf Image}$<$ T $>$ \&img, {\bf Flat\-SE} \&se, int h)
+\begin{CompactList}\small\item\em h-Min filter \item\end{CompactList}\item 
+template$<$class T$>$ void {\bf h\-Max\-Filter} ({\bf Image}$<$ T $>$ \&img, {\bf Flat\-SE} \&se, int h)
+\begin{CompactList}\small\item\em h-Max filter \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ int $>$ {\bf hit\-Or\-Miss\-Difference\-Image} ({\bf Image}$<$ T $>$ \&im, {\bf Flat\-SE} \&se\-A, {\bf Flat\-SE} \&se\-B)
+\begin{CompactList}\small\item\em Hit-or-miss difference {\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})}. \item\end{CompactList}\item 
+template$<$class T$>$ int {\bf hit\-Or\-Miss\-Maximum\-Difference} ({\bf Image}$<$ T $>$ im, {\bf Flat\-SE} \&se\-A, {\bf Flat\-SE} \&se\-B)
+\begin{CompactList}\small\item\em Maximum of the hit\-Or\-Miss\-Difference\-Image. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf hit\-Or\-Miss\-Integral\-K} ({\bf Image}$<$ T $>$ \&im, {\bf Flat\-SE} \&se\-A, {\bf Flat\-SE} \&se\-B)
+\begin{CompactList}\small\item\em Grey-level hit-or-miss: Soille's version. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf hit\-Or\-Miss\-Supremal\-H} ({\bf Image}$<$ T $>$ \&im, {\bf Flat\-SE} \&se\-A, {\bf Flat\-SE} \&se\-B)
+\begin{CompactList}\small\item\em Grey-level hit-or-miss: Ronse's version. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf hit\-Or\-Miss\-Supremal\-K} ({\bf Image}$<$ T $>$ \&im, {\bf Flat\-SE} \&se\-A, {\bf Flat\-SE} \&se\-B)
+\begin{CompactList}\small\item\em Supremal K version of grey-level hit-or-miss. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf hit\-Or\-Miss\-Integral\-KOpening} ({\bf Image}$<$ T $>$ \&im, {\bf Flat\-SE} \&se\-A, {\bf Flat\-SE} \&se\-B)
+\begin{CompactList}\small\item\em Grey-level hit-or-miss opening: Soille's version. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf hit\-Or\-Miss\-Supremal\-KOpening} ({\bf Image}$<$ T $>$ \&im, {\bf Flat\-SE} \&se\-A, {\bf Flat\-SE} \&se\-B)
+\begin{CompactList}\small\item\em Grey-level hit-or-miss opening: Supremal K version. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf hit\-Or\-Miss\-Supremal\-HOpening} ({\bf Image}$<$ T $>$ \&im, {\bf Flat\-SE} \&se\-A, {\bf Flat\-SE} \&se\-B)
+\begin{CompactList}\small\item\em Grey-level hit-or-miss opening: Ronse's version. \item\end{CompactList}\item 
+int {\bf label\-To\-Offset} ({\bf TLabel} label)
+\item 
+double {\bf compute\-Priority} (pair$<$ long int, int $>$ offset, {\bf Image}$<$ {\bf U8} $>$ \&src, struct {\bf Region} \&region)
+\item 
+template$<$class T, class T2$>$ void {\bf Region\-Growing\-Criterion} ({\bf Image}$<$ T $>$ \&src, {\bf Image}$<$ T2 $>$ \&marker, {\bf Flat\-SE} \&se, bool observe=false)
+\item 
+template$<$class T$>$ void {\bf seeded\-Region\-Growing\-Exact\-Algorithm} ({\bf Image}$<$ T $>$ \&im, {\bf Image}$<$ {\bf TLabel} $>$ \&marker, {\bf Flat\-SE} \&se, bool observe=false)
+\begin{CompactList}\small\item\em Seeded region-growing algorithm: non-biased implementation. \item\end{CompactList}\item 
+template$<$class T, class T2$>$ void {\bf seeded\-Region\-Growing} ({\bf Image}$<$ T $>$ \&img, {\bf Image}$<$ T2 $>$ \&marker, {\bf Flat\-SE} \&se, bool observe=false)
+\item 
+template$<$class T, class T2$>$ void {\bf seeded\-Region\-Growing0} ({\bf Image}$<$ T $>$ \&img, {\bf Image}$<$ T2 $>$ \&marker, {\bf Flat\-SE} \&se, bool observe=false)
+\item 
+void {\bf Make\-Set} ({\bf tree\-Type} \&tree, const int \&offset)
+\item 
+int {\bf Find} ({\bf tree\-Type} \&tree, const int \&offset)
+\item 
+int {\bf Find\-Simple} ({\bf tree\-Type} \&tree, const int \&offset)
+\item 
+int {\bf Link} ({\bf tree\-Type} \&tree, int \&x, int \&y)
+\item 
+void {\bf Make\-Set} (int $\ast$tree, const int \&offset)
+\item 
+int {\bf Find} (int $\ast$tree, const int \&offset)
+\item 
+int {\bf Link} (int $\ast$tree, int \&x, int \&y)
+\item 
+template$<$class T$>$ {\bf Image}$<$ {\bf TLabel} $>$ {\bf label\-Connected\-Components\-Tarjan} (const {\bf Image}$<$ T $>$ \&im, const {\bf Flat\-SE} \&se)
+\item 
+template$<$class T$>$ {\bf Image}$<$ {\bf TLabel} $>$ {\bf label\-Connected\-Components\-Tarjan2} (const {\bf Image}$<$ T $>$ \&im, const {\bf Flat\-SE} \&se)
+\item 
+template$<$class T$>$ {\bf Image}$<$ int $>$ {\bf template\-Matching\-L2} (const {\bf Image}$<$ T $>$ \&im, const {\bf Non\-Flat\-SE}$<$ {\bf U8} $>$ \&mask)
+\item 
+template$<$class T, class T2$>$ {\bf Image}$<$ T $>$ {\bf print\-Best\-Template} (const {\bf Image}$<$ T2 $>$ \&res\-TM, const {\bf Image}$<$ T $>$ \&im, const {\bf Flat\-SE} \&A, T2 value)
+\begin{CompactList}\small\item\em Same thing but with two templates: one for foreground (255), the other for background (0). \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ double $>$ {\bf template\-Matching\-Correlation} (const {\bf Image}$<$ T $>$ \&im, const {\bf Non\-Flat\-SE}$<$ {\bf U8} $>$ \&mask)
+\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf threshold} ({\bf Image}$<$ T $>$ \&im, T t\-Low, T t\-High)
+\begin{CompactList}\small\item\em Thresholding. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf threshold} ({\bf Image}$<$ T $>$ \&im, int t\-Low, int t\-High)
+\begin{CompactList}\small\item\em Thresholding (overloaded). \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ {\bf U8} $>$ {\bf binarize} ({\bf Image}$<$ T $>$ \&im)
+\begin{CompactList}\small\item\em Binarization: 0-$>$0, !=0 -$>$ 255. \item\end{CompactList}\item 
+template$<$class T$>$ int {\bf function\-R0} (double r0, T t)
+\item 
+template$<$class T$>$ void {\bf viscous\-Closing\-Mercury\-Basic} ({\bf Image}$<$ T $>$ \&src, double r0)
+\item 
+template$<$class T$>$ void {\bf viscous\-Closing\-Mercury} ({\bf Image}$<$ T $>$ \&src, double r0)
+\begin{CompactList}\small\item\em Version two: we try to optimize a little. \item\end{CompactList}\item 
+template$<$class T, class T2$>$ void {\bf watershed\-Meyer} ({\bf Image}$<$ T $>$ \&img, {\bf Image}$<$ T2 $>$ \&marker, {\bf Flat\-SE} \&se, bool observe=false)
+\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf operator+} ({\bf Image}$<$ T $>$ \&a, {\bf Image}$<$ T $>$ \&b)
+\begin{CompactList}\small\item\em {\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} operators. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf operator-} ({\bf Image}$<$ T $>$ \&a, {\bf Image}$<$ T $>$ \&b)
+\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf operator $\ast$} ({\bf Image}$<$ T $>$ \&a, {\bf Image}$<$ T $>$ \&b)
+\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf operator+} ({\bf Image}$<$ T $>$ \&a, T s)
+\begin{CompactList}\small\item\em Mixed mode arithmetic: operations with a scalar. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf operator-} ({\bf Image}$<$ T $>$ \&a, T s)
+\item 
+template$<$class T$>$ {\bf Image}$<$ T $>$ {\bf operator $\ast$} ({\bf Image}$<$ T $>$ \&a, T s)
+\item 
+std::string {\bf GImage\-IO\_\-Next\-Line} (std::ifstream \&file)
+\item 
+void {\bf GImage\-IO\_\-Read\-PPMHeader} (std::ifstream \&file, std::string \&format, unsigned int \&width, unsigned int \&height, unsigned int \&colormax)
+\item 
+template$<$class T$>$ {\bf Point}$<$ T $>$ {\bf operator+} ({\bf Point}$<$ T $>$ p, {\bf Point}$<$ T $>$ q)
+\item 
+template$<$class T$>$ {\bf Point}$<$ T $>$ {\bf operator-} ({\bf Point}$<$ T $>$ p, {\bf Point}$<$ T $>$ q)
+\end{CompactItemize}
+\subsection*{Variables}
+\begin{CompactItemize}
+\item 
+const float {\bf FLOAT\_\-EPSILON} = 0.0000000001f
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Lib\-TIM library. 
+
+Philosophy is: \begin{itemize}
+\item reduced set of data structures (principal are: Image() Flat\-SE() Non\-Flat\-SE() ) \item user oriented, easy to use \item large choice of mathematical morphology functions (recent algorithms, research code,...) \item efficient implementation\end{itemize}
+
+
+
+
+\subsection{Typedef Documentation}
+\index{LibTIM@{Lib\-TIM}!RGB@{RGB}}
+\index{RGB@{RGB}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Table}$<${\bf U8},3$>$ {\bf Lib\-TIM::RGB}}\label{namespaceLibTIM_a8}
+
+
+\index{LibTIM@{Lib\-TIM}!S16@{S16}}
+\index{S16@{S16}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef signed short {\bf Lib\-TIM::S16}}\label{namespaceLibTIM_a5}
+
+
+\index{LibTIM@{Lib\-TIM}!S32@{S32}}
+\index{S32@{S32}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef signed long {\bf Lib\-TIM::S32}}\label{namespaceLibTIM_a7}
+
+
+\index{LibTIM@{Lib\-TIM}!S8@{S8}}
+\index{S8@{S8}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef signed char {\bf Lib\-TIM::S8}}\label{namespaceLibTIM_a3}
+
+
+\index{LibTIM@{Lib\-TIM}!TCoord@{TCoord}}
+\index{TCoord@{TCoord}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef int {\bf Lib\-TIM::TCoord}}\label{namespaceLibTIM_a11}
+
+
+\index{LibTIM@{Lib\-TIM}!TLabel@{TLabel}}
+\index{TLabel@{TLabel}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned long {\bf Lib\-TIM::TLabel}}\label{namespaceLibTIM_a12}
+
+
+\index{LibTIM@{Lib\-TIM}!tNode@{tNode}}
+\index{tNode@{tNode}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf Node} {\bf Lib\-TIM::t\-Node}}\label{namespaceLibTIM_a0}
+
+
+\index{LibTIM@{Lib\-TIM}!TOffset@{TOffset}}
+\index{TOffset@{TOffset}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef long {\bf Lib\-TIM::TOffset}}\label{namespaceLibTIM_a13}
+
+
+\index{LibTIM@{Lib\-TIM}!TSize@{TSize}}
+\index{TSize@{TSize}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned short {\bf Lib\-TIM::TSize}}\label{namespaceLibTIM_a9}
+
+
+\index{LibTIM@{Lib\-TIM}!TSpacing@{TSpacing}}
+\index{TSpacing@{TSpacing}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef double {\bf Lib\-TIM::TSpacing}}\label{namespaceLibTIM_a10}
+
+
+\index{LibTIM@{Lib\-TIM}!U16@{U16}}
+\index{U16@{U16}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned short {\bf Lib\-TIM::U16}}\label{namespaceLibTIM_a4}
+
+
+\index{LibTIM@{Lib\-TIM}!U32@{U32}}
+\index{U32@{U32}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned long {\bf Lib\-TIM::U32}}\label{namespaceLibTIM_a6}
+
+
+\index{LibTIM@{Lib\-TIM}!U8@{U8}}
+\index{U8@{U8}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned char {\bf Lib\-TIM::U8}}\label{namespaceLibTIM_a2}
+
+
+
+
+\subsection{Function Documentation}
+\index{LibTIM@{Lib\-TIM}!computeNeighborhoodS1@{computeNeighborhoodS1}}
+\index{computeNeighborhoodS1@{computeNeighborhoodS1}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf Image}$<$unsigned char$>$ Lib\-TIM::compute\-Neighborhood\-S1 (const Image$<$ T $>$ \& {\em im})}\label{namespaceLibTIM_a18}
+
+
+Special function to compute the context given Compute an image giving on each point a uchar value resuming the context of the point (configuration of neighborhood) based on the order of the neighbors \index{LibTIM@{Lib\-TIM}!computeNeighborhoodS1v2@{computeNeighborhoodS1v2}}
+\index{computeNeighborhoodS1v2@{computeNeighborhoodS1v2}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf Image}$<$vector $<$bool$>$ $>$ Lib\-TIM::compute\-Neighborhood\-S1v2 (const Image$<$ T $>$ \& {\em im})}\label{namespaceLibTIM_a19}
+
+
+The latter method seems to perform badly... Same thing as before but with vectors \index{LibTIM@{Lib\-TIM}!computePriority@{computePriority}}
+\index{computePriority@{computePriority}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}double Lib\-TIM::compute\-Priority (pair$<$ long int, int $>$ {\em offset}, Image$<$ {\bf U8} $>$ \& {\em src}, struct Region \& {\em region})\hspace{0.3cm}{\tt  [inline]}}\label{namespaceLibTIM_a76}
+
+
+\index{LibTIM@{Lib\-TIM}!dynamicSeNormL2@{dynamicSeNormL2}}
+\index{dynamicSeNormL2@{dynamicSeNormL2}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void Lib\-TIM::dynamic\-Se\-Norm\-L2 (Image$<$ T $>$ \& {\em img}, const Point$<$ {\bf TCoord} $>$ \& {\em p}, const Flat\-SE \& {\em B}, int {\em param}, Flat\-SE \& {\em se})}\label{namespaceLibTIM_a15}
+
+
+\index{LibTIM@{Lib\-TIM}!dynamicSeNormL2NPoints@{dynamicSeNormL2NPoints}}
+\index{dynamicSeNormL2NPoints@{dynamicSeNormL2NPoints}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void Lib\-TIM::dynamic\-Se\-Norm\-L2NPoints (Image$<$ T $>$ \& {\em img}, const Point$<$ {\bf TCoord} $>$ \& {\em p}, const Flat\-SE \& {\em B}, int {\em NPoints}, Flat\-SE \& {\em se})}\label{namespaceLibTIM_a17}
+
+
+\index{LibTIM@{Lib\-TIM}!dynamicSeNormL2Rand@{dynamicSeNormL2Rand}}
+\index{dynamicSeNormL2Rand@{dynamicSeNormL2Rand}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void Lib\-TIM::dynamic\-Se\-Norm\-L2Rand (Image$<$ T $>$ \& {\em img}, const Point$<$ {\bf TCoord} $>$ \& {\em p}, const Flat\-SE \& {\em B}, int {\em param}, Flat\-SE \& {\em se}, int {\em nb\-Points})}\label{namespaceLibTIM_a16}
+
+
+\index{LibTIM@{Lib\-TIM}!dynamicSeS1@{dynamicSeS1}}
+\index{dynamicSeS1@{dynamicSeS1}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void Lib\-TIM::dynamic\-Se\-S1 (Image$<$ T $>$ \& {\em img}, const Point$<$ {\bf TCoord} $>$ \& {\em p}, int {\em param}, Flat\-SE \& {\em se})}\label{namespaceLibTIM_a20}
+
+
+\index{LibTIM@{Lib\-TIM}!dynamicSeS1v2@{dynamicSeS1v2}}
+\index{dynamicSeS1v2@{dynamicSeS1v2}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Lib\-TIM::dynamic\-Se\-S1v2 (Image$<$ vector$<$ bool $>$ $>$ \& {\em img}, const Point$<$ {\bf TCoord} $>$ \& {\em p}, int {\em param}, Flat\-SE \& {\em se})\hspace{0.3cm}{\tt  [inline]}}\label{namespaceLibTIM_a21}
+
+
+\index{LibTIM@{Lib\-TIM}!functionR0@{functionR0}}
+\index{functionR0@{functionR0}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ int Lib\-TIM::function\-R0 (double {\em r0}, T {\em t})}\label{namespaceLibTIM_a96}
+
+
+\index{LibTIM@{Lib\-TIM}!GImageIO_NextLine@{GImageIO\_\-NextLine}}
+\index{GImageIO_NextLine@{GImageIO\_\-NextLine}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}std::string Lib\-TIM::GImage\-IO\_\-Next\-Line (std::ifstream \& {\em file})\hspace{0.3cm}{\tt  [inline]}}\label{namespaceLibTIM_a107}
+
+
+\index{LibTIM@{Lib\-TIM}!GImageIO_ReadPPMHeader@{GImageIO\_\-ReadPPMHeader}}
+\index{GImageIO_ReadPPMHeader@{GImageIO\_\-ReadPPMHeader}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Lib\-TIM::GImage\-IO\_\-Read\-PPMHeader (std::ifstream \& {\em file}, std::string \& {\em format}, unsigned int \& {\em width}, unsigned int \& {\em height}, unsigned int \& {\em colormax})\hspace{0.3cm}{\tt  [inline]}}\label{namespaceLibTIM_a108}
+
+
+\index{LibTIM@{Lib\-TIM}!labelToOffset@{labelToOffset}}
+\index{labelToOffset@{labelToOffset}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int Lib\-TIM::label\-To\-Offset ({\bf TLabel} {\em label})\hspace{0.3cm}{\tt  [inline]}}\label{namespaceLibTIM_a75}
+
+
+\index{LibTIM@{Lib\-TIM}!merge_pixels@{merge\_\-pixels}}
+\index{merge_pixels@{merge\_\-pixels}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}vector$<$long int$>$ Lib\-TIM::merge\_\-pixels ({\bf t\-Node} $\ast$ {\em tree})}\label{namespaceLibTIM_a23}
+
+
+Aggregate all subpixels from the node tree. 
+
+\index{LibTIM@{Lib\-TIM}!printSeAtPoint@{printSeAtPoint}}
+\index{printSeAtPoint@{printSeAtPoint}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf Image}$<$T$>$ Lib\-TIM::print\-Se\-At\-Point (Image$<$ T $>$ \& {\em img}, Flat\-SE \& {\em se}, Point$<$ {\bf TCoord} $>$ \& {\em p})}\label{namespaceLibTIM_a22}
+
+
+
+
+\subsection{Variable Documentation}
+\index{LibTIM@{Lib\-TIM}!FLOAT_EPSILON@{FLOAT\_\-EPSILON}}
+\index{FLOAT_EPSILON@{FLOAT\_\-EPSILON}!LibTIM@{Lib\-TIM}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}const float {\bf Lib\-TIM::FLOAT\_\-EPSILON} = 0.0000000001f}\label{namespaceLibTIM_a14}
+
+

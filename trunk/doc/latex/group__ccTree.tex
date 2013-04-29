@@ -1,0 +1,114 @@
+\section{Component-Tree Based Algorithms}
+\label{group__ccTree}\index{Component-Tree Based Algorithms@{Component-Tree Based Algorithms}}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void {\bf Lib\-TIM::filter\-Area} ({\bf t\-Node} $\ast$root, int area)
+\item 
+void {\bf Lib\-TIM::print\-Tree} ({\bf t\-Node} $\ast$tree)
+\item 
+void {\bf Lib\-TIM::make\_\-father} ({\bf t\-Node} $\ast$$\ast$$\ast$index, int label1, int label2, int h1, int h2)
+\item 
+{\bf t\-Node} $\ast$ {\bf Lib\-TIM::init\_\-tree} (void)
+\item 
+Image$<$ {\bf U8} $>$ {\bf Lib\-TIM::reconstruct\-Image} ({\bf t\-Node} $\ast$tree, const {\bf TSize} $\ast$size)
+\begin{CompactList}\small\item\em Reconstruct image from tree. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf t\-Node} $\ast$ {\bf Lib\-TIM::compute\-Component\-Tree} (Image$<$ T $>$ \&im, Flat\-SE \&se)
+\item 
+void {\bf Lib\-TIM::father} ({\bf t\-Node} $\ast$tree, {\bf t\-Node} $\ast$child)
+\item 
+{\bf t\-Node} $\ast$ {\bf Lib\-TIM::init\_\-tree} (int h, int n)
+\item 
+template$<$class T$>$ {\bf t\-Node} $\ast$ {\bf Lib\-TIM::compute\-Component\-Tree\-Bens\-Method} (Image$<$ T $>$ \&im, Flat\-SE \&se)
+\item 
+int {\bf Lib\-TIM::compute\-Area} ({\bf t\-Node} $\ast$tree)
+\item 
+template$<$class T$>$ int {\bf Lib\-TIM::flood} (Image$<$ T $>$ \&im, std::map$<$ int, std::queue$<$ int $>$ $>$ \&oq, int h, int h\-Min, vector$<$ int $>$ \&STATUS, vector$<$ int $>$ \&number\_\-nodes, vector$<$ bool $>$ \&node\_\-at\_\-level, Flat\-SE \&se, std::map$<$ T, std::map$<$ {\bf TLabel}, struct Node $\ast$ $>$ $>$ \&index)
+\item 
+template$<$class T$>$ int {\bf Lib\-TIM::flood2} (Image$<$ T $>$ \&im, std::map$<$ int, std::queue$<$ int $>$ $>$ \&oq, int h, int h\-Min, vector$<$ int $>$ \&STATUS, vector$<$ int $>$ \&number\_\-nodes, vector$<$ bool $>$ \&node\_\-at\_\-level, Flat\-SE \&se, std::map$<$ T, std::map$<$ {\bf TLabel}, struct Node $\ast$ $>$ $>$ \&index)
+\begin{CompactList}\small\item\em New method to deal with neighbors. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf t\-Node} $\ast$ {\bf Lib\-TIM::compute\-Component\-Tree2V1} (Image$<$ T $>$ \&im, Flat\-SE \&se)
+\begin{CompactList}\small\item\em Following Salembier recursive implementation... \item\end{CompactList}\item 
+template$<$class T$>$ {\bf t\-Node} $\ast$ {\bf Lib\-TIM::compute\-Component\-Tree2} (Image$<$ T $>$ \&im, Flat\-SE \&se)
+\begin{CompactList}\small\item\em Following Salembier recursive implementation... \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{ccTree@{cc\-Tree}!computeArea@{computeArea}}
+\index{computeArea@{computeArea}!ccTree@{cc\-Tree}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int Lib\-TIM::compute\-Area ({\bf t\-Node} $\ast$ {\em tree})}\label{group__ccTree_ga9}
+
+
+\index{ccTree@{cc\-Tree}!computeComponentTree@{computeComponentTree}}
+\index{computeComponentTree@{computeComponentTree}!ccTree@{cc\-Tree}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf t\-Node}$\ast$ Lib\-TIM::compute\-Component\-Tree (Image$<$ T $>$ \& {\em im}, Flat\-SE \& {\em se})}\label{group__ccTree_ga5}
+
+
+Build the component tree of image im Return a structure containing the image max-tree For now: trivial algorithm \index{ccTree@{cc\-Tree}!computeComponentTree2@{computeComponentTree2}}
+\index{computeComponentTree2@{computeComponentTree2}!ccTree@{cc\-Tree}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf t\-Node}$\ast$ Lib\-TIM::compute\-Component\-Tree2 (Image$<$ T $>$ \& {\em im}, Flat\-SE \& {\em se})}\label{group__ccTree_ga13}
+
+
+Following Salembier recursive implementation... 
+
+\index{ccTree@{cc\-Tree}!computeComponentTree2V1@{computeComponentTree2V1}}
+\index{computeComponentTree2V1@{computeComponentTree2V1}!ccTree@{cc\-Tree}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf t\-Node}$\ast$ Lib\-TIM::compute\-Component\-Tree2V1 (Image$<$ T $>$ \& {\em im}, Flat\-SE \& {\em se})}\label{group__ccTree_ga12}
+
+
+Following Salembier recursive implementation... 
+
+\index{ccTree@{cc\-Tree}!computeComponentTreeBensMethod@{computeComponentTreeBensMethod}}
+\index{computeComponentTreeBensMethod@{computeComponentTreeBensMethod}!ccTree@{cc\-Tree}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf t\-Node}$\ast$ Lib\-TIM::compute\-Component\-Tree\-Bens\-Method (Image$<$ T $>$ \& {\em im}, Flat\-SE \& {\em se})}\label{group__ccTree_ga8}
+
+
+\index{ccTree@{cc\-Tree}!father@{father}}
+\index{father@{father}!ccTree@{cc\-Tree}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Lib\-TIM::father ({\bf t\-Node} $\ast$ {\em tree}, {\bf t\-Node} $\ast$ {\em child})}\label{group__ccTree_ga6}
+
+
+\index{ccTree@{cc\-Tree}!filterArea@{filterArea}}
+\index{filterArea@{filterArea}!ccTree@{cc\-Tree}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Lib\-TIM::filter\-Area ({\bf t\-Node} $\ast$ {\em root}, int {\em area})}\label{group__ccTree_ga0}
+
+
+\index{ccTree@{cc\-Tree}!flood@{flood}}
+\index{flood@{flood}!ccTree@{cc\-Tree}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ int Lib\-TIM::flood (Image$<$ T $>$ \& {\em im}, std::map$<$ int, std::queue$<$ int $>$ $>$ \& {\em oq}, int {\em h}, int {\em h\-Min}, vector$<$ int $>$ \& {\em STATUS}, vector$<$ int $>$ \& {\em number\_\-nodes}, vector$<$ bool $>$ \& {\em node\_\-at\_\-level}, Flat\-SE \& {\em se}, std::map$<$ T, std::map$<$ {\bf TLabel}, struct Node $\ast$ $>$ $>$ \& {\em index})}\label{group__ccTree_ga10}
+
+
+\index{ccTree@{cc\-Tree}!flood2@{flood2}}
+\index{flood2@{flood2}!ccTree@{cc\-Tree}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ int Lib\-TIM::flood2 (Image$<$ T $>$ \& {\em im}, std::map$<$ int, std::queue$<$ int $>$ $>$ \& {\em oq}, int {\em h}, int {\em h\-Min}, vector$<$ int $>$ \& {\em STATUS}, vector$<$ int $>$ \& {\em number\_\-nodes}, vector$<$ bool $>$ \& {\em node\_\-at\_\-level}, Flat\-SE \& {\em se}, std::map$<$ T, std::map$<$ {\bf TLabel}, struct Node $\ast$ $>$ $>$ \& {\em index})}\label{group__ccTree_ga11}
+
+
+New method to deal with neighbors. 
+
+\index{ccTree@{cc\-Tree}!init_tree@{init\_\-tree}}
+\index{init_tree@{init\_\-tree}!ccTree@{cc\-Tree}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf t\-Node}$\ast$ Lib\-TIM::init\_\-tree (int {\em h}, int {\em n})}\label{group__ccTree_ga7}
+
+
+\index{ccTree@{cc\-Tree}!init_tree@{init\_\-tree}}
+\index{init_tree@{init\_\-tree}!ccTree@{cc\-Tree}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf t\-Node}$\ast$ Lib\-TIM::init\_\-tree (void)}\label{group__ccTree_ga3}
+
+
+\index{ccTree@{cc\-Tree}!make_father@{make\_\-father}}
+\index{make_father@{make\_\-father}!ccTree@{cc\-Tree}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Lib\-TIM::make\_\-father ({\bf t\-Node} $\ast$$\ast$$\ast$ {\em index}, int {\em label1}, int {\em label2}, int {\em h1}, int {\em h2})}\label{group__ccTree_ga2}
+
+
+\index{ccTree@{cc\-Tree}!printTree@{printTree}}
+\index{printTree@{printTree}!ccTree@{cc\-Tree}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Lib\-TIM::print\-Tree ({\bf t\-Node} $\ast$ {\em tree})}\label{group__ccTree_ga1}
+
+
+\index{ccTree@{cc\-Tree}!reconstructImage@{reconstructImage}}
+\index{reconstructImage@{reconstructImage}!ccTree@{cc\-Tree}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}Image$<${\bf U8}$>$ Lib\-TIM::reconstruct\-Image ({\bf t\-Node} $\ast$ {\em tree}, const {\bf TSize} $\ast$ {\em size})\hspace{0.3cm}{\tt  [inline]}}\label{group__ccTree_ga4}
+
+
+Reconstruct image from tree. 
+

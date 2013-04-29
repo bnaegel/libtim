@@ -1,0 +1,51 @@
+\section{Algorithms/Component\-Tree.hxx File Reference}
+\label{ComponentTree_8hxx}\index{Algorithms/ComponentTree.hxx@{Algorithms/ComponentTree.hxx}}
+{\tt \#include \char`\"{}Common/Ordered\-Queue.h\char`\"{}}\par
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf Lib\-TIM}
+\end{CompactItemize}
+\subsection*{Classes}
+\begin{CompactItemize}
+\item 
+struct {\bf Lib\-TIM::Node}
+\end{CompactItemize}
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef Node {\bf Lib\-TIM::t\-Node}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+vector$<$ long int $>$ {\bf Lib\-TIM::merge\_\-pixels} ({\bf t\-Node} $\ast$tree)
+\begin{CompactList}\small\item\em Aggregate all subpixels from the node tree. \item\end{CompactList}\item 
+void {\bf Lib\-TIM::filter\-Area} ({\bf t\-Node} $\ast$root, int area)
+\item 
+void {\bf Lib\-TIM::print\-Tree} ({\bf t\-Node} $\ast$tree)
+\item 
+void {\bf Lib\-TIM::make\_\-father} ({\bf t\-Node} $\ast$$\ast$$\ast$index, int label1, int label2, int h1, int h2)
+\item 
+{\bf t\-Node} $\ast$ {\bf Lib\-TIM::init\_\-tree} (void)
+\item 
+Image$<$ {\bf U8} $>$ {\bf Lib\-TIM::reconstruct\-Image} ({\bf t\-Node} $\ast$tree, const {\bf TSize} $\ast$size)
+\begin{CompactList}\small\item\em Reconstruct image from tree. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf t\-Node} $\ast$ {\bf Lib\-TIM::compute\-Component\-Tree} (Image$<$ T $>$ \&im, Flat\-SE \&se)
+\item 
+void {\bf Lib\-TIM::father} ({\bf t\-Node} $\ast$tree, {\bf t\-Node} $\ast$child)
+\item 
+{\bf t\-Node} $\ast$ {\bf Lib\-TIM::init\_\-tree} (int h, int n)
+\item 
+template$<$class T$>$ {\bf t\-Node} $\ast$ {\bf Lib\-TIM::compute\-Component\-Tree\-Bens\-Method} (Image$<$ T $>$ \&im, Flat\-SE \&se)
+\item 
+int {\bf Lib\-TIM::compute\-Area} ({\bf t\-Node} $\ast$tree)
+\item 
+template$<$class T$>$ int {\bf Lib\-TIM::flood} (Image$<$ T $>$ \&im, std::map$<$ int, std::queue$<$ int $>$ $>$ \&oq, int h, int h\-Min, vector$<$ int $>$ \&STATUS, vector$<$ int $>$ \&number\_\-nodes, vector$<$ bool $>$ \&node\_\-at\_\-level, Flat\-SE \&se, std::map$<$ T, std::map$<$ {\bf TLabel}, struct Node $\ast$ $>$ $>$ \&index)
+\item 
+template$<$class T$>$ int {\bf Lib\-TIM::flood2} (Image$<$ T $>$ \&im, std::map$<$ int, std::queue$<$ int $>$ $>$ \&oq, int h, int h\-Min, vector$<$ int $>$ \&STATUS, vector$<$ int $>$ \&number\_\-nodes, vector$<$ bool $>$ \&node\_\-at\_\-level, Flat\-SE \&se, std::map$<$ T, std::map$<$ {\bf TLabel}, struct Node $\ast$ $>$ $>$ \&index)
+\begin{CompactList}\small\item\em New method to deal with neighbors. \item\end{CompactList}\item 
+template$<$class T$>$ {\bf t\-Node} $\ast$ {\bf Lib\-TIM::compute\-Component\-Tree2V1} (Image$<$ T $>$ \&im, Flat\-SE \&se)
+\begin{CompactList}\small\item\em Following Salembier recursive implementation... \item\end{CompactList}\item 
+template$<$class T$>$ {\bf t\-Node} $\ast$ {\bf Lib\-TIM::compute\-Component\-Tree2} (Image$<$ T $>$ \&im, Flat\-SE \&se)
+\begin{CompactList}\small\item\em Following Salembier recursive implementation... \item\end{CompactList}\end{CompactItemize}

@@ -1,0 +1,27 @@
+\section{Algorithms/Adaptative\-SE.hxx File Reference}
+\label{AdaptativeSE_8hxx}\index{Algorithms/AdaptativeSE.hxx@{Algorithms/AdaptativeSE.hxx}}
+{\tt \#include $<$cmath$>$}\par
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf Lib\-TIM}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+template$<$class T$>$ void {\bf Lib\-TIM::dynamic\-Se\-Norm\-L2} (Image$<$ T $>$ \&img, const Point$<$ {\bf TCoord} $>$ \&p, const Flat\-SE \&B, int param, Flat\-SE \&se)
+\item 
+template$<$class T$>$ void {\bf Lib\-TIM::dynamic\-Se\-Norm\-L2Rand} (Image$<$ T $>$ \&img, const Point$<$ {\bf TCoord} $>$ \&p, const Flat\-SE \&B, int param, Flat\-SE \&se, int nb\-Points)
+\item 
+template$<$class T$>$ void {\bf Lib\-TIM::dynamic\-Se\-Norm\-L2NPoints} (Image$<$ T $>$ \&img, const Point$<$ {\bf TCoord} $>$ \&p, const Flat\-SE \&B, int NPoints, Flat\-SE \&se)
+\item 
+template$<$class T$>$ Image$<$ unsigned char $>$ {\bf Lib\-TIM::compute\-Neighborhood\-S1} (const Image$<$ T $>$ \&im)
+\item 
+template$<$class T$>$ Image$<$ vector$<$ bool $>$ $>$ {\bf Lib\-TIM::compute\-Neighborhood\-S1v2} (const Image$<$ T $>$ \&im)
+\item 
+template$<$class T$>$ void {\bf Lib\-TIM::dynamic\-Se\-S1} (Image$<$ T $>$ \&img, const Point$<$ {\bf TCoord} $>$ \&p, int param, Flat\-SE \&se)
+\item 
+void {\bf Lib\-TIM::dynamic\-Se\-S1v2} (Image$<$ vector$<$ bool $>$ $>$ \&img, const Point$<$ {\bf TCoord} $>$ \&p, int param, Flat\-SE \&se)
+\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::print\-Se\-At\-Point} (Image$<$ T $>$ \&img, Flat\-SE \&se, Point$<$ {\bf TCoord} $>$ \&p)
+\end{CompactItemize}

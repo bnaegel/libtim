@@ -1,0 +1,24 @@
+\section{Algorithms/Misc.hxx File Reference}
+\label{Misc_8hxx}\index{Algorithms/Misc.hxx@{Algorithms/Misc.hxx}}
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf Lib\-TIM}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+template$<$class T$>$ void {\bf Lib\-TIM::adjust\-Contrast} (Image$<$ T $>$ \&im)
+\item 
+template$<$class T$>$ void {\bf Lib\-TIM::adjust\-Contrast} (Image$<$ T $>$ \&im, T A, T B)
+\begin{CompactList}\small\item\em Same thing but with A and B given in parameters. \item\end{CompactList}\item 
+template$<$class T, class T2$>$ Image$<$ T $>$ {\bf Lib\-TIM::compute\-Marker\-Mean} (Image$<$ T $>$ \&src, Image$<$ T2 $>$ \&marker)
+\begin{CompactList}\small\item\em For each marker compute the mean of the points on original image. \item\end{CompactList}\item 
+template$<$class T, class T2$>$ Image$<$ T $>$ {\bf Lib\-TIM::compute\-Marker\-Mean\-Fast} (Image$<$ T $>$ \&src, Image$<$ T2 $>$ \&marker)
+\begin{CompactList}\small\item\em For each marker compute the mean of the points on original image. \item\end{CompactList}\item 
+template$<$class T$>$ void {\bf Lib\-TIM::decimate\-Template} (Image$<$ T $>$ \&im, int nx=1, int ny=1, int nz=1)
+\begin{CompactList}\small\item\em {\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} decimation by imposing a regular grid -$>$ useful for simplifying structuring elements. \item\end{CompactList}\item 
+std::map$<$ {\bf TLabel}, Point$<$ double $>$ $>$ {\bf Lib\-TIM::centroids} (Image$<$ {\bf TLabel} $>$ \&im)
+\begin{CompactList}\small\item\em compute the centroids of labelled objects (first moments) in 2D images \item\end{CompactList}\item 
+template$<$class T$>$ void {\bf Lib\-TIM::draw\-Contour} (Image$<$ T $>$ \&im, const Image$<$ {\bf U8} $>$ \&mask, const T val)
+\end{CompactItemize}

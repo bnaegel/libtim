@@ -1,0 +1,37 @@
+\section{Connected Operators}
+\label{group__connectedOperators}\index{Connected Operators@{Connected Operators}}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+template$<$class T$>$ void {\bf Lib\-TIM::h\-Min\-Filter} (Image$<$ T $>$ \&img, Flat\-SE \&se, int h)
+\begin{CompactList}\small\item\em h-Min filter \item\end{CompactList}\item 
+template$<$class T$>$ void {\bf Lib\-TIM::h\-Max\-Filter} (Image$<$ T $>$ \&img, Flat\-SE \&se, int h)
+\begin{CompactList}\small\item\em h-Max filter \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{connectedOperators@{connected\-Operators}!hMaxFilter@{hMaxFilter}}
+\index{hMaxFilter@{hMaxFilter}!connectedOperators@{connected\-Operators}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void Lib\-TIM::h\-Max\-Filter (Image$<$ T $>$ \& {\em img}, Flat\-SE \& {\em se}, int {\em h})}\label{group__connectedOperators_ga1}
+
+
+h-Max filter 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em img}]Source {\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})}. At the end of function, img is modified and contains the result \item[{\em h}]h parameter of filter\end{description}
+\end{Desc}
+Warning: potential overflow problem due to type limitation (when using U8).\index{connectedOperators@{connected\-Operators}!hMinFilter@{hMinFilter}}
+\index{hMinFilter@{hMinFilter}!connectedOperators@{connected\-Operators}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void Lib\-TIM::h\-Min\-Filter (Image$<$ T $>$ \& {\em img}, Flat\-SE \& {\em se}, int {\em h})}\label{group__connectedOperators_ga0}
+
+
+h-Min filter 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em img}]Source {\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})}. At the end of function, img is modified and contains the result \item[{\em h}]h parameter of filter\end{description}
+\end{Desc}
+Warning: potential overflow problem due to type limitation (when using U8).

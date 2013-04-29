@@ -1,0 +1,942 @@
+\begin{theindex}
+
+  \item {$\sim$Image}
+    \subitem {Image}, 54
+  \item {$\sim$NonFlatSE}
+    \subitem {Lib\-TIM::Non\-Flat\-SE}, 88
+  \item {$\sim$OrderedQueue}
+    \subitem {Lib\-TIM::Ordered\-Queue}, 89
+  \item {$\sim$OrderedQueueDouble}
+    \subitem {Lib\-TIM::Ordered\-Queue\-Double}, 91
+
+  \indexspace
+
+  \item {active}
+    \subitem {Lib\-TIM::Node}, 86
+  \item {addBorders}
+    \subitem {basis\-Functions}, 23
+  \item {addPoint}
+    \subitem {Lib\-TIM::Flat\-SE}, 71
+    \subitem {Lib\-TIM::Non\-Flat\-SE}, 88
+  \item {adjustContrast}
+    \subitem {misc}, 19
+  \item {Algorithms/ Directory Reference}, 57
+  \item {Algorithms/AdaptativeSE.h}, 99
+  \item {Algorithms/AdaptativeSE.hxx}, 100
+  \item {Algorithms/ComponentTree.h}, 101
+  \item {Algorithms/ComponentTree.hxx}, 102
+  \item {Algorithms/ConnectedComponents.h}, 104
+  \item {Algorithms/ConnectedComponents.hxx}, 105
+  \item {Algorithms/DistanceTransform.h}, 106
+  \item {Algorithms/DistanceTransform.hxx}, 107
+  \item {Algorithms/KMeans.h}, 108
+  \item {Algorithms/KMeans.hxx}, 109
+  \item {Algorithms/Misc.h}, 110
+  \item {Algorithms/Misc.hxx}, 111
+  \item {Algorithms/Morphology.h}, 112
+  \item {Algorithms/Morphology.hxx}, 113
+  \item {Algorithms/random-singleton.cpp}, 116
+  \item {Algorithms/random-singleton.h}, 117
+  \item {Algorithms/RegionGrowing.h}, 118
+  \item {Algorithms/RegionGrowing.hxx}, 119
+  \item {Algorithms/Tarjan.h}, 120
+  \item {Algorithms/Tarjan.hxx}, 121
+  \item {Algorithms/TemplateMatching.h}, 122
+  \item {Algorithms/TemplateMatching.hxx}, 123
+  \item {Algorithms/Thresholding.h}, 124
+  \item {Algorithms/Thresholding.hxx}, 125
+  \item {Algorithms/ViscousWatershed.h}, 126
+  \item {Algorithms/ViscousWatershed.hxx}, 127
+  \item {Algorithms/Watershed.h}, 128
+  \item {Algorithms/Watershed.hxx}, 129
+  \item {antiRasterScan}
+    \subitem {Lib\-TIM::Non\-Flat\-SE}, 88
+  \item {area}
+    \subitem {Lib\-TIM::Node}, 86
+
+  \indexspace
+
+  \item {Basis Functions}, 22
+  \item {basis\-Functions}
+    \subitem {addBorders}, 23
+    \subitem {closing}, 23
+    \subitem {dilation}, 23
+    \subitem {dilationBorderMax}, 23
+    \subitem {erosion}, 23
+    \subitem {erosionBorderMin}, 23
+    \subitem {externalMorphologicalGradient}, 23
+    \subitem {internalMorphologicalGradient}, 24
+    \subitem {morphologicalGradient}, 24
+    \subitem {opening}, 24
+    \subitem {rankFilter}, 24
+  \item {begin}
+    \subitem {Image}, 49
+    \subitem {Lib\-TIM::Flat\-SE}, 71
+  \item {begin\_\-point}
+    \subitem {Lib\-TIM::Flat\-SE}, 71
+  \item {binarize}
+    \subitem {thresholding}, 39
+
+  \indexspace
+
+  \item {cc\-Labelling}
+    \subitem {keepIestLargestComponent}, 16
+    \subitem {labelConnectedComponents}, 16
+  \item {cc\-Tree}
+    \subitem {computeArea}, 14
+    \subitem {computeComponentTree}, 14
+    \subitem {computeComponentTree2}, 14
+    \subitem {computeComponentTree2V1}, 14
+    \subitem {computeComponentTreeBensMethod}, 14
+    \subitem {father}, 14
+    \subitem {filterArea}, 14
+    \subitem {flood}, 14
+    \subitem {flood2}, 14
+    \subitem {init\_\-tree}, 14, 15
+    \subitem {make\_\-father}, 15
+    \subitem {printTree}, 15
+    \subitem {reconstructImage}, 15
+  \item {centroids}
+    \subitem {misc}, 19
+  \item {chamferDistanceTransform}
+    \subitem {Distance\-Transform}, 17
+  \item {childs}
+    \subitem {Lib\-TIM::Node}, 86
+  \item {clear}
+    \subitem {Lib\-TIM::Flat\-SE}, 71
+    \subitem {Lib\-TIM::Non\-Flat\-SE}, 88
+  \item {closing}
+    \subitem {basis\-Functions}, 23
+  \item {Common/ Directory Reference}, 58
+  \item {Common/FlatSE.h}, 130
+  \item {Common/FlatSE.hxx}, 131
+  \item {Common/Histogram.h}, 132
+  \item {Common/Histogram.hxx}, 133
+  \item {Common/Image.h}, 134
+  \item {Common/Image.hxx}, 135
+  \item {Common/ImageIO.hxx}, 136
+  \item {Common/ImageIterators.h}, 137
+  \item {Common/NonFlatSE.h}, 138
+  \item {Common/NonFlatSE.hxx}, 139
+  \item {Common/OrderedQueue.h}, 140
+  \item {Common/Point.h}, 141
+  \item {Common/Types.h}, 142
+  \item {Component-Tree Based Algorithms}, 13
+  \item {computeArea}
+    \subitem {cc\-Tree}, 14
+  \item {computeComponentTree}
+    \subitem {cc\-Tree}, 14
+  \item {computeComponentTree2}
+    \subitem {cc\-Tree}, 14
+  \item {computeComponentTree2V1}
+    \subitem {cc\-Tree}, 14
+  \item {computeComponentTreeBensMethod}
+    \subitem {cc\-Tree}, 14
+  \item {computeDistance}
+    \subitem {Lib\-TIM::Image\-Regions\-Infos}, 84
+  \item {computeMarkerMean}
+    \subitem {misc}, 19
+  \item {computeMarkerMeanFast}
+    \subitem {misc}, 19
+  \item {computeNeighborhoodS1}
+    \subitem {Lib\-TIM}, 65
+  \item {computeNeighborhoodS1v2}
+    \subitem {Lib\-TIM}, 65
+  \item {computePriority}
+    \subitem {Lib\-TIM}, 66
+  \item {Connected Components Labelling}, 16
+  \item {Connected Operators}, 29
+  \item {connected\-Operators}
+    \subitem {hMaxFilter}, 29
+    \subitem {hMinFilter}, 29
+  \item {const\_\-iterator}
+    \subitem {Image}, 48
+  \item {const\_\-iteratorXYZ}
+    \subitem {Image}, 48
+  \item {const\_\-reverse\_\-iterator}
+    \subitem {Image}, 48
+  \item {Constrained Watershed Algorithms}, 40
+  \item {constrained\-Watershed}
+    \subitem {viscousClosingMercury}, 40
+    \subitem {viscousClosingMercuryBasic}, 40
+  \item {copy}
+    \subitem {Image}, 49
+  \item {copyFast}
+    \subitem {Image}, 49
+  \item {crop}
+    \subitem {Image}, 49
+
+  \indexspace
+
+  \item {Data Structures}, 44
+  \item {decimateTemplate}
+    \subitem {misc}, 20
+  \item {dilation}
+    \subitem {basis\-Functions}, 23
+  \item {dilationBorderMax}
+    \subitem {basis\-Functions}, 23
+  \item {distance}
+    \subitem {Lib\-TIM::Image\-Regions\-Infos}, 84
+  \item {Distance Transform}, 17
+  \item {Distance\-Transform}
+    \subitem {chamferDistanceTransform}, 17
+  \item {drawContour}
+    \subitem {misc}, 20
+  \item {dynamicSeNormL2}
+    \subitem {Lib\-TIM}, 66
+  \item {dynamicSeNormL2NPoints}
+    \subitem {Lib\-TIM}, 66
+  \item {dynamicSeNormL2Rand}
+    \subitem {Lib\-TIM}, 66
+  \item {dynamicSeS1}
+    \subitem {Lib\-TIM}, 66
+  \item {dynamicSeS1v2}
+    \subitem {Lib\-TIM}, 66
+
+  \indexspace
+
+  \item {el}
+    \subitem {Lib\-TIM::Table}, 98
+  \item {empty}
+    \subitem {Lib\-TIM::Ordered\-Queue}, 89
+    \subitem {Lib\-TIM::Ordered\-Queue\-Double}, 91
+    \subitem {Lib\-TIM::Queue}, 95
+  \item {end}
+    \subitem {Image}, 49
+    \subitem {Lib\-TIM::Flat\-SE}, 71
+  \item {end\_\-point}
+    \subitem {Lib\-TIM::Flat\-SE}, 71
+  \item {enlarge}
+    \subitem {Image}, 49
+  \item {EPSILON}
+    \subitem {KMeans.hxx}, 109
+  \item {erosion}
+    \subitem {basis\-Functions}, 23
+  \item {erosionBorderMin}
+    \subitem {basis\-Functions}, 23
+  \item {Exponential}
+    \subitem {Random}, 96
+  \item {externalMorphologicalGradient}
+    \subitem {basis\-Functions}, 23
+  \item {extrema\-Extraction}
+    \subitem {regionalMaxima}, 26
+    \subitem {regionalMinima}, 26
+
+  \indexspace
+
+  \item {father}
+    \subitem {cc\-Tree}, 14
+    \subitem {Lib\-TIM::Node}, 86
+  \item {fill}
+    \subitem {Image}, 49
+  \item {filterArea}
+    \subitem {cc\-Tree}, 14
+  \item {Find}
+    \subitem {Tarjan}, 35
+  \item {FindSimple}
+    \subitem {Tarjan}, 35
+  \item {Flat Structuring Elements}, 42
+  \item {FlatSE}
+    \subitem {Lib\-TIM::Flat\-SE}, 71
+  \item {FlatSE::operator=}
+    \subitem {Lib\-TIM::Flat\-SE}, 71
+  \item {FlatSE::toImage}
+    \subitem {Lib\-TIM::Flat\-SE}, 71
+  \item {FLOAT\_\-EPSILON}
+    \subitem {Lib\-TIM}, 66
+  \item {flood}
+    \subitem {cc\-Tree}, 14
+  \item {flood2}
+    \subitem {cc\-Tree}, 14
+  \item {functionR0}
+    \subitem {Lib\-TIM}, 66
+  \item {fusion}
+    \subitem {Lib\-TIM::Image\-Regions\-Infos}, 84
+
+  \indexspace
+
+  \item {Gaussian}
+    \subitem {Random}, 96
+  \item {Geodesic Reconstruction}, 28
+  \item {geodesicReconstructionByDilation}
+    \subitem {reconstruction}, 28
+  \item {geodesicReconstructionByErosion}
+    \subitem {reconstruction}, 28
+  \item {get}
+    \subitem {Lib\-TIM::Ordered\-Queue}, 89
+    \subitem {Lib\-TIM::Ordered\-Queue\-Double}, 91
+    \subitem {Lib\-TIM::Queue}, 95
+  \item {getBufSize}
+    \subitem {Image}, 49
+  \item {getData}
+    \subitem {Image}, 50
+  \item {getMax}
+    \subitem {Image}, 50
+  \item {getMin}
+    \subitem {Image}, 50
+  \item {getNbPoints}
+    \subitem {Lib\-TIM::Flat\-SE}, 71
+  \item {getNegativeOffsets}
+    \subitem {Lib\-TIM::Flat\-SE}, 71
+  \item {getNorm}
+    \subitem {Lib\-TIM::Non\-Flat\-SE}, 88
+  \item {getOffset}
+    \subitem {Image}, 50
+    \subitem {Lib\-TIM::Flat\-SE}, 72
+  \item {getPoint}
+    \subitem {Lib\-TIM::Flat\-SE}, 72
+  \item {getPositiveOffsets}
+    \subitem {Lib\-TIM::Flat\-SE}, 72
+  \item {getReflection}
+    \subitem {Image}, 50
+  \item {getSize}
+    \subitem {Image}, 50
+  \item {getSizeX}
+    \subitem {Image}, 50
+  \item {getSizeY}
+    \subitem {Image}, 50
+  \item {getSizeZ}
+    \subitem {Image}, 50
+  \item {getSpacing}
+    \subitem {Image}, 50
+  \item {getSpacingX}
+    \subitem {Image}, 50
+  \item {getSpacingY}
+    \subitem {Image}, 50
+  \item {getSpacingZ}
+    \subitem {Image}, 50
+  \item {getValue}
+    \subitem {Lib\-TIM::Non\-Flat\-SE}, 88
+  \item {GImageIO\_\-NextLine}
+    \subitem {Lib\-TIM}, 66
+  \item {GImageIO\_\-ReadPPMHeader}
+    \subitem {Lib\-TIM}, 66
+
+  \indexspace
+
+  \item {h}
+    \subitem {Lib\-TIM::Node}, 86
+  \item {Histogram}, 43
+    \subitem {Lib\-TIM::Histogram}, 74
+  \item {hitOrMissDifferenceImage}
+    \subitem {interval}, 30
+  \item {hitOrMissIntegralK}
+    \subitem {interval}, 30
+  \item {hitOrMissIntegralKOpening}
+    \subitem {interval}, 31
+  \item {hitOrMissMaximumDifference}
+    \subitem {interval}, 31
+  \item {hitOrMissSupremalH}
+    \subitem {interval}, 31
+  \item {hitOrMissSupremalHOpening}
+    \subitem {interval}, 31
+  \item {hitOrMissSupremalK}
+    \subitem {interval}, 31
+  \item {hitOrMissSupremalKOpening}
+    \subitem {interval}, 31
+  \item {hMaxFilter}
+    \subitem {connected\-Operators}, 29
+  \item {hMinFilter}
+    \subitem {connected\-Operators}, 29
+
+  \indexspace
+
+  \item {im}
+    \subitem {Lib\-TIM::Image\-Iterator}, 81
+  \item {Image}, 45
+    \subitem {$\sim$Image}, 54
+    \subitem {begin}, 49
+    \subitem {const\_\-iterator}, 48
+    \subitem {const\_\-iteratorXYZ}, 48
+    \subitem {const\_\-reverse\_\-iterator}, 48
+    \subitem {copy}, 49
+    \subitem {copyFast}, 49
+    \subitem {crop}, 49
+    \subitem {end}, 49
+    \subitem {enlarge}, 49
+    \subitem {fill}, 49
+    \subitem {getBufSize}, 49
+    \subitem {getData}, 50
+    \subitem {getMax}, 50
+    \subitem {getMin}, 50
+    \subitem {getOffset}, 50
+    \subitem {getReflection}, 50
+    \subitem {getSize}, 50
+    \subitem {getSizeX}, 50
+    \subitem {getSizeY}, 50
+    \subitem {getSizeZ}, 50
+    \subitem {getSpacing}, 50
+    \subitem {getSpacingX}, 50
+    \subitem {getSpacingY}, 50
+    \subitem {getSpacingZ}, 50
+    \subitem {Image}, 50, 51
+    \subitem {isPosValid}, 51
+    \subitem {iterator}, 48
+    \subitem {iteratorXYZ}, 48
+    \subitem {load}, 51
+    \subitem {operator \&=}, 51
+    \subitem {operator $\ast$}, 51
+    \subitem {operator $\ast$=}, 51
+    \subitem {operator!}, 51
+    \subitem {operator()}, 51, 52
+    \subitem {operator+}, 52
+    \subitem {operator+=}, 52
+    \subitem {operator-}, 52, 53
+    \subitem {operator-=}, 53
+    \subitem {operator/=}, 53
+    \subitem {operator=}, 53
+    \subitem {operator==}, 53
+    \subitem {operator\texttt{|}=}, 53
+    \subitem {print}, 53
+    \subitem {rbegin}, 53
+    \subitem {rend}, 53
+    \subitem {reverse\_\-iterator}, 49
+    \subitem {save}, 53
+    \subitem {setImageInfos}, 53
+    \subitem {setSize}, 54
+    \subitem {setSpacingX}, 54
+    \subitem {setSpacingY}, 54
+    \subitem {setSpacingZ}, 54
+  \item {Image Processing Basis Functions}, 38
+  \item {Image.h}
+    \subitem {Image\_\-internal\_\-h}, 134
+  \item {Image\_\-internal\_\-h}
+    \subitem {Image.h}, 134
+  \item {ImageIterator}
+    \subitem {Lib\-TIM::Image\-Iterator}, 80
+  \item {ImageIteratorXYZ}
+    \subitem {Lib\-TIM::Image\-Iterator\-XYZ}, 82
+  \item {ImageRegionsInfos}
+    \subitem {Lib\-TIM::Image\-Regions\-Infos}, 84
+  \item {init\_\-tree}
+    \subitem {cc\-Tree}, 14, 15
+  \item {internalMorphologicalGradient}
+    \subitem {basis\-Functions}, 24
+  \item {interval}
+    \subitem {hitOrMissDifferenceImage}, 30
+    \subitem {hitOrMissIntegralK}, 30
+    \subitem {hitOrMissIntegralKOpening}, 31
+    \subitem {hitOrMissMaximumDifference}, 31
+    \subitem {hitOrMissSupremalH}, 31
+    \subitem {hitOrMissSupremalHOpening}, 31
+    \subitem {hitOrMissSupremalK}, 31
+    \subitem {hitOrMissSupremalKOpening}, 31
+  \item {Interval Operators}, 30
+  \item {isPosValid}
+    \subitem {Image}, 51
+  \item {iterator}
+    \subitem {Image}, 48
+    \subitem {Lib\-TIM::Flat\-SE}, 71
+  \item {iterator\_\-offset}
+    \subitem {Lib\-TIM::Flat\-SE}, 71
+  \item {iterator\_\-point}
+    \subitem {Lib\-TIM::Flat\-SE}, 71
+  \item {iteratorXYZ}
+    \subitem {Image}, 48
+
+  \indexspace
+
+  \item {K-Means}, 18
+  \item {keepIestLargestComponent}
+    \subitem {cc\-Labelling}, 16
+  \item {k\-Means}
+    \subitem {kMeansScalarImage}, 18
+  \item {KMeans.hxx}
+    \subitem {EPSILON}, 109
+  \item {kMeansScalarImage}
+    \subitem {k\-Means}, 18
+
+  \indexspace
+
+  \item {label}
+    \subitem {Lib\-TIM::Node}, 86
+  \item {labelConnectedComponents}
+    \subitem {cc\-Labelling}, 16
+  \item {labelConnectedComponentsTarjan}
+    \subitem {Tarjan}, 35
+  \item {labelConnectedComponentsTarjan2}
+    \subitem {Tarjan}, 35
+  \item {labelToOffset}
+    \subitem {Lib\-TIM}, 66
+  \item {LibTIM}, 59
+  \item {Lib\-TIM}
+    \subitem {computeNeighborhoodS1}, 65
+    \subitem {computeNeighborhoodS1v2}, 65
+    \subitem {computePriority}, 66
+    \subitem {dynamicSeNormL2}, 66
+    \subitem {dynamicSeNormL2NPoints}, 66
+    \subitem {dynamicSeNormL2Rand}, 66
+    \subitem {dynamicSeS1}, 66
+    \subitem {dynamicSeS1v2}, 66
+    \subitem {FLOAT\_\-EPSILON}, 66
+    \subitem {functionR0}, 66
+    \subitem {GImageIO\_\-NextLine}, 66
+    \subitem {GImageIO\_\-ReadPPMHeader}, 66
+    \subitem {labelToOffset}, 66
+    \subitem {merge\_\-pixels}, 66
+    \subitem {printSeAtPoint}, 66
+    \subitem {RGB}, 65
+    \subitem {S16}, 65
+    \subitem {S32}, 65
+    \subitem {S8}, 65
+    \subitem {TCoord}, 65
+    \subitem {TLabel}, 65
+    \subitem {tNode}, 65
+    \subitem {TOffset}, 65
+    \subitem {TSize}, 65
+    \subitem {TSpacing}, 65
+    \subitem {U16}, 65
+    \subitem {U32}, 65
+    \subitem {U8}, 65
+  \item {LibTIM::FlatSE}, 69
+  \item {Lib\-TIM::Flat\-SE}
+    \subitem {addPoint}, 71
+    \subitem {begin}, 71
+    \subitem {begin\_\-point}, 71
+    \subitem {clear}, 71
+    \subitem {end}, 71
+    \subitem {end\_\-point}, 71
+    \subitem {FlatSE}, 71
+    \subitem {FlatSE::operator=}, 71
+    \subitem {FlatSE::toImage}, 71
+    \subitem {getNbPoints}, 71
+    \subitem {getNegativeOffsets}, 71
+    \subitem {getOffset}, 72
+    \subitem {getPoint}, 72
+    \subitem {getPositiveOffsets}, 72
+    \subitem {iterator}, 71
+    \subitem {iterator\_\-offset}, 71
+    \subitem {iterator\_\-point}, 71
+    \subitem {make2DN4}, 72
+    \subitem {make2DN8}, 72
+    \subitem {make2DN9}, 72
+    \subitem {make3DN18}, 72
+    \subitem {make3DN26}, 72
+    \subitem {make3DN6}, 72
+    \subitem {makeBallChessboard2D}, 72
+    \subitem {makeBallEuclidian2D}, 72
+    \subitem {makeBallEuclidian3D}, 72
+    \subitem {makeCircle2D}, 72
+    \subitem {makeSymmetric}, 72
+    \subitem {offsets}, 73
+    \subitem {operator+=}, 73
+    \subitem {points}, 73
+    \subitem {print}, 73
+    \subitem {reserve}, 73
+    \subitem {setContext}, 73
+  \item {LibTIM::Histogram}, 74
+  \item {Lib\-TIM::Histogram}
+    \subitem {Histogram}, 74
+    \subitem {write}, 74
+  \item {LibTIM::Image}, 75
+  \item {Lib\-TIM::Image}
+    \subitem {load}, 78
+    \subitem {save}, 78
+  \item {LibTIM::ImageIterator}, 80
+  \item {Lib\-TIM::Image\-Iterator}
+    \subitem {im}, 81
+    \subitem {ImageIterator}, 80
+    \subitem {operator $\ast$}, 80
+    \subitem {operator!=}, 80
+    \subitem {operator++}, 81
+    \subitem {operator-$>$}, 81
+    \subitem {operator==}, 81
+    \subitem {ptr}, 81
+  \item {LibTIM::ImageIteratorXYZ}, 82
+  \item {Lib\-TIM::Image\-Iterator\-XYZ}
+    \subitem {ImageIteratorXYZ}, 82
+    \subitem {operator $\ast$}, 82
+    \subitem {operator++}, 82, 83
+    \subitem {operator-$>$}, 83
+    \subitem {operator=}, 83
+    \subitem {x}, 83
+    \subitem {y}, 83
+    \subitem {z}, 83
+  \item {LibTIM::ImageRegionsInfos}, 84
+  \item {Lib\-TIM::Image\-Regions\-Infos}
+    \subitem {computeDistance}, 84
+    \subitem {distance}, 84
+    \subitem {fusion}, 84
+    \subitem {ImageRegionsInfos}, 84
+    \subitem {setPoint}, 84
+  \item {LibTIM::Node}, 86
+  \item {Lib\-TIM::Node}
+    \subitem {active}, 86
+    \subitem {area}, 86
+    \subitem {childs}, 86
+    \subitem {father}, 86
+    \subitem {h}, 86
+    \subitem {label}, 86
+    \subitem {pixels}, 86
+  \item {LibTIM::NonFlatSE}, 87
+  \item {Lib\-TIM::Non\-Flat\-SE}
+    \subitem {$\sim$NonFlatSE}, 88
+    \subitem {addPoint}, 88
+    \subitem {antiRasterScan}, 88
+    \subitem {clear}, 88
+    \subitem {getNorm}, 88
+    \subitem {getValue}, 88
+    \subitem {makeChamfer2D}, 88
+    \subitem {NonFlatSE}, 88
+    \subitem {print}, 88
+    \subitem {rasterScan}, 88
+    \subitem {reserve}, 88
+  \item {LibTIM::OrderedQueue}, 89
+  \item {Lib\-TIM::Ordered\-Queue}
+    \subitem {$\sim$OrderedQueue}, 89
+    \subitem {empty}, 89
+    \subitem {get}, 89
+    \subitem {OrderedQueue}, 89
+    \subitem {put}, 90
+  \item {LibTIM::OrderedQueueDouble}, 91
+  \item {Lib\-TIM::Ordered\-Queue\-Double}
+    \subitem {$\sim$OrderedQueueDouble}, 91
+    \subitem {empty}, 91
+    \subitem {get}, 91
+    \subitem {OrderedQueueDouble}, 91
+    \subitem {put}, 92
+  \item {LibTIM::Point}, 93
+  \item {Lib\-TIM::Point}
+    \subitem {operator()}, 94
+    \subitem {operator+=}, 94
+    \subitem {operator-=}, 94
+    \subitem {operator=}, 94
+    \subitem {operator==}, 94
+    \subitem {Point}, 94
+    \subitem {print}, 94
+    \subitem {x}, 94
+    \subitem {y}, 94
+    \subitem {z}, 94
+  \item {LibTIM::Queue}, 95
+  \item {Lib\-TIM::Queue}
+    \subitem {empty}, 95
+    \subitem {get}, 95
+    \subitem {put}, 95
+    \subitem {Queue}, 95
+  \item {LibTIM::Region}, 97
+  \item {Lib\-TIM::Region}
+    \subitem {nbPoints}, 97
+    \subitem {sumIntensity}, 97
+  \item {LibTIM::Table}, 98
+  \item {Lib\-TIM::Table}
+    \subitem {el}, 98
+    \subitem {operator[]}, 98
+    \subitem {Table}, 98
+  \item {Link}
+    \subitem {Tarjan}, 35, 36
+  \item {load}
+    \subitem {Image}, 51
+    \subitem {Lib\-TIM::Image}, 78
+
+  \indexspace
+
+  \item {make2DN4}
+    \subitem {Lib\-TIM::Flat\-SE}, 72
+  \item {make2DN8}
+    \subitem {Lib\-TIM::Flat\-SE}, 72
+  \item {make2DN9}
+    \subitem {Lib\-TIM::Flat\-SE}, 72
+  \item {make3DN18}
+    \subitem {Lib\-TIM::Flat\-SE}, 72
+  \item {make3DN26}
+    \subitem {Lib\-TIM::Flat\-SE}, 72
+  \item {make3DN6}
+    \subitem {Lib\-TIM::Flat\-SE}, 72
+  \item {make\_\-father}
+    \subitem {cc\-Tree}, 15
+  \item {makeBallChessboard2D}
+    \subitem {Lib\-TIM::Flat\-SE}, 72
+  \item {makeBallEuclidian2D}
+    \subitem {Lib\-TIM::Flat\-SE}, 72
+  \item {makeBallEuclidian3D}
+    \subitem {Lib\-TIM::Flat\-SE}, 72
+  \item {makeChamfer2D}
+    \subitem {Lib\-TIM::Non\-Flat\-SE}, 88
+  \item {makeCircle2D}
+    \subitem {Lib\-TIM::Flat\-SE}, 72
+  \item {MakeSet}
+    \subitem {Tarjan}, 36
+  \item {makeSymmetric}
+    \subitem {Lib\-TIM::Flat\-SE}, 72
+  \item {merge\_\-pixels}
+    \subitem {Lib\-TIM}, 66
+  \item {misc}
+    \subitem {adjustContrast}, 19
+    \subitem {centroids}, 19
+    \subitem {computeMarkerMean}, 19
+    \subitem {computeMarkerMeanFast}, 19
+    \subitem {decimateTemplate}, 20
+    \subitem {drawContour}, 20
+  \item {Misc Functions}, 19
+  \item {Morphological Operators}, 21
+  \item {morphologicalGradient}
+    \subitem {basis\-Functions}, 24
+
+  \indexspace
+
+  \item {nbPoints}
+    \subitem {Lib\-TIM::Region}, 97
+  \item {Non-flat structuring elements}, 55
+  \item {NonFlatSE}
+    \subitem {Lib\-TIM::Non\-Flat\-SE}, 88
+
+  \indexspace
+
+  \item {offsets}
+    \subitem {Lib\-TIM::Flat\-SE}, 73
+  \item {opening}
+    \subitem {basis\-Functions}, 24
+  \item {operator \&=}
+    \subitem {Image}, 51
+  \item {operator $\ast$}
+    \subitem {Image}, 51
+    \subitem {Lib\-TIM::Image\-Iterator}, 80
+    \subitem {Lib\-TIM::Image\-Iterator\-XYZ}, 82
+  \item {operator $\ast$=}
+    \subitem {Image}, 51
+  \item {operator!}
+    \subitem {Image}, 51
+  \item {operator!=}
+    \subitem {Lib\-TIM::Image\-Iterator}, 80
+  \item {operator()}
+    \subitem {Image}, 51, 52
+    \subitem {Lib\-TIM::Point}, 94
+  \item {operator+}
+    \subitem {Image}, 52
+    \subitem {Point}, 56
+  \item {operator++}
+    \subitem {Lib\-TIM::Image\-Iterator}, 81
+    \subitem {Lib\-TIM::Image\-Iterator\-XYZ}, 82, 83
+  \item {operator+=}
+    \subitem {Image}, 52
+    \subitem {Lib\-TIM::Flat\-SE}, 73
+    \subitem {Lib\-TIM::Point}, 94
+  \item {operator-}
+    \subitem {Image}, 52, 53
+    \subitem {Point}, 56
+  \item {operator-=}
+    \subitem {Image}, 53
+    \subitem {Lib\-TIM::Point}, 94
+  \item {operator-$>$}
+    \subitem {Lib\-TIM::Image\-Iterator}, 81
+    \subitem {Lib\-TIM::Image\-Iterator\-XYZ}, 83
+  \item {operator/=}
+    \subitem {Image}, 53
+  \item {operator=}
+    \subitem {Image}, 53
+    \subitem {Lib\-TIM::Image\-Iterator\-XYZ}, 83
+    \subitem {Lib\-TIM::Point}, 94
+  \item {operator==}
+    \subitem {Image}, 53
+    \subitem {Lib\-TIM::Image\-Iterator}, 81
+    \subitem {Lib\-TIM::Point}, 94
+  \item {operator[]}
+    \subitem {Lib\-TIM::Table}, 98
+  \item {operator\texttt{|}=}
+    \subitem {Image}, 53
+  \item {OrderedQueue}
+    \subitem {Lib\-TIM::Ordered\-Queue}, 89
+  \item {OrderedQueueDouble}
+    \subitem {Lib\-TIM::Ordered\-Queue\-Double}, 91
+
+  \indexspace
+
+  \item {pixels}
+    \subitem {Lib\-TIM::Node}, 86
+  \item {Point}, 56
+    \subitem {Lib\-TIM::Point}, 94
+    \subitem {operator+}, 56
+    \subitem {operator-}, 56
+  \item {points}
+    \subitem {Lib\-TIM::Flat\-SE}, 73
+  \item {print}
+    \subitem {Image}, 53
+    \subitem {Lib\-TIM::Flat\-SE}, 73
+    \subitem {Lib\-TIM::Non\-Flat\-SE}, 88
+    \subitem {Lib\-TIM::Point}, 94
+  \item {printBestTemplate}
+    \subitem {template\-Matching}, 37
+  \item {printSeAtPoint}
+    \subitem {Lib\-TIM}, 66
+  \item {printTree}
+    \subitem {cc\-Tree}, 15
+  \item {ptr}
+    \subitem {Lib\-TIM::Image\-Iterator}, 81
+  \item {put}
+    \subitem {Lib\-TIM::Ordered\-Queue}, 90
+    \subitem {Lib\-TIM::Ordered\-Queue\-Double}, 92
+    \subitem {Lib\-TIM::Queue}, 95
+
+  \indexspace
+
+  \item {Queue}
+    \subitem {Lib\-TIM::Queue}, 95
+
+  \indexspace
+
+  \item {Random}, 96
+    \subitem {Exponential}, 96
+    \subitem {Gaussian}, 96
+    \subitem {Randomize}, 96
+    \subitem {Uniform}, 96
+  \item {Randomize}
+    \subitem {Random}, 96
+  \item {rankFilter}
+    \subitem {basis\-Functions}, 24
+  \item {rasterScan}
+    \subitem {Lib\-TIM::Non\-Flat\-SE}, 88
+  \item {rbegin}
+    \subitem {Image}, 53
+  \item {reconstructImage}
+    \subitem {cc\-Tree}, 15
+  \item {reconstruction}
+    \subitem {geodesicReconstructionByDilation}, 28
+    \subitem {geodesicReconstructionByErosion}, 28
+  \item {Region Growing Algorithms}, 33
+  \item {Regional Extrema Extraction}, 26
+  \item {regionalMaxima}
+    \subitem {extrema\-Extraction}, 26
+  \item {regionalMinima}
+    \subitem {extrema\-Extraction}, 26
+  \item {region\-Growing}
+    \subitem {RegionGrowingCriterion}, 33
+    \subitem {seededRegionGrowing}, 33
+    \subitem {seededRegionGrowing0}, 33
+    \subitem {seededRegionGrowingExactAlgorithm}, 33
+  \item {RegionGrowingCriterion}
+    \subitem {region\-Growing}, 33
+  \item {rend}
+    \subitem {Image}, 53
+  \item {reserve}
+    \subitem {Lib\-TIM::Flat\-SE}, 73
+    \subitem {Lib\-TIM::Non\-Flat\-SE}, 88
+  \item {reverse\_\-iterator}
+    \subitem {Image}, 49
+  \item {RGB}
+    \subitem {Lib\-TIM}, 65
+
+  \indexspace
+
+  \item {S16}
+    \subitem {Lib\-TIM}, 65
+  \item {S32}
+    \subitem {Lib\-TIM}, 65
+  \item {S8}
+    \subitem {Lib\-TIM}, 65
+  \item {save}
+    \subitem {Image}, 53
+    \subitem {Lib\-TIM::Image}, 78
+  \item {seededRegionGrowing}
+    \subitem {region\-Growing}, 33
+  \item {seededRegionGrowing0}
+    \subitem {region\-Growing}, 33
+  \item {seededRegionGrowingExactAlgorithm}
+    \subitem {region\-Growing}, 33
+  \item {setContext}
+    \subitem {Lib\-TIM::Flat\-SE}, 73
+  \item {setImageInfos}
+    \subitem {Image}, 53
+  \item {setPoint}
+    \subitem {Lib\-TIM::Image\-Regions\-Infos}, 84
+  \item {setSize}
+    \subitem {Image}, 54
+  \item {setSpacingX}
+    \subitem {Image}, 54
+  \item {setSpacingY}
+    \subitem {Image}, 54
+  \item {setSpacingZ}
+    \subitem {Image}, 54
+  \item {std}, 67
+  \item {sumIntensity}
+    \subitem {Lib\-TIM::Region}, 97
+
+  \indexspace
+
+  \item {Table}
+    \subitem {Lib\-TIM::Table}, 98
+  \item {Tarjan}
+    \subitem {Find}, 35
+    \subitem {FindSimple}, 35
+    \subitem {labelConnectedComponentsTarjan}, 35
+    \subitem {labelConnectedComponentsTarjan2}, 35
+    \subitem {Link}, 35, 36
+    \subitem {MakeSet}, 36
+    \subitem {treeType}, 35
+  \item {Tarjan's Union Find Algorithms}, 35
+  \item {TCoord}
+    \subitem {Lib\-TIM}, 65
+  \item {Template Matching Based Algorithms}, 37
+  \item {template\-Matching}
+    \subitem {printBestTemplate}, 37
+    \subitem {templateMatchingCorrelation}, 37
+    \subitem {templateMatchingL2}, 37
+  \item {templateMatchingCorrelation}
+    \subitem {template\-Matching}, 37
+  \item {templateMatchingL2}
+    \subitem {template\-Matching}, 37
+  \item {threshold}
+    \subitem {thresholding}, 39
+  \item {thresholding}
+    \subitem {binarize}, 39
+    \subitem {threshold}, 39
+  \item {Thresholding Functions}, 39
+  \item {TLabel}
+    \subitem {Lib\-TIM}, 65
+  \item {tNode}
+    \subitem {Lib\-TIM}, 65
+  \item {TOffset}
+    \subitem {Lib\-TIM}, 65
+  \item {treeType}
+    \subitem {Tarjan}, 35
+  \item {TSize}
+    \subitem {Lib\-TIM}, 65
+  \item {TSpacing}
+    \subitem {Lib\-TIM}, 65
+
+  \indexspace
+
+  \item {U16}
+    \subitem {Lib\-TIM}, 65
+  \item {U32}
+    \subitem {Lib\-TIM}, 65
+  \item {U8}
+    \subitem {Lib\-TIM}, 65
+  \item {Uniform}
+    \subitem {Random}, 96
+
+  \indexspace
+
+  \item {viscousClosingMercury}
+    \subitem {constrained\-Watershed}, 40
+  \item {viscousClosingMercuryBasic}
+    \subitem {constrained\-Watershed}, 40
+
+  \indexspace
+
+  \item {watershed}
+    \subitem {watershedMeyer}, 41
+  \item {Watershed-based Algorithms}, 41
+  \item {watershedMeyer}
+    \subitem {watershed}, 41
+  \item {write}
+    \subitem {Lib\-TIM::Histogram}, 74
+
+  \indexspace
+
+  \item {x}
+    \subitem {Lib\-TIM::Image\-Iterator\-XYZ}, 83
+    \subitem {Lib\-TIM::Point}, 94
+
+  \indexspace
+
+  \item {y}
+    \subitem {Lib\-TIM::Image\-Iterator\-XYZ}, 83
+    \subitem {Lib\-TIM::Point}, 94
+
+  \indexspace
+
+  \item {z}
+    \subitem {Lib\-TIM::Image\-Iterator\-XYZ}, 83
+    \subitem {Lib\-TIM::Point}, 94
+
+\end{theindex}

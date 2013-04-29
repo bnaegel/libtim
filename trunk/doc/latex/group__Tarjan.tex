@@ -1,0 +1,89 @@
+\section{Tarjan's Union Find Algorithms}
+\label{group__Tarjan}\index{Tarjan's Union Find Algorithms@{Tarjan's Union Find Algorithms}}
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef vector$<$ int $>$ {\bf Lib\-TIM::tree\-Type}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void {\bf Lib\-TIM::Make\-Set} ({\bf tree\-Type} \&tree, const int \&offset)
+\item 
+int {\bf Lib\-TIM::Find} ({\bf tree\-Type} \&tree, const int \&offset)
+\item 
+int {\bf Lib\-TIM::Find\-Simple} ({\bf tree\-Type} \&tree, const int \&offset)
+\item 
+int {\bf Lib\-TIM::Link} ({\bf tree\-Type} \&tree, int \&x, int \&y)
+\item 
+void {\bf Lib\-TIM::Make\-Set} (int $\ast$tree, const int \&offset)
+\item 
+int {\bf Lib\-TIM::Find} (int $\ast$tree, const int \&offset)
+\item 
+int {\bf Lib\-TIM::Link} (int $\ast$tree, int \&x, int \&y)
+\item 
+template$<$class T$>$ Image$<$ {\bf TLabel} $>$ {\bf Lib\-TIM::label\-Connected\-Components\-Tarjan} (const Image$<$ T $>$ \&im, const Flat\-SE \&se)
+\item 
+template$<$class T$>$ Image$<$ {\bf TLabel} $>$ {\bf Lib\-TIM::label\-Connected\-Components\-Tarjan2} (const Image$<$ T $>$ \&im, const Flat\-SE \&se)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Procedures implementing Tarjan's union-find algorithm
+
+Tarjan's Union Find based routines, and algorithms. Mostly research code.
+
+\subsection{Typedef Documentation}
+\index{Tarjan@{Tarjan}!treeType@{treeType}}
+\index{treeType@{treeType}!Tarjan@{Tarjan}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef vector$<$int$>$ {\bf Lib\-TIM::tree\-Type}}\label{group__Tarjan_ga0}
+
+
+
+
+\subsection{Function Documentation}
+\index{Tarjan@{Tarjan}!Find@{Find}}
+\index{Find@{Find}!Tarjan@{Tarjan}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int Lib\-TIM::Find (int $\ast$ {\em tree}, const int \& {\em offset})}\label{group__Tarjan_ga6}
+
+
+\index{Tarjan@{Tarjan}!Find@{Find}}
+\index{Find@{Find}!Tarjan@{Tarjan}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int Lib\-TIM::Find ({\bf tree\-Type} \& {\em tree}, const int \& {\em offset})}\label{group__Tarjan_ga2}
+
+
+\index{Tarjan@{Tarjan}!FindSimple@{FindSimple}}
+\index{FindSimple@{FindSimple}!Tarjan@{Tarjan}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int Lib\-TIM::Find\-Simple ({\bf tree\-Type} \& {\em tree}, const int \& {\em offset})}\label{group__Tarjan_ga3}
+
+
+\index{Tarjan@{Tarjan}!labelConnectedComponentsTarjan@{labelConnectedComponentsTarjan}}
+\index{labelConnectedComponentsTarjan@{labelConnectedComponentsTarjan}!Tarjan@{Tarjan}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<${\bf TLabel}$>$ Lib\-TIM::label\-Connected\-Components\-Tarjan (const Image$<$ T $>$ \& {\em im}, const Flat\-SE \& {\em se})}\label{group__Tarjan_ga8}
+
+
+\index{Tarjan@{Tarjan}!labelConnectedComponentsTarjan2@{labelConnectedComponentsTarjan2}}
+\index{labelConnectedComponentsTarjan2@{labelConnectedComponentsTarjan2}!Tarjan@{Tarjan}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<${\bf TLabel}$>$ Lib\-TIM::label\-Connected\-Components\-Tarjan2 (const Image$<$ T $>$ \& {\em im}, const Flat\-SE \& {\em se})}\label{group__Tarjan_ga9}
+
+
+Second version, using implementation described in ISMM'05 Tests showed that labeling with the method of breadth scan (propagation) is faster (in our implementation) \index{Tarjan@{Tarjan}!Link@{Link}}
+\index{Link@{Link}!Tarjan@{Tarjan}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int Lib\-TIM::Link (int $\ast$ {\em tree}, int \& {\em x}, int \& {\em y})}\label{group__Tarjan_ga7}
+
+
+\index{Tarjan@{Tarjan}!Link@{Link}}
+\index{Link@{Link}!Tarjan@{Tarjan}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int Lib\-TIM::Link ({\bf tree\-Type} \& {\em tree}, int \& {\em x}, int \& {\em y})}\label{group__Tarjan_ga4}
+
+
+\index{Tarjan@{Tarjan}!MakeSet@{MakeSet}}
+\index{MakeSet@{MakeSet}!Tarjan@{Tarjan}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Lib\-TIM::Make\-Set (int $\ast$ {\em tree}, const int \& {\em offset})}\label{group__Tarjan_ga5}
+
+
+\index{Tarjan@{Tarjan}!MakeSet@{MakeSet}}
+\index{MakeSet@{MakeSet}!Tarjan@{Tarjan}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Lib\-TIM::Make\-Set ({\bf tree\-Type} \& {\em tree}, const int \& {\em offset})}\label{group__Tarjan_ga1}
+
+

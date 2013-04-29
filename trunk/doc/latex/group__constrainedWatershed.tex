@@ -1,0 +1,29 @@
+\section{Constrained Watershed Algorithms}
+\label{group__constrainedWatershed}\index{Constrained Watershed Algorithms@{Constrained Watershed Algorithms}}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+template$<$class T$>$ void {\bf Lib\-TIM::viscous\-Closing\-Mercury\-Basic} (Image$<$ T $>$ \&src, double r0)
+\item 
+template$<$class T$>$ void {\bf Lib\-TIM::viscous\-Closing\-Mercury} (Image$<$ T $>$ \&src, double r0)
+\begin{CompactList}\small\item\em Version two: we try to optimize a little. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{constrainedWatershed@{constrained\-Watershed}!viscousClosingMercury@{viscousClosingMercury}}
+\index{viscousClosingMercury@{viscousClosingMercury}!constrainedWatershed@{constrained\-Watershed}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void Lib\-TIM::viscous\-Closing\-Mercury (Image$<$ T $>$ \& {\em src}, double {\em r0})}\label{group__constrainedWatershed_ga1}
+
+
+Version two: we try to optimize a little. 
+
+First we close the image src with all possible structuring elements We put each closing into a map referenced by the parameter r of the structuring element
+
+element r is not yet in the map \index{constrainedWatershed@{constrained\-Watershed}!viscousClosingMercuryBasic@{viscousClosingMercuryBasic}}
+\index{viscousClosingMercuryBasic@{viscousClosingMercuryBasic}!constrainedWatershed@{constrained\-Watershed}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void Lib\-TIM::viscous\-Closing\-Mercury\-Basic (Image$<$ T $>$ \& {\em src}, double {\em r0})}\label{group__constrainedWatershed_ga0}
+
+
+Viscous closing according to Vachier's definition. This function defines the mercury viscous closing on the gradient image src
+
+First closing with maximal disk 
