@@ -1,0 +1,44 @@
+\section{Region Growing Algorithms}
+\label{group__regionGrowing}\index{Region Growing Algorithms@{Region Growing Algorithms}}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+template$<$class T, class T2$>$ void {\bf Lib\-TIM::Region\-Growing\-Criterion} (Image$<$ T $>$ \&src, Image$<$ T2 $>$ \&marker, Flat\-SE \&se, bool observe=false)
+\item 
+template$<$class T$>$ void {\bf Lib\-TIM::seeded\-Region\-Growing\-Exact\-Algorithm} (Image$<$ T $>$ \&im, Image$<$ {\bf TLabel} $>$ \&marker, Flat\-SE \&se, bool observe=false)
+\begin{CompactList}\small\item\em Seeded region-growing algorithm: non-biased implementation. \item\end{CompactList}\item 
+template$<$class T, class T2$>$ void {\bf Lib\-TIM::seeded\-Region\-Growing} (Image$<$ T $>$ \&img, Image$<$ T2 $>$ \&marker, Flat\-SE \&se, bool observe=false)
+\item 
+template$<$class T, class T2$>$ void {\bf Lib\-TIM::seeded\-Region\-Growing0} (Image$<$ T $>$ \&img, Image$<$ T2 $>$ \&marker, Flat\-SE \&se, bool observe=false)
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{regionGrowing@{region\-Growing}!RegionGrowingCriterion@{RegionGrowingCriterion}}
+\index{RegionGrowingCriterion@{RegionGrowingCriterion}!regionGrowing@{region\-Growing}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T, class T2$>$ void Lib\-TIM::Region\-Growing\-Criterion (Image$<$ T $>$ \& {\em src}, Image$<$ T2 $>$ \& {\em marker}, Flat\-SE \& {\em se}, bool {\em observe} = {\tt false})}\label{group__regionGrowing_ga0}
+
+
+\index{regionGrowing@{region\-Growing}!seededRegionGrowing@{seededRegionGrowing}}
+\index{seededRegionGrowing@{seededRegionGrowing}!regionGrowing@{region\-Growing}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T, class T2$>$ void Lib\-TIM::seeded\-Region\-Growing (Image$<$ T $>$ \& {\em img}, Image$<$ T2 $>$ \& {\em marker}, Flat\-SE \& {\em se}, bool {\em observe} = {\tt false})}\label{group__regionGrowing_ga2}
+
+
+Seeded region growing algorithm : work of Adams and Bischof with the following implementation: Points can be inserted several times in the queue Each time a point is inserted, its neighbors are scanned and their priority is recomputed and eventually reinserted in the queue if their priority has been lowered
+
+{\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} containing the priority of points in the queue. Max if not in the queue BORDER=-1 if border point \index{regionGrowing@{region\-Growing}!seededRegionGrowing0@{seededRegionGrowing0}}
+\index{seededRegionGrowing0@{seededRegionGrowing0}!regionGrowing@{region\-Growing}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T, class T2$>$ void Lib\-TIM::seeded\-Region\-Growing0 (Image$<$ T $>$ \& {\em img}, Image$<$ T2 $>$ \& {\em marker}, Flat\-SE \& {\em se}, bool {\em observe} = {\tt false})}\label{group__regionGrowing_ga3}
+
+
+Same thing but each point is inserted with a fixed priority in the queue This gives slightly altered results
+
+{\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} containing the priority of points in the queue. Max if not in the queue \index{regionGrowing@{region\-Growing}!seededRegionGrowingExactAlgorithm@{seededRegionGrowingExactAlgorithm}}
+\index{seededRegionGrowingExactAlgorithm@{seededRegionGrowingExactAlgorithm}!regionGrowing@{region\-Growing}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void Lib\-TIM::seeded\-Region\-Growing\-Exact\-Algorithm (Image$<$ T $>$ \& {\em im}, Image$<$ {\bf TLabel} $>$ \& {\em marker}, Flat\-SE \& {\em se}, bool {\em observe} = {\tt false})}\label{group__regionGrowing_ga1}
+
+
+Seeded region-growing algorithm: non-biased implementation. 
+
+Seeded region-growing (see works of Adams-Bischhof, Mehnert-Jackway, Salembier,...) is usually implemented by using hierarchical queues containing points to be processed. Each point is put in the queue with a priority given by some measure of distance. In the first implementation (Adams-Bischhof, and Salembier seems to have the same implementation) a point is put once in the queue with a fixed priority. That is to say that even if in the future these points are found to have a lesser priority (because a neighbor having a similar grey-level is processed, for example), their priority is not updated. Mehnert-Jackway pointed out the two bias present in the SRG, and proposed an unbiased region-growing algorithms, (ISRG= improved seeded region growing). However, they don't talk of the bias induced by the use of hierarchical queues without the recomputation of priorities. The function {\bf seeded\-Region\-Growing()}{\rm (p.\,\pageref{group__regionGrowing_ga2})} implements SRG with the recomputation of priorities (see function for details) based on HQ. The function implemented here don't use anymore HQ: it is based on the trivial formulation of RG. The aim is to see if there is any difference with the RG based on HQ with recomputation of priorities. That is why the function is called \char`\"{}Exact\-Algorithm\char`\"{}, because the result should be the reference. It is based on this trivial algorithm: \begin{itemize}
+\item INIT: each region with the given seeds \item 1) For each region: process sequentially the neighbors, compute the distance and keep the neighbor having the least distance. STOP if there is no avalaible neighbors \item 2) Aggregate the point with the corresponding region and recompute the region characteristics \item 3) GOTO 1)\end{itemize}

@@ -1,0 +1,45 @@
+\section{Regional Extrema Extraction}
+\label{group__extremaExtraction}\index{Regional Extrema Extraction@{Regional Extrema Extraction}}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+template$<$class T$>$ Image$<$ {\bf U8} $>$ {\bf Lib\-TIM::regional\-Minima} (Image$<$ T $>$ img, Flat\-SE se)
+\begin{CompactList}\small\item\em Regional Minima Extraction. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ {\bf U8} $>$ {\bf Lib\-TIM::regional\-Maxima} (Image$<$ T $>$ img, Flat\-SE se)
+\begin{CompactList}\small\item\em Regional Maxima Extraction. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{extremaExtraction@{extrema\-Extraction}!regionalMaxima@{regionalMaxima}}
+\index{regionalMaxima@{regionalMaxima}!extremaExtraction@{extrema\-Extraction}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<${\bf U8}$>$ Lib\-TIM::regional\-Maxima (Image$<$ T $>$ {\em img}, Flat\-SE {\em se})}\label{group__extremaExtraction_ga1}
+
+
+Regional Maxima Extraction. 
+
+Compute the regional maxima of the source image. Returns a {\em binary\/} $<$U8$>$ image with: \begin{itemize}
+\item 0 : not maxima \item 255: is maxima\end{itemize}
+Usually, you need to labelise the result with the {\bf label\-Connected\-Components()}{\rm (p.\,\pageref{group__ccLabelling_ga0})} function. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em img}]Source {\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} \item[{\em se}]Connexity used (use for example 4- or 8- connexity in 2D, see the {\bf Flat\-SE}{\rm (p.\,\pageref{classLibTIM_1_1FlatSE})} documentation) \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]$<$U8$>$ binary image (0=not maxima, 255=maxima)\end{Desc}
+Algorithm of Vincent\index{extremaExtraction@{extrema\-Extraction}!regionalMinima@{regionalMinima}}
+\index{regionalMinima@{regionalMinima}!extremaExtraction@{extrema\-Extraction}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<${\bf U8}$>$ Lib\-TIM::regional\-Minima (Image$<$ T $>$ {\em img}, Flat\-SE {\em se})}\label{group__extremaExtraction_ga0}
+
+
+Regional Minima Extraction. 
+
+Compute the regional minima of the source image. Returns a {\em binary\/} $<$U8$>$ image with: \begin{itemize}
+\item 0 : not minima \item 255: is minima\end{itemize}
+Usually, you need to labelise the result with the {\bf label\-Connected\-Components()}{\rm (p.\,\pageref{group__ccLabelling_ga0})} function. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em img}]Source {\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} \item[{\em se}]Connexity used (use for example 4- or 8- connexity in 2D, see the {\bf Flat\-SE}{\rm (p.\,\pageref{classLibTIM_1_1FlatSE})} documentation) \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]$<$U8$>$ binary image (0=not minima, 255=minima)\end{Desc}
+Algorithm of Vincent

@@ -1,0 +1,37 @@
+\section{Geodesic Reconstruction}
+\label{group__reconstruction}\index{Geodesic Reconstruction@{Geodesic Reconstruction}}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+template$<$class T$>$ void {\bf Lib\-TIM::geodesic\-Reconstruction\-By\-Erosion} (Image$<$ T $>$ \&marker, Image$<$ T $>$ mask, Flat\-SE \&se)
+\begin{CompactList}\small\item\em Geodesic reconstruction by erosion. \item\end{CompactList}\item 
+template$<$class T$>$ void {\bf Lib\-TIM::geodesic\-Reconstruction\-By\-Dilation} (Image$<$ T $>$ \&marker, Image$<$ T $>$ mask, Flat\-SE \&se)
+\begin{CompactList}\small\item\em Geodesic reconstruction by dilation. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{reconstruction@{reconstruction}!geodesicReconstructionByDilation@{geodesicReconstructionByDilation}}
+\index{geodesicReconstructionByDilation@{geodesicReconstructionByDilation}!reconstruction@{reconstruction}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void Lib\-TIM::geodesic\-Reconstruction\-By\-Dilation (Image$<$ T $>$ \& {\em marker}, Image$<$ T $>$ {\em mask}, Flat\-SE \& {\em se})}\label{group__reconstruction_ga1}
+
+
+Geodesic reconstruction by dilation. 
+
+Marker must be under the mask \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em marker}]The marker image. At the end of function marker is modified and contains the result of reconstruction. \item[{\em mask}]The mask image (not modified).\end{description}
+\end{Desc}
+Vincent's algorithm. In this implementation {\em all\/} points are inserted in the priority queue\index{reconstruction@{reconstruction}!geodesicReconstructionByErosion@{geodesicReconstructionByErosion}}
+\index{geodesicReconstructionByErosion@{geodesicReconstructionByErosion}!reconstruction@{reconstruction}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void Lib\-TIM::geodesic\-Reconstruction\-By\-Erosion (Image$<$ T $>$ \& {\em marker}, Image$<$ T $>$ {\em mask}, Flat\-SE \& {\em se})}\label{group__reconstruction_ga0}
+
+
+Geodesic reconstruction by erosion. 
+
+Marker must be above the mask \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em marker}]The marker image. At the end of function marker is modified and contains the result of reconstruction. \item[{\em mask}]The mask image (not modified).\end{description}
+\end{Desc}
+Vincent's algorithm. In this implementation {\em all\/} points are inserted in the priority queue

@@ -1,0 +1,65 @@
+\section{Algorithms/Morphology.hxx File Reference}
+\label{Morphology_8hxx}\index{Algorithms/Morphology.hxx@{Algorithms/Morphology.hxx}}
+{\tt \#include $<$queue$>$}\par
+{\tt \#include \char`\"{}Common/Flat\-SE.h\char`\"{}}\par
+{\tt \#include \char`\"{}Common/Image.h\char`\"{}}\par
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf Lib\-TIM}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+template$<$class T$>$ void {\bf Lib\-TIM::add\-Borders} (Image$<$ T $>$ \&im, {\bf TCoord} $\ast$pre\-Width, {\bf TCoord} $\ast$post\-Width, T value)
+\item 
+template$<$class T$>$ void {\bf Lib\-TIM::add\-Borders} (Image$<$ T $>$ \&im, Flat\-SE \&se, T value)
+\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::dilation} (Image$<$ T $>$ im, Flat\-SE se)
+\begin{CompactList}\small\item\em Basic flat-dilation algorithm. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::erosion} (Image$<$ T $>$ im, Flat\-SE se)
+\begin{CompactList}\small\item\em Basic flat-erosion algorithm. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::dilation\-Border\-Max} (Image$<$ T $>$ im, Flat\-SE se)
+\begin{CompactList}\small\item\em Border max version of dilation. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::erosion\-Border\-Min} (Image$<$ T $>$ im, Flat\-SE se)
+\begin{CompactList}\small\item\em Border min version of erosion. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::opening} (Image$<$ T $>$ im, Flat\-SE se)
+\begin{CompactList}\small\item\em Opening. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::closing} (Image$<$ T $>$ im, Flat\-SE se)
+\begin{CompactList}\small\item\em Closing. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::morphological\-Gradient} (Image$<$ T $>$ im, Flat\-SE se)
+\begin{CompactList}\small\item\em Morphological gradient. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::internal\-Morphological\-Gradient} (Image$<$ T $>$ im, Flat\-SE se)
+\begin{CompactList}\small\item\em Internal morphological gradient. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::external\-Morphological\-Gradient} (Image$<$ T $>$ im, Flat\-SE se)
+\begin{CompactList}\small\item\em External morphological gradient. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::rank\-Filter} (Image$<$ T $>$ im, Flat\-SE se, int rank)
+\begin{CompactList}\small\item\em Rank filter. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ {\bf U8} $>$ {\bf Lib\-TIM::regional\-Minima} (Image$<$ T $>$ img, Flat\-SE se)
+\begin{CompactList}\small\item\em Regional Minima Extraction. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ {\bf U8} $>$ {\bf Lib\-TIM::regional\-Maxima} (Image$<$ T $>$ img, Flat\-SE se)
+\begin{CompactList}\small\item\em Regional Maxima Extraction. \item\end{CompactList}\item 
+template$<$class T$>$ void {\bf Lib\-TIM::geodesic\-Reconstruction\-By\-Erosion} (Image$<$ T $>$ \&marker, Image$<$ T $>$ mask, Flat\-SE \&se)
+\begin{CompactList}\small\item\em Geodesic reconstruction by erosion. \item\end{CompactList}\item 
+template$<$class T$>$ void {\bf Lib\-TIM::geodesic\-Reconstruction\-By\-Dilation} (Image$<$ T $>$ \&marker, Image$<$ T $>$ mask, Flat\-SE \&se)
+\begin{CompactList}\small\item\em Geodesic reconstruction by dilation. \item\end{CompactList}\item 
+template$<$class T$>$ void {\bf Lib\-TIM::h\-Min\-Filter} (Image$<$ T $>$ \&img, Flat\-SE \&se, int h)
+\begin{CompactList}\small\item\em h-Min filter \item\end{CompactList}\item 
+template$<$class T$>$ void {\bf Lib\-TIM::h\-Max\-Filter} (Image$<$ T $>$ \&img, Flat\-SE \&se, int h)
+\begin{CompactList}\small\item\em h-Max filter \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ int $>$ {\bf Lib\-TIM::hit\-Or\-Miss\-Difference\-Image} (Image$<$ T $>$ \&im, Flat\-SE \&se\-A, Flat\-SE \&se\-B)
+\begin{CompactList}\small\item\em Hit-or-miss difference {\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})}. \item\end{CompactList}\item 
+template$<$class T$>$ int {\bf Lib\-TIM::hit\-Or\-Miss\-Maximum\-Difference} (Image$<$ T $>$ im, Flat\-SE \&se\-A, Flat\-SE \&se\-B)
+\begin{CompactList}\small\item\em Maximum of the hit\-Or\-Miss\-Difference\-Image. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::hit\-Or\-Miss\-Integral\-K} (Image$<$ T $>$ \&im, Flat\-SE \&se\-A, Flat\-SE \&se\-B)
+\begin{CompactList}\small\item\em Grey-level hit-or-miss: Soille's version. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::hit\-Or\-Miss\-Supremal\-H} (Image$<$ T $>$ \&im, Flat\-SE \&se\-A, Flat\-SE \&se\-B)
+\begin{CompactList}\small\item\em Grey-level hit-or-miss: Ronse's version. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::hit\-Or\-Miss\-Supremal\-K} (Image$<$ T $>$ \&im, Flat\-SE \&se\-A, Flat\-SE \&se\-B)
+\begin{CompactList}\small\item\em Supremal K version of grey-level hit-or-miss. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::hit\-Or\-Miss\-Integral\-KOpening} (Image$<$ T $>$ \&im, Flat\-SE \&se\-A, Flat\-SE \&se\-B)
+\begin{CompactList}\small\item\em Grey-level hit-or-miss opening: Soille's version. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::hit\-Or\-Miss\-Supremal\-KOpening} (Image$<$ T $>$ \&im, Flat\-SE \&se\-A, Flat\-SE \&se\-B)
+\begin{CompactList}\small\item\em Grey-level hit-or-miss opening: Supremal K version. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::hit\-Or\-Miss\-Supremal\-HOpening} (Image$<$ T $>$ \&im, Flat\-SE \&se\-A, Flat\-SE \&se\-B)
+\begin{CompactList}\small\item\em Grey-level hit-or-miss opening: Ronse's version. \item\end{CompactList}\end{CompactItemize}

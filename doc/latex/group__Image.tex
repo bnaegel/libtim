@@ -1,0 +1,585 @@
+\section{Image}
+\label{group__Image}\index{Image@{Image}}
+\subsection*{Classes}
+\begin{CompactItemize}
+\item 
+class {\bf Lib\-TIM::Image$<$ T $>$}
+\begin{CompactList}\small\item\em Container base for images of generic type T in {\bf Lib\-TIM}{\rm (p.\,\pageref{namespaceLibTIM})}. \item\end{CompactList}\end{CompactItemize}
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef Image\-Iterator$<$ Image, T $>$ {\bf Lib\-TIM::Image::iterator}
+\begin{CompactList}\small\item\em Iterators. \item\end{CompactList}\item 
+typedef Image\-Iterator$<$ const Image, const T $>$ {\bf Lib\-TIM::Image::const\_\-iterator}
+\item 
+typedef Image\-Iterator\-XYZ$<$ Image, T $>$ {\bf Lib\-TIM::Image::iterator\-XYZ}
+\item 
+typedef Image\-Iterator\-XYZ$<$ const Image, const T $>$ {\bf Lib\-TIM::Image::const\_\-iterator\-XYZ}
+\item 
+typedef std::reverse\_\-iterator$<$ const\_\-iterator $>$ {\bf Lib\-TIM::Image::const\_\-reverse\_\-iterator}
+\item 
+typedef std::reverse\_\-iterator$<$ iterator $>$ {\bf Lib\-TIM::Image::reverse\_\-iterator}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+static int {\bf Lib\-TIM::Image::load} (const char $\ast$filename, Image$<$ T $>$ \&im)
+\begin{CompactList}\small\item\em {\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} file loader. \item\end{CompactList}\item 
+void {\bf Lib\-TIM::Image::save} (const char $\ast$filename)
+\begin{CompactList}\small\item\em Save image file. \item\end{CompactList}\item 
+{\bf Lib\-TIM::Image::Image} (const {\bf TSize} $\ast$size)
+\begin{CompactList}\small\item\em Constructors. \item\end{CompactList}\item 
+{\bf Lib\-TIM::Image::Image} (const {\bf TSize} x\-Size=1, const {\bf TSize} y\-Size=1, const {\bf TSize} z\-Size=1)
+\item 
+{\bf Lib\-TIM::Image::Image} (const {\bf TSize} $\ast$size, const {\bf TSpacing} $\ast$spacing, const T $\ast$data)
+\item 
+{\bf Lib\-TIM::Image::$\sim$Image} ()
+\begin{CompactList}\small\item\em Destructor (delete the buffer). \item\end{CompactList}\item 
+{\bf Lib\-TIM::Image::Image} (const Image$<$ T $>$ \&im)
+\begin{CompactList}\small\item\em Copy constructor. \item\end{CompactList}\item 
+Image$<$ T $>$ \& {\bf Lib\-TIM::Image::operator=} (const Image$<$ T $>$ \&im)
+\begin{CompactList}\small\item\em Assignment operator. \item\end{CompactList}\item 
+template$<$class T2$>$ {\bf Lib\-TIM::Image::Image} (const Image$<$ T2 $>$ \&im)
+\begin{CompactList}\small\item\em Type conversion. \item\end{CompactList}\item 
+{\bf TSize} $\ast$ {\bf Lib\-TIM::Image::get\-Size} () const 
+\item 
+{\bf TSize} {\bf Lib\-TIM::Image::get\-Size\-X} () const 
+\item 
+{\bf TSize} {\bf Lib\-TIM::Image::get\-Size\-Y} () const 
+\item 
+{\bf TSize} {\bf Lib\-TIM::Image::get\-Size\-Z} () const 
+\item 
+void {\bf Lib\-TIM::Image::set\-Size} ({\bf TSize} $\ast$size)
+\item 
+void {\bf Lib\-TIM::Image::set\-Size} ({\bf TSize} x, {\bf TSize} y, {\bf TSize} z)
+\item 
+{\bf TSpacing} $\ast$ {\bf Lib\-TIM::Image::get\-Spacing} ()
+\item 
+{\bf TSpacing} {\bf Lib\-TIM::Image::get\-Spacing\-X} () const 
+\item 
+{\bf TSpacing} {\bf Lib\-TIM::Image::get\-Spacing\-Y} () const 
+\item 
+{\bf TSpacing} {\bf Lib\-TIM::Image::get\-Spacing\-Z} () const 
+\item 
+void {\bf Lib\-TIM::Image::set\-Spacing\-X} ({\bf TSpacing} vx)
+\item 
+void {\bf Lib\-TIM::Image::set\-Spacing\-Y} ({\bf TSpacing} vy)
+\item 
+void {\bf Lib\-TIM::Image::set\-Spacing\-Z} ({\bf TSpacing} vz)
+\item 
+{\bf TOffset} {\bf Lib\-TIM::Image::get\-Buf\-Size} () const 
+\item 
+T $\ast$ {\bf Lib\-TIM::Image::get\-Data} ()
+\item 
+iterator {\bf Lib\-TIM::Image::begin} ()
+\item 
+const\_\-iterator {\bf Lib\-TIM::Image::begin} () const 
+\item 
+iterator {\bf Lib\-TIM::Image::end} ()
+\item 
+const\_\-iterator {\bf Lib\-TIM::Image::end} () const 
+\item 
+reverse\_\-iterator {\bf Lib\-TIM::Image::rbegin} ()
+\item 
+const\_\-reverse\_\-iterator {\bf Lib\-TIM::Image::rbegin} () const 
+\item 
+reverse\_\-iterator {\bf Lib\-TIM::Image::rend} ()
+\item 
+const\_\-reverse\_\-iterator {\bf Lib\-TIM::Image::rend} () const 
+\item 
+T \& {\bf Lib\-TIM::Image::operator()} ({\bf TCoord} x, {\bf TCoord} y, {\bf TCoord} z=0)
+\begin{CompactList}\small\item\em Coordinates write version. \item\end{CompactList}\item 
+T {\bf Lib\-TIM::Image::operator()} ({\bf TCoord} x, {\bf TCoord} y, {\bf TCoord} z=0) const 
+\begin{CompactList}\small\item\em Coordinates read-only version. \item\end{CompactList}\item 
+T \& {\bf Lib\-TIM::Image::operator()} ({\bf TOffset} offset)
+\begin{CompactList}\small\item\em Offset write version. \item\end{CompactList}\item 
+T {\bf Lib\-TIM::Image::operator()} ({\bf TOffset} offset) const 
+\begin{CompactList}\small\item\em Offset read-only version. \item\end{CompactList}\item 
+T \& {\bf Lib\-TIM::Image::operator()} (Point$<$ {\bf TCoord} $>$ p)
+\begin{CompactList}\small\item\em {\bf Point}{\rm (p.\,\pageref{classLibTIM_1_1Point})} write version. \item\end{CompactList}\item 
+T {\bf Lib\-TIM::Image::operator()} (Point$<$ {\bf TCoord} $>$ p) const 
+\begin{CompactList}\small\item\em {\bf Point}{\rm (p.\,\pageref{classLibTIM_1_1Point})} read-only version. \item\end{CompactList}\item 
+Image \& {\bf Lib\-TIM::Image::operator+=} (Image$<$ T $>$ \&op)
+\begin{CompactList}\small\item\em {\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} operators. \item\end{CompactList}\item 
+Image \& {\bf Lib\-TIM::Image::operator-=} (Image$<$ T $>$ \&op)
+\item 
+Image \& {\bf Lib\-TIM::Image::operator $\ast$=} (Image$<$ T $>$ \&op)
+\item 
+Image \& {\bf Lib\-TIM::Image::operator/=} (Image$<$ T $>$ \&op)
+\item 
+Image \& {\bf Lib\-TIM::Image::operator \&=} (Image$<$ T $>$ \&op)
+\begin{CompactList}\small\item\em Pointwise minimum and maximum. \item\end{CompactList}\item 
+Image \& {\bf Lib\-TIM::Image::operator$|$=} (Image$<$ T $>$ \&op)
+\item 
+Image \& {\bf Lib\-TIM::Image::operator!} (void)
+\begin{CompactList}\small\item\em Negative. \item\end{CompactList}\item 
+bool {\bf Lib\-TIM::Image::operator==} (Image$<$ T $>$ \&op)
+\item 
+template$<$class T2$>$ void {\bf Lib\-TIM::Image::set\-Image\-Infos} (Image$<$ T2 $>$ \&im)
+\item 
+T {\bf Lib\-TIM::Image::get\-Max} () const 
+\begin{CompactList}\small\item\em Min and max. \item\end{CompactList}\item 
+T {\bf Lib\-TIM::Image::get\-Min} () const 
+\item 
+void {\bf Lib\-TIM::Image::fill} (const T value)
+\begin{CompactList}\small\item\em {\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} misc. \item\end{CompactList}\item 
+Image$<$ T $>$ {\bf Lib\-TIM::Image::crop} (const {\bf TCoord} from\-X=0, const {\bf TCoord} to\-X=1, const {\bf TCoord} from\-Y=0, const {\bf TCoord} to\-Y=1, const {\bf TCoord} from\-Z=0, const {\bf TCoord} to\-Z=1)
+\item 
+void {\bf Lib\-TIM::Image::copy} (Image$<$ T $>$ \&im, {\bf TCoord} x1, {\bf TCoord} y1, {\bf TCoord} z1, {\bf TCoord} x2, {\bf TCoord} y2, {\bf TCoord} z2, {\bf TCoord} px, {\bf TCoord} py, {\bf TCoord} pz)
+\item 
+void {\bf Lib\-TIM::Image::copy\-Fast} (Image$<$ T $>$ \&im, int x1, int y1, int z1, int x2, int y2, int z2, int px, int py, int pz)
+\item 
+void {\bf Lib\-TIM::Image::copy\-Fast} (Image$<$ T $>$ \&im, {\bf TCoord} px, {\bf TCoord} py, {\bf TCoord} pz)
+\item 
+void {\bf Lib\-TIM::Image::copy} (Image$<$ T $>$ \&im, {\bf TCoord} px, {\bf TCoord} py, {\bf TCoord} pz)
+\item 
+void {\bf Lib\-TIM::Image::enlarge} ()
+\item 
+int {\bf Lib\-TIM::Image::get\-Offset} (int x, int y, int z)
+\item 
+Image$<$ T $>$ {\bf Lib\-TIM::Image::get\-Reflection} ()
+\item 
+void {\bf Lib\-TIM::Image::print} ()
+\item 
+bool {\bf Lib\-TIM::Image::is\-Pos\-Valid} ({\bf TCoord} x, {\bf TCoord} y, {\bf TCoord} z=0) const 
+\item 
+bool {\bf Lib\-TIM::Image::is\-Pos\-Valid} ({\bf TOffset} offset) const 
+\item 
+bool {\bf Lib\-TIM::Image::is\-Pos\-Valid} (Point$<$ {\bf TCoord} $>$ p) const 
+\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::operator+} (Image$<$ T $>$ \&a, Image$<$ T $>$ \&b)
+\begin{CompactList}\small\item\em {\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} operators. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::operator-} (Image$<$ T $>$ \&a, Image$<$ T $>$ \&b)
+\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::operator $\ast$} (Image$<$ T $>$ \&a, Image$<$ T $>$ \&b)
+\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::operator+} (Image$<$ T $>$ \&a, T s)
+\begin{CompactList}\small\item\em Mixed mode arithmetic: operations with a scalar. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::operator-} (Image$<$ T $>$ \&a, T s)
+\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::operator $\ast$} (Image$<$ T $>$ \&a, T s)
+\end{CompactItemize}
+
+
+\subsection{Typedef Documentation}
+\index{Image@{Image}!const_iterator@{const\_\-iterator}}
+\index{const_iterator@{const\_\-iterator}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ typedef Image\-Iterator$<$const Image, const T$>$ {\bf Lib\-TIM::Image}$<$ T $>$::const\_\-iterator\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga4}
+
+
+\index{Image@{Image}!const_iteratorXYZ@{const\_\-iteratorXYZ}}
+\index{const_iteratorXYZ@{const\_\-iteratorXYZ}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ typedef Image\-Iterator\-XYZ$<$const Image, const T$>$ {\bf Lib\-TIM::Image}$<$ T $>$::const\_\-iterator\-XYZ\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga6}
+
+
+\index{Image@{Image}!const_reverse_iterator@{const\_\-reverse\_\-iterator}}
+\index{const_reverse_iterator@{const\_\-reverse\_\-iterator}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ typedef std::reverse\_\-iterator$<$const\_\-iterator$>$ {\bf Lib\-TIM::Image}$<$ T $>$::const\_\-reverse\_\-iterator\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga7}
+
+
+\index{Image@{Image}!iterator@{iterator}}
+\index{iterator@{iterator}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ typedef Image\-Iterator$<$Image,T$>$ {\bf Lib\-TIM::Image}$<$ T $>$::iterator\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga3}
+
+
+Iterators. 
+
+\index{Image@{Image}!iteratorXYZ@{iteratorXYZ}}
+\index{iteratorXYZ@{iteratorXYZ}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ typedef Image\-Iterator\-XYZ$<$Image,T$>$ {\bf Lib\-TIM::Image}$<$ T $>$::iterator\-XYZ\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga5}
+
+
+\index{Image@{Image}!reverse_iterator@{reverse\_\-iterator}}
+\index{reverse_iterator@{reverse\_\-iterator}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ typedef std::reverse\_\-iterator$<$iterator$>$ {\bf Lib\-TIM::Image}$<$ T $>$::reverse\_\-iterator\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga8}
+
+
+
+
+\subsection{Function Documentation}
+\index{Image@{Image}!begin@{begin}}
+\index{begin@{begin}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ const\_\-iterator {\bf Lib\-TIM::Image}$<$ T $>$::begin () const\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga34}
+
+
+\index{Image@{Image}!begin@{begin}}
+\index{begin@{begin}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ iterator {\bf Lib\-TIM::Image}$<$ T $>$::begin ()\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga33}
+
+
+\index{Image@{Image}!copy@{copy}}
+\index{copy@{copy}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class Voxel\-Type$>$ void {\bf Lib\-TIM::Image}$<$ Voxel\-Type $>$::copy ({\bf Image}$<$ T $>$ \& {\em im}, {\bf TCoord} {\em px}, {\bf TCoord} {\em py}, {\bf TCoord} {\em pz})\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga63}
+
+
+\index{Image@{Image}!copy@{copy}}
+\index{copy@{copy}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class Voxel\-Type$>$ void {\bf Lib\-TIM::Image}$<$ Voxel\-Type $>$::copy ({\bf Image}$<$ T $>$ \& {\em im}, {\bf TCoord} {\em x1}, {\bf TCoord} {\em y1}, {\bf TCoord} {\em z1}, {\bf TCoord} {\em x2}, {\bf TCoord} {\em y2}, {\bf TCoord} {\em z2}, {\bf TCoord} {\em px}, {\bf TCoord} {\em py}, {\bf TCoord} {\em pz})\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga60}
+
+
+\index{Image@{Image}!copyFast@{copyFast}}
+\index{copyFast@{copyFast}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class Voxel\-Type$>$ void {\bf Lib\-TIM::Image}$<$ Voxel\-Type $>$::copy\-Fast ({\bf Image}$<$ T $>$ \& {\em im}, {\bf TCoord} {\em px}, {\bf TCoord} {\em py}, {\bf TCoord} {\em pz})\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga62}
+
+
+\index{Image@{Image}!copyFast@{copyFast}}
+\index{copyFast@{copyFast}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class Voxel\-Type$>$ void {\bf Lib\-TIM::Image}$<$ Voxel\-Type $>$::copy\-Fast ({\bf Image}$<$ T $>$ \& {\em im}, int {\em x1}, int {\em y1}, int {\em z1}, int {\em x2}, int {\em y2}, int {\em z2}, int {\em px}, int {\em py}, int {\em pz})\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga61}
+
+
+\index{Image@{Image}!crop@{crop}}
+\index{crop@{crop}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::Image}$<$ T $>$::crop (const {\bf TCoord} {\em from\-X} = {\tt 0}, const {\bf TCoord} {\em to\-X} = {\tt 1}, const {\bf TCoord} {\em from\-Y} = {\tt 0}, const {\bf TCoord} {\em to\-Y} = {\tt 1}, const {\bf TCoord} {\em from\-Z} = {\tt 0}, const {\bf TCoord} {\em to\-Z} = {\tt 1})\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga59}
+
+
+\index{Image@{Image}!end@{end}}
+\index{end@{end}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ const\_\-iterator {\bf Lib\-TIM::Image}$<$ T $>$::end () const\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga36}
+
+
+\index{Image@{Image}!end@{end}}
+\index{end@{end}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ iterator {\bf Lib\-TIM::Image}$<$ T $>$::end ()\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga35}
+
+
+\index{Image@{Image}!enlarge@{enlarge}}
+\index{enlarge@{enlarge}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf Lib\-TIM::Image}$<$ T $>$::enlarge ()\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga64}
+
+
+\index{Image@{Image}!fill@{fill}}
+\index{fill@{fill}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf Lib\-TIM::Image}$<$ T $>$::fill (const T {\em value})\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga58}
+
+
+{\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} misc. 
+
+\index{Image@{Image}!getBufSize@{getBufSize}}
+\index{getBufSize@{getBufSize}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf TOffset} {\bf Lib\-TIM::Image}$<$ T $>$::get\-Buf\-Size () const\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga31}
+
+
+\index{Image@{Image}!getData@{getData}}
+\index{getData@{getData}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T$\ast$ {\bf Lib\-TIM::Image}$<$ T $>$::get\-Data ()\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga32}
+
+
+\index{Image@{Image}!getMax@{getMax}}
+\index{getMax@{getMax}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T {\bf Lib\-TIM::Image}$<$ T $>$::get\-Max () const\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga56}
+
+
+Min and max. 
+
+Return image min and max Warning: scan the image each time \index{Image@{Image}!getMin@{getMin}}
+\index{getMin@{getMin}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T {\bf Lib\-TIM::Image}$<$ T $>$::get\-Min () const\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga57}
+
+
+\index{Image@{Image}!getOffset@{getOffset}}
+\index{getOffset@{getOffset}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ int {\bf Lib\-TIM::Image}$<$ T $>$::get\-Offset (int {\em x}, int {\em y}, int {\em z})\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga65}
+
+
+\index{Image@{Image}!getReflection@{getReflection}}
+\index{getReflection@{getReflection}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class Voxel\-Type$>$ Image$<$ Voxel\-Type $>$ {\bf Lib\-TIM::Image}$<$ Voxel\-Type $>$::get\-Reflection ()\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga66}
+
+
+\index{Image@{Image}!getSize@{getSize}}
+\index{getSize@{getSize}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf TSize}$\ast$ {\bf Lib\-TIM::Image}$<$ T $>$::get\-Size () const\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga18}
+
+
+\index{Image@{Image}!getSizeX@{getSizeX}}
+\index{getSizeX@{getSizeX}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf TSize} {\bf Lib\-TIM::Image}$<$ T $>$::get\-Size\-X () const\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga19}
+
+
+\index{Image@{Image}!getSizeY@{getSizeY}}
+\index{getSizeY@{getSizeY}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf TSize} {\bf Lib\-TIM::Image}$<$ T $>$::get\-Size\-Y () const\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga20}
+
+
+\index{Image@{Image}!getSizeZ@{getSizeZ}}
+\index{getSizeZ@{getSizeZ}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf TSize} {\bf Lib\-TIM::Image}$<$ T $>$::get\-Size\-Z () const\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga21}
+
+
+\index{Image@{Image}!getSpacing@{getSpacing}}
+\index{getSpacing@{getSpacing}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf TSpacing}$\ast$ {\bf Lib\-TIM::Image}$<$ T $>$::get\-Spacing ()\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga24}
+
+
+\index{Image@{Image}!getSpacingX@{getSpacingX}}
+\index{getSpacingX@{getSpacingX}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf TSpacing} {\bf Lib\-TIM::Image}$<$ T $>$::get\-Spacing\-X () const\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga25}
+
+
+\index{Image@{Image}!getSpacingY@{getSpacingY}}
+\index{getSpacingY@{getSpacingY}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf TSpacing} {\bf Lib\-TIM::Image}$<$ T $>$::get\-Spacing\-Y () const\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga26}
+
+
+\index{Image@{Image}!getSpacingZ@{getSpacingZ}}
+\index{getSpacingZ@{getSpacingZ}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf TSpacing} {\bf Lib\-TIM::Image}$<$ T $>$::get\-Spacing\-Z () const\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga27}
+
+
+\index{Image@{Image}!Image@{Image}}
+\index{Image@{Image}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ template$<$class T2$>$ {\bf Lib\-TIM::Image}$<$ T $>$::Image (const {\bf Image}$<$ T2 $>$ \& {\em im})\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga17}
+
+
+Type conversion. 
+
+\index{Image@{Image}!Image@{Image}}
+\index{Image@{Image}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf Lib\-TIM::Image}$<$ T $>$::Image (const {\bf Image}$<$ T $>$ \& {\em im})\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga15}
+
+
+Copy constructor. 
+
+\index{Image@{Image}!Image@{Image}}
+\index{Image@{Image}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf Lib\-TIM::Image}$<$ T $>$::Image (const {\bf TSize} $\ast$ {\em size}, const {\bf TSpacing} $\ast$ {\em spacing}, const T $\ast$ {\em data})\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga13}
+
+
+Construct an image from a buffer $\ast$data Tab data \char`\"{}must\char`\"{} be allocated and large enough (min buf\-Size) \index{Image@{Image}!Image@{Image}}
+\index{Image@{Image}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf Lib\-TIM::Image}$<$ T $>$::Image (const {\bf TSize} {\em x\-Size} = {\tt 1}, const {\bf TSize} {\em y\-Size} = {\tt 1}, const {\bf TSize} {\em z\-Size} = {\tt 1})\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga12}
+
+
+\index{Image@{Image}!Image@{Image}}
+\index{Image@{Image}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf Lib\-TIM::Image}$<$ T $>$::Image (const {\bf TSize} $\ast$ {\em size})\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga11}
+
+
+Constructors. 
+
+\index{Image@{Image}!isPosValid@{isPosValid}}
+\index{isPosValid@{isPosValid}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ bool {\bf Lib\-TIM::Image}$<$ T $>$::is\-Pos\-Valid ({\bf Point}$<$ {\bf TCoord} $>$ {\em p}) const\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga70}
+
+
+\index{Image@{Image}!isPosValid@{isPosValid}}
+\index{isPosValid@{isPosValid}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ bool {\bf Lib\-TIM::Image}$<$ T $>$::is\-Pos\-Valid ({\bf TOffset} {\em offset}) const\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga69}
+
+
+\index{Image@{Image}!isPosValid@{isPosValid}}
+\index{isPosValid@{isPosValid}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class Voxel\-Type$>$ bool {\bf Lib\-TIM::Image}$<$ Voxel\-Type $>$::is\-Pos\-Valid ({\bf TCoord} {\em x}, {\bf TCoord} {\em y}, {\bf TCoord} {\em z} = {\tt 0}) const\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga68}
+
+
+\index{Image@{Image}!load@{load}}
+\index{load@{load}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ static int {\bf Lib\-TIM::Image}$<$ T $>$::load (const char $\ast$ {\em filename}, {\bf Image}$<$ T $>$ \& {\em im})\hspace{0.3cm}{\tt  [static, inherited]}}\label{group__Image_ga9}
+
+
+{\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} file loader. 
+
+Use as follows: 
+
+\footnotesize\begin{verbatim}	  Image <U8> myIm;
+	  Image <U8>::load("myFile.pgm", myIm);
+	  \end{verbatim}
+\normalsize
+\index{Image@{Image}!operator &=@{operator \&=}}
+\index{operator &=@{operator \&=}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$ T $>$ \& {\bf Lib\-TIM::Image}$<$ T $>$::operator \&= ({\bf Image}$<$ T $>$ \& {\em op})\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga51}
+
+
+Pointwise minimum and maximum. 
+
+\index{Image@{Image}!operator *@{operator $\ast$}}
+\index{operator *@{operator $\ast$}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$T$>$ Lib\-TIM::operator $\ast$ (Image$<$ T $>$ \& {\em a}, T {\em s})}\label{group__Image_ga76}
+
+
+\index{Image@{Image}!operator *@{operator $\ast$}}
+\index{operator *@{operator $\ast$}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$T$>$ Lib\-TIM::operator $\ast$ (Image$<$ T $>$ \& {\em a}, Image$<$ T $>$ \& {\em b})}\label{group__Image_ga73}
+
+
+\index{Image@{Image}!operator *=@{operator $\ast$=}}
+\index{operator *=@{operator $\ast$=}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$ T $>$ \& {\bf Lib\-TIM::Image}$<$ T $>$::operator $\ast$= ({\bf Image}$<$ T $>$ \& {\em op})\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga49}
+
+
+\index{Image@{Image}!operator"!@{operator"!}}
+\index{operator"!@{operator"!}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$ T $>$ \& {\bf Lib\-TIM::Image}$<$ T $>$::operator! (void)\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga53}
+
+
+Negative. 
+
+\index{Image@{Image}!operator()@{operator()}}
+\index{operator()@{operator()}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T {\bf Lib\-TIM::Image}$<$ T $>$::operator() ({\bf Point}$<$ {\bf TCoord} $>$ {\em p}) const\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga46}
+
+
+{\bf Point}{\rm (p.\,\pageref{classLibTIM_1_1Point})} read-only version. 
+
+\index{Image@{Image}!operator()@{operator()}}
+\index{operator()@{operator()}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T\& {\bf Lib\-TIM::Image}$<$ T $>$::operator() ({\bf Point}$<$ {\bf TCoord} $>$ {\em p})\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga45}
+
+
+{\bf Point}{\rm (p.\,\pageref{classLibTIM_1_1Point})} write version. 
+
+\index{Image@{Image}!operator()@{operator()}}
+\index{operator()@{operator()}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T {\bf Lib\-TIM::Image}$<$ T $>$::operator() ({\bf TOffset} {\em offset}) const\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga44}
+
+
+Offset read-only version. 
+
+\index{Image@{Image}!operator()@{operator()}}
+\index{operator()@{operator()}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T\& {\bf Lib\-TIM::Image}$<$ T $>$::operator() ({\bf TOffset} {\em offset})\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga43}
+
+
+Offset write version. 
+
+\index{Image@{Image}!operator()@{operator()}}
+\index{operator()@{operator()}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T {\bf Lib\-TIM::Image}$<$ T $>$::operator() ({\bf TCoord} {\em x}, {\bf TCoord} {\em y}, {\bf TCoord} {\em z} = {\tt 0}) const\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga42}
+
+
+Coordinates read-only version. 
+
+\index{Image@{Image}!operator()@{operator()}}
+\index{operator()@{operator()}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ T\& {\bf Lib\-TIM::Image}$<$ T $>$::operator() ({\bf TCoord} {\em x}, {\bf TCoord} {\em y}, {\bf TCoord} {\em z} = {\tt 0})\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga41}
+
+
+Coordinates write version. 
+
+\index{Image@{Image}!operator+@{operator+}}
+\index{operator+@{operator+}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$T$>$ Lib\-TIM::operator+ (Image$<$ T $>$ \& {\em a}, T {\em s})}\label{group__Image_ga74}
+
+
+Mixed mode arithmetic: operations with a scalar. 
+
+\index{Image@{Image}!operator+@{operator+}}
+\index{operator+@{operator+}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$T$>$ Lib\-TIM::operator+ (Image$<$ T $>$ \& {\em a}, Image$<$ T $>$ \& {\em b})}\label{group__Image_ga71}
+
+
+{\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} operators. 
+
+\index{Image@{Image}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$ T $>$ \& {\bf Lib\-TIM::Image}$<$ T $>$::operator+= ({\bf Image}$<$ T $>$ \& {\em op})\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga47}
+
+
+{\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} operators. 
+
+\index{Image@{Image}!operator-@{operator-}}
+\index{operator-@{operator-}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$T$>$ Lib\-TIM::operator- (Image$<$ T $>$ \& {\em a}, T {\em s})}\label{group__Image_ga75}
+
+
+\index{Image@{Image}!operator-@{operator-}}
+\index{operator-@{operator-}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$T$>$ Lib\-TIM::operator- (Image$<$ T $>$ \& {\em a}, Image$<$ T $>$ \& {\em b})}\label{group__Image_ga72}
+
+
+\index{Image@{Image}!operator-=@{operator-=}}
+\index{operator-=@{operator-=}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$ T $>$ \& {\bf Lib\-TIM::Image}$<$ T $>$::operator-= ({\bf Image}$<$ T $>$ \& {\em op})\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga48}
+
+
+\index{Image@{Image}!operator/=@{operator/=}}
+\index{operator/=@{operator/=}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image\& {\bf Lib\-TIM::Image}$<$ T $>$::operator/= ({\bf Image}$<$ T $>$ \& {\em op})\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga50}
+
+
+\index{Image@{Image}!operator=@{operator=}}
+\index{operator=@{operator=}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$ T $>$ \& {\bf Lib\-TIM::Image}$<$ T $>$::operator= (const {\bf Image}$<$ T $>$ \& {\em im})\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga16}
+
+
+Assignment operator. 
+
+\index{Image@{Image}!operator==@{operator==}}
+\index{operator==@{operator==}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ bool {\bf Lib\-TIM::Image}$<$ T $>$::operator== ({\bf Image}$<$ T $>$ \& {\em op})\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga54}
+
+
+\index{Image@{Image}!operator\texttt{"|}=@{operator\texttt{"|}=}}
+\index{operator\texttt{"|}=@{operator\texttt{"|}=}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$ T $>$ \& {\bf Lib\-TIM::Image}$<$ T $>$::operator$|$= ({\bf Image}$<$ T $>$ \& {\em op})\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga52}
+
+
+\index{Image@{Image}!print@{print}}
+\index{print@{print}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf Lib\-TIM::Image}$<$ T $>$::print ()\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga67}
+
+
+\index{Image@{Image}!rbegin@{rbegin}}
+\index{rbegin@{rbegin}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ const\_\-reverse\_\-iterator {\bf Lib\-TIM::Image}$<$ T $>$::rbegin () const\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga38}
+
+
+\index{Image@{Image}!rbegin@{rbegin}}
+\index{rbegin@{rbegin}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ reverse\_\-iterator {\bf Lib\-TIM::Image}$<$ T $>$::rbegin ()\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga37}
+
+
+\index{Image@{Image}!rend@{rend}}
+\index{rend@{rend}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ const\_\-reverse\_\-iterator {\bf Lib\-TIM::Image}$<$ T $>$::rend () const\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga40}
+
+
+\index{Image@{Image}!rend@{rend}}
+\index{rend@{rend}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ reverse\_\-iterator {\bf Lib\-TIM::Image}$<$ T $>$::rend ()\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga39}
+
+
+\index{Image@{Image}!save@{save}}
+\index{save@{save}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf Lib\-TIM::Image}$<$ T $>$::save (const char $\ast$ {\em filename})\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga10}
+
+
+Save image file. 
+
+\index{Image@{Image}!setImageInfos@{setImageInfos}}
+\index{setImageInfos@{setImageInfos}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class Voxel\-Type$>$ template$<$class Voxel\-Type2$>$ void {\bf Lib\-TIM::Image}$<$ Voxel\-Type $>$::set\-Image\-Infos ({\bf Image}$<$ T2 $>$ \& {\em im})\hspace{0.3cm}{\tt  [inherited]}}\label{group__Image_ga55}
+
+
+\index{Image@{Image}!setSize@{setSize}}
+\index{setSize@{setSize}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf Lib\-TIM::Image}$<$ T $>$::set\-Size ({\bf TSize} {\em x}, {\bf TSize} {\em y}, {\bf TSize} {\em z})\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga23}
+
+
+\index{Image@{Image}!setSize@{setSize}}
+\index{setSize@{setSize}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf Lib\-TIM::Image}$<$ T $>$::set\-Size ({\bf TSize} $\ast$ {\em size})\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga22}
+
+
+\index{Image@{Image}!setSpacingX@{setSpacingX}}
+\index{setSpacingX@{setSpacingX}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf Lib\-TIM::Image}$<$ T $>$::set\-Spacing\-X ({\bf TSpacing} {\em vx})\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga28}
+
+
+\index{Image@{Image}!setSpacingY@{setSpacingY}}
+\index{setSpacingY@{setSpacingY}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf Lib\-TIM::Image}$<$ T $>$::set\-Spacing\-Y ({\bf TSpacing} {\em vy})\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga29}
+
+
+\index{Image@{Image}!setSpacingZ@{setSpacingZ}}
+\index{setSpacingZ@{setSpacingZ}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ void {\bf Lib\-TIM::Image}$<$ T $>$::set\-Spacing\-Z ({\bf TSpacing} {\em vz})\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga30}
+
+
+\index{Image@{Image}!~Image@{$\sim$Image}}
+\index{~Image@{$\sim$Image}!Image@{Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ {\bf Lib\-TIM::Image}$<$ T $>$::$\sim$Image ()\hspace{0.3cm}{\tt  [inline, inherited]}}\label{group__Image_ga14}
+
+
+Destructor (delete the buffer). 
+

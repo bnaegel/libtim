@@ -1,0 +1,49 @@
+\section{Common/Image.h File Reference}
+\label{Image_8h}\index{Common/Image.h@{Common/Image.h}}
+{\tt \#include $<$iostream$>$}\par
+{\tt \#include $<$limits$>$}\par
+{\tt \#include $<$vector$>$}\par
+{\tt \#include \char`\"{}Types.h\char`\"{}}\par
+{\tt \#include \char`\"{}Point.h\char`\"{}}\par
+{\tt \#include \char`\"{}Ordered\-Queue.h\char`\"{}}\par
+{\tt \#include \char`\"{}Image\-Iterators.h\char`\"{}}\par
+{\tt \#include \char`\"{}Image.hxx\char`\"{}}\par
+{\tt \#include \char`\"{}Image\-IO.hxx\char`\"{}}\par
+\subsection*{Namespaces}
+\begin{CompactItemize}
+\item 
+namespace {\bf Lib\-TIM}
+\end{CompactItemize}
+\subsection*{Classes}
+\begin{CompactItemize}
+\item 
+class {\bf Lib\-TIM::Image$<$ T $>$}
+\begin{CompactList}\small\item\em Container base for images of generic type T in {\bf Lib\-TIM}{\rm (p.\,\pageref{namespaceLibTIM})}. \item\end{CompactList}\end{CompactItemize}
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define {\bf Image\_\-internal\_\-h}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::operator+} (Image$<$ T $>$ \&a, Image$<$ T $>$ \&b)
+\begin{CompactList}\small\item\em {\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})} operators. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::operator-} (Image$<$ T $>$ \&a, Image$<$ T $>$ \&b)
+\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::operator $\ast$} (Image$<$ T $>$ \&a, Image$<$ T $>$ \&b)
+\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::operator+} (Image$<$ T $>$ \&a, T s)
+\begin{CompactList}\small\item\em Mixed mode arithmetic: operations with a scalar. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::operator-} (Image$<$ T $>$ \&a, T s)
+\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::operator $\ast$} (Image$<$ T $>$ \&a, T s)
+\end{CompactItemize}
+
+
+\subsection{Define Documentation}
+\index{Image.h@{Image.h}!Image_internal_h@{Image\_\-internal\_\-h}}
+\index{Image_internal_h@{Image\_\-internal\_\-h}!Image.h@{Image.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define Image\_\-internal\_\-h}\label{Image_8h_a0}
+
+

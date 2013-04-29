@@ -1,0 +1,30 @@
+\section{Connected Components Labelling}
+\label{group__ccLabelling}\index{Connected Components Labelling@{Connected Components Labelling}}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+template$<$class T$>$ Image$<$ {\bf TLabel} $>$ {\bf Lib\-TIM::label\-Connected\-Components} (Image$<$ T $>$ \&img, Flat\-SE \&se)
+\item 
+void {\bf Lib\-TIM::keep\-Iest\-Largest\-Component} (Image$<$ {\bf TLabel} $>$ \&img, Flat\-SE \&se, int Iest)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+/$\ast$$\ast$
+
+\subsection{Function Documentation}
+\index{ccLabelling@{cc\-Labelling}!keepIestLargestComponent@{keepIestLargestComponent}}
+\index{keepIestLargestComponent@{keepIestLargestComponent}!ccLabelling@{cc\-Labelling}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Lib\-TIM::keep\-Iest\-Largest\-Component (Image$<$ {\bf TLabel} $>$ \& {\em img}, Flat\-SE \& {\em se}, int {\em Iest})\hspace{0.3cm}{\tt  [inline]}}\label{group__ccLabelling_ga1}
+
+
+Sort the connected components by their size and keep only the iest largest one(s) Largest one = 1 (not 0)
+
+Map CC number to its size
+
+Map CC size to its corresponding label Multiple CC can have the same size so we use multimap \index{ccLabelling@{cc\-Labelling}!labelConnectedComponents@{labelConnectedComponents}}
+\index{labelConnectedComponents@{labelConnectedComponents}!ccLabelling@{cc\-Labelling}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<${\bf TLabel}$>$ Lib\-TIM::label\-Connected\-Components (Image$<$ T $>$ \& {\em img}, Flat\-SE \& {\em se})}\label{group__ccLabelling_ga0}
+
+
+Labelisation of connected components img is considered as a binary image with two values: foreground $>$0 and background = 0 

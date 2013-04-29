@@ -1,0 +1,34 @@
+\section{Template Matching Based Algorithms}
+\label{group__templateMatching}\index{Template Matching Based Algorithms@{Template Matching Based Algorithms}}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+template$<$class T$>$ Image$<$ int $>$ {\bf Lib\-TIM::template\-Matching\-L2} (const Image$<$ T $>$ \&im, const Non\-Flat\-SE$<$ {\bf U8} $>$ \&mask)
+\item 
+template$<$class T, class T2$>$ Image$<$ T $>$ {\bf Lib\-TIM::print\-Best\-Template} (const Image$<$ T2 $>$ \&res\-TM, const Image$<$ T $>$ \&im, const Flat\-SE \&A, T2 value)
+\begin{CompactList}\small\item\em Same thing but with two templates: one for foreground (255), the other for background (0). \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ double $>$ {\bf Lib\-TIM::template\-Matching\-Correlation} (const Image$<$ T $>$ \&im, const Non\-Flat\-SE$<$ {\bf U8} $>$ \&mask)
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{templateMatching@{template\-Matching}!printBestTemplate@{printBestTemplate}}
+\index{printBestTemplate@{printBestTemplate}!templateMatching@{template\-Matching}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T, class T2$>$ Image$<$T$>$ Lib\-TIM::print\-Best\-Template (const Image$<$ T2 $>$ \& {\em res\-TM}, const Image$<$ T $>$ \& {\em im}, const Flat\-SE \& {\em A}, T2 {\em value})}\label{group__templateMatching_ga1}
+
+
+Same thing but with two templates: one for foreground (255), the other for background (0). 
+
+\index{templateMatching@{template\-Matching}!templateMatchingCorrelation@{templateMatchingCorrelation}}
+\index{templateMatchingCorrelation@{templateMatchingCorrelation}!templateMatching@{template\-Matching}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$double$>$ Lib\-TIM::template\-Matching\-Correlation (const Image$<$ T $>$ \& {\em im}, const Non\-Flat\-SE$<$ {\bf U8} $>$ \& {\em mask})}\label{group__templateMatching_ga2}
+
+
+Correlation between template and image point by point Correlation score is regularized with respect to the product of the vector norms Here, we correlate a template of size L with a subimage of size L When template hits border, we set correlation score to 0 Regularized correlation score is comprised between -1 (anti-correlation) and 1 (correlation).
+
+Mask size \index{templateMatching@{template\-Matching}!templateMatchingL2@{templateMatchingL2}}
+\index{templateMatchingL2@{templateMatchingL2}!templateMatching@{template\-Matching}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$int$>$ Lib\-TIM::template\-Matching\-L2 (const Image$<$ T $>$ \& {\em im}, const Non\-Flat\-SE$<$ {\bf U8} $>$ \& {\em mask})}\label{group__templateMatching_ga0}
+
+
+Compute point by point the mean euclidian distance (L2 norm) between the image and the template To avoid false detections we set to max the distance when the template hits the image border 

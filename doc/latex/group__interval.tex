@@ -1,0 +1,95 @@
+\section{Interval Operators}
+\label{group__interval}\index{Interval Operators@{Interval Operators}}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+template$<$class T$>$ Image$<$ int $>$ {\bf Lib\-TIM::hit\-Or\-Miss\-Difference\-Image} (Image$<$ T $>$ \&im, Flat\-SE \&se\-A, Flat\-SE \&se\-B)
+\begin{CompactList}\small\item\em Hit-or-miss difference {\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})}. \item\end{CompactList}\item 
+template$<$class T$>$ int {\bf Lib\-TIM::hit\-Or\-Miss\-Maximum\-Difference} (Image$<$ T $>$ im, Flat\-SE \&se\-A, Flat\-SE \&se\-B)
+\begin{CompactList}\small\item\em Maximum of the hit\-Or\-Miss\-Difference\-Image. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::hit\-Or\-Miss\-Integral\-K} (Image$<$ T $>$ \&im, Flat\-SE \&se\-A, Flat\-SE \&se\-B)
+\begin{CompactList}\small\item\em Grey-level hit-or-miss: Soille's version. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::hit\-Or\-Miss\-Supremal\-H} (Image$<$ T $>$ \&im, Flat\-SE \&se\-A, Flat\-SE \&se\-B)
+\begin{CompactList}\small\item\em Grey-level hit-or-miss: Ronse's version. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::hit\-Or\-Miss\-Supremal\-K} (Image$<$ T $>$ \&im, Flat\-SE \&se\-A, Flat\-SE \&se\-B)
+\begin{CompactList}\small\item\em Supremal K version of grey-level hit-or-miss. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::hit\-Or\-Miss\-Integral\-KOpening} (Image$<$ T $>$ \&im, Flat\-SE \&se\-A, Flat\-SE \&se\-B)
+\begin{CompactList}\small\item\em Grey-level hit-or-miss opening: Soille's version. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::hit\-Or\-Miss\-Supremal\-KOpening} (Image$<$ T $>$ \&im, Flat\-SE \&se\-A, Flat\-SE \&se\-B)
+\begin{CompactList}\small\item\em Grey-level hit-or-miss opening: Supremal K version. \item\end{CompactList}\item 
+template$<$class T$>$ Image$<$ T $>$ {\bf Lib\-TIM::hit\-Or\-Miss\-Supremal\-HOpening} (Image$<$ T $>$ \&im, Flat\-SE \&se\-A, Flat\-SE \&se\-B)
+\begin{CompactList}\small\item\em Grey-level hit-or-miss opening: Ronse's version. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{interval@{interval}!hitOrMissDifferenceImage@{hitOrMissDifferenceImage}}
+\index{hitOrMissDifferenceImage@{hitOrMissDifferenceImage}!interval@{interval}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$int$>$ Lib\-TIM::hit\-Or\-Miss\-Difference\-Image (Image$<$ T $>$ \& {\em im}, Flat\-SE \& {\em se\-A}, Flat\-SE \& {\em se\-B})}\label{group__interval_ga0}
+
+
+Hit-or-miss difference {\bf Image}{\rm (p.\,\pageref{classLibTIM_1_1Image})}. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em im}]The source image (not modified) \item[{\em se\-A}]The first (foreground) structuring element \item[{\em se\-B}]The second (background) structuring element \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]An image of type $<$int$>$ being the arithmetic difference: $I=(im\ominus seA)-(im\oplus seB) $\end{Desc}
+\index{interval@{interval}!hitOrMissIntegralK@{hitOrMissIntegralK}}
+\index{hitOrMissIntegralK@{hitOrMissIntegralK}!interval@{interval}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$T$>$ Lib\-TIM::hit\-Or\-Miss\-Integral\-K (Image$<$ T $>$ \& {\em im}, Flat\-SE \& {\em se\-A}, Flat\-SE \& {\em se\-B})}\label{group__interval_ga2}
+
+
+Grey-level hit-or-miss: Soille's version. 
+
+This function implements the Soille's version of the grey-level hit-or-miss.\index{interval@{interval}!hitOrMissIntegralKOpening@{hitOrMissIntegralKOpening}}
+\index{hitOrMissIntegralKOpening@{hitOrMissIntegralKOpening}!interval@{interval}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$T$>$ Lib\-TIM::hit\-Or\-Miss\-Integral\-KOpening (Image$<$ T $>$ \& {\em im}, Flat\-SE \& {\em se\-A}, Flat\-SE \& {\em se\-B})}\label{group__interval_ga5}
+
+
+Grey-level hit-or-miss opening: Soille's version. 
+
+\begin{Desc}
+\item[Note:]For details, see article: B.Naegel N.Passat C.Ronse.Grey-level hit-or-miss transforms - Part I: Unified theory Pattern Recognition, In Press.\end{Desc}
+\index{interval@{interval}!hitOrMissMaximumDifference@{hitOrMissMaximumDifference}}
+\index{hitOrMissMaximumDifference@{hitOrMissMaximumDifference}!interval@{interval}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ int Lib\-TIM::hit\-Or\-Miss\-Maximum\-Difference (Image$<$ T $>$ {\em im}, Flat\-SE \& {\em se\-A}, Flat\-SE \& {\em se\-B})}\label{group__interval_ga1}
+
+
+Maximum of the hit\-Or\-Miss\-Difference\-Image. 
+
+This function returns the maximum (scalar )of the hit-or-miss difference image: $I=(im\ominus seA)-(im\oplus seB) $\index{interval@{interval}!hitOrMissSupremalH@{hitOrMissSupremalH}}
+\index{hitOrMissSupremalH@{hitOrMissSupremalH}!interval@{interval}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$T$>$ Lib\-TIM::hit\-Or\-Miss\-Supremal\-H (Image$<$ T $>$ \& {\em im}, Flat\-SE \& {\em se\-A}, Flat\-SE \& {\em se\-B})}\label{group__interval_ga3}
+
+
+Grey-level hit-or-miss: Ronse's version. 
+
+This function implements the Ronse's version of the grey-level hit-or-miss.\index{interval@{interval}!hitOrMissSupremalHOpening@{hitOrMissSupremalHOpening}}
+\index{hitOrMissSupremalHOpening@{hitOrMissSupremalHOpening}!interval@{interval}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$T$>$ Lib\-TIM::hit\-Or\-Miss\-Supremal\-HOpening (Image$<$ T $>$ \& {\em im}, Flat\-SE \& {\em se\-A}, Flat\-SE \& {\em se\-B})}\label{group__interval_ga7}
+
+
+Grey-level hit-or-miss opening: Ronse's version. 
+
+\begin{Desc}
+\item[Note:]For details, see article: B.Naegel N.Passat C.Ronse.Grey-level hit-or-miss transforms - Part I: Unified theory Pattern Recognition, In Press.\end{Desc}
+\index{interval@{interval}!hitOrMissSupremalK@{hitOrMissSupremalK}}
+\index{hitOrMissSupremalK@{hitOrMissSupremalK}!interval@{interval}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$T$>$ Lib\-TIM::hit\-Or\-Miss\-Supremal\-K (Image$<$ T $>$ \& {\em im}, Flat\-SE \& {\em se\-A}, Flat\-SE \& {\em se\-B})}\label{group__interval_ga4}
+
+
+Supremal K version of grey-level hit-or-miss. 
+
+\begin{Desc}
+\item[Note:]For details, see article: B.Naegel N.Passat C.Ronse.Grey-level hit-or-miss transforms - Part I: Unified theory Pattern Recognition, In Press.\end{Desc}
+\index{interval@{interval}!hitOrMissSupremalKOpening@{hitOrMissSupremalKOpening}}
+\index{hitOrMissSupremalKOpening@{hitOrMissSupremalKOpening}!interval@{interval}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}template$<$class T$>$ Image$<$T$>$ Lib\-TIM::hit\-Or\-Miss\-Supremal\-KOpening (Image$<$ T $>$ \& {\em im}, Flat\-SE \& {\em se\-A}, Flat\-SE \& {\em se\-B})}\label{group__interval_ga6}
+
+
+Grey-level hit-or-miss opening: Supremal K version. 
+
+\begin{Desc}
+\item[Note:]For details, see article: B.Naegel N.Passat C.Ronse.Grey-level hit-or-miss transforms - Part I: Unified theory Pattern Recognition, In Press.\end{Desc}
