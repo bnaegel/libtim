@@ -210,6 +210,7 @@ Image <TLabel> labelConnectedComponentsTarjan2(const Image <T> &im, const FlatSE
 			else res(i)=res(tree[i]);
 			}
 		}
+	delete[] tree;
 	return res;
 }
 

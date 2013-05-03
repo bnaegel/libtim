@@ -35,19 +35,20 @@ Histogram <T> ::Histogram(Image <T> &im)
 
 ///Write histogram into file
 template <class T>
-void Histogram <T>::write(const char *filename)
+int Histogram <T>::write(const char *filename)
 {
 	std::ofstream outputFile(filename); 	
 	if(!outputFile)
  		{
  		std::cerr << "Cannot open " << filename << "\n";
- 		exit(1);
+ 		return 0;
  		}
 	typename HistoType::iterator it;
 	
 	 for( it=data.begin(); it!=data.end(); it++)
  		outputFile << (int)it->first << " " << it->second << "\n";
  	outputFile.close();
+	return 1;
 }
 
 }

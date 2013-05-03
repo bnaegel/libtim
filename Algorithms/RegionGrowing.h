@@ -55,8 +55,7 @@ class ImageRegionsInfos {
 			{
 			if(nbPointsRegions[(seedRegions)(p)]==0) 
 				{
-				std::cout << "BIG ERROR!!!\n";
-				exit(1);
+				return -1;
 				}
 			double moy=(double)sumIntensityRegions[(seedRegions)(p)]/nbPointsRegions[(seedRegions)(p)];
 			double prio=(fabs((imgSrc)(q)-moy));
@@ -129,8 +128,7 @@ class ImageRegionsInfosRGB {
 			{
 			if(nbPointsRegions[(seedRegions)(p)]==0) 
 				{
-				std::cout << "BIG ERROR!!!\n";
-				exit(1);
+				return -1;
 				}
 			Table <double,3> moy;
 			moy[0]=(double)sumIntensityRegions[(seedRegions)(p)][0]/nbPointsRegions[(seedRegions)(p)];

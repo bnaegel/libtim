@@ -22,6 +22,9 @@
 #define Point_h
 // ----------------------------------
 
+#include <iostream>
+#include "Common/Types.h"
+
 namespace LibTIM {
 
 /** \defgroup Point Point 
