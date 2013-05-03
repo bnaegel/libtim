@@ -1,8 +1,8 @@
 /*
  * This file is part of libTIM.
  *
- * Copyright (©) 2005-20013  Benoit Naegel
- * Copyright (©) 20013 Theo de Carpentier
+ * Copyright (©) 2005-2013  Benoit Naegel
+ * Copyright (©) 2013 Theo de Carpentier
  *
  * libTIM is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -148,25 +148,15 @@ inline bool CHeaderIO_InrImage::isOfType(std::type_info const & ti)
     std::string baseType = parsedHeader_["TYPE"];
     std::string nbBytes = parsedHeader_["PIXSIZE"];
     
-    /*
-    std::cerr << baseType << " " << nbBytes << std::endl;
-    std::cerr << std::boolalpha << (baseType=="signed fixed") << " " << (nbBytes=="16 bits") << std::endl;
-    */
-    
     if(parsedHeader_["VDIM"]=="1")
     {
         if(baseType=="unsigned fixed" && nbBytes=="8 bits" &&  ti==typeid(U8)) return true;
         else if(baseType=="unsigned fixed" && nbBytes=="16 bits" && ti==typeid(U16)) return true;
         else if(baseType=="unsigned fixed" && nbBytes=="32 bits" && ti==typeid(U32)) return true;
-       // else if(baseType=="unsigned fixed" && nbBytes=="64 bits" && ti==typeid(U64)) return true;
         else if(baseType=="signed fixed"   && nbBytes=="8 bits"  && ti==typeid(S8)) return true;
         else if(baseType=="signed fixed"   && nbBytes=="16 bits" && ti==typeid(S16)) return true;
         else if(baseType=="signed fixed"   && nbBytes=="32 bits" && ti==typeid(S32)) return true;
-        //else if(baseType=="signed fixed"   && nbBytes=="64 bits" && ti==typeid(S64)) return true;
-       // else if(baseType=="float"          && nbBytes=="8 bits"  && ti==typeid(F8)) return true;
-        //else if(baseType=="float"          && nbBytes=="16 bits" && ti==typeid(F16)) return true;
-        //else if(baseType=="float"          && nbBytes=="32 bits" && ti==typeid(F32)) return true;
-        //else if(baseType=="float"          && nbBytes=="64 bits" && ti==typeid(F64)) return true;
+      
         else return false;
     }
     else if(parsedHeader_["VDIM"]=="3") 
@@ -184,25 +174,15 @@ inline const std::type_info & CHeaderIO_InrImage::getType()
     std::string baseType = parsedHeader_["TYPE"];
     std::string nbBytes = parsedHeader_["PIXSIZE"];
     
-    /*
-    std::cerr << baseType << " " << nbBytes << std::endl;
-    std::cerr << std::boolalpha << (baseType=="signed fixed") << " " << (nbBytes=="16 bits") << std::endl;
-    */
-    
     if(parsedHeader_["VDIM"]=="1")
     {
         if(baseType=="unsigned fixed" && nbBytes=="8 bits") return typeid(U8);
         else if(baseType=="unsigned fixed" && nbBytes=="16 bits") return typeid(U16);
         else if(baseType=="unsigned fixed" && nbBytes=="32 bits") return typeid(U32);
-        //else if(baseType=="unsigned fixed" && nbBytes=="64 bits") return typeid(U64);
         else if(baseType=="signed fixed"   && nbBytes=="8 bits" ) return typeid(S8);
         else if(baseType=="signed fixed"   && nbBytes=="16 bits") return typeid(S16);
         else if(baseType=="signed fixed"   && nbBytes=="32 bits") return typeid(S32);
-       // else if(baseType=="signed fixed"   && nbBytes=="64 bits") return typeid(S64);
-        //else if(baseType=="float"          && nbBytes=="8 bits" ) return typeid(F8);
-        //else if(baseType=="float"          && nbBytes=="16 bits") return typeid(F16);
-       // else if(baseType=="float"          && nbBytes=="32 bits") return typeid(F32);
-       // else if(baseType=="float"          && nbBytes=="64 bits") return typeid(F64);
+
         else return typeid(void);
     }
     else if(parsedHeader_["VDIM"]=="3") 
@@ -287,7 +267,6 @@ inline CImageHeader CHeaderIO_InrImage::load()
                 int valueEnd   = currentLine.length();
                 std::string value = currentLine.substr(valueBegin, valueEnd);
                 parsedHeader_[field]=value;
-                //std::cerr << "CHeaderIO_InrImage::load : " << field << " = " << value << std::endl;
             }
         }
         currentIndex = lineEnd+1;
@@ -347,9 +326,6 @@ inline void CHeaderIO_InrImage::save(CImageHeader const & header, std::type_info
     else if(ti==typeid(U16)) headerString << "PIXSIZE=16 bits\nTYPE=unsigned fixed\n";
     else if(ti==typeid(S32)) headerString << "PIXSIZE=32 bits\nTYPE=signed fixed\n";
     else if(ti==typeid(U32)) headerString << "PIXSIZE=32 bits\nTYPE=unsigned fixed\n";
-//     else if(ti==typeid(F32)) headerString << "PIXSIZE=32 bits\nTYPE=float\n";
-//     else if(ti==typeid(F64)) headerString << "PIXSIZE=64 bits\nTYPE=float\n";
-//     else if(ti==typeid(RGB)) headerString << "PIXSIZE=8 bits\nTYPE=unsigned fixed\n";
     else if(ti==typeid(char)) // find if it is signed or unsigned, and behave appropriately
     {
         if(std::numeric_limits<char>::is_signed) headerString << "PIXSIZE=8 bits\nTYPE=signed fixed\n";
@@ -498,30 +474,12 @@ int Image<T>::loadInrGz(const char *fileName, Image<T> &image)
     image.spacing[0]       = header.spacing[0];
     image.spacing[1]         = header.spacing[1];
     image.spacing[2]         = header.spacing[2];
-   
-//     image.m_xbb        = header.bbOrigin.getX();
-//     image.m_ybb        = header.bbOrigin.getY();
-//     image.m_zbb        = header.bbOrigin.getZ();
-//     image.m_tbb        = header.bbOrigin.getT();
-//     image.m_sizeXbb    = header.bbSize.getX();
-//     image.m_sizeYbb    = header.bbSize.getY();
-//     image.m_sizeZbb    = header.bbSize.getZ();
-//     image.m_sizeTbb    = header.bbSize.getT();
-//     image.m_identifier = header.identifier;
-//     image.m_name       = header.name;
-//     image.m_background = T(); // FIXME : find something more logical to do here.
     
     // Header is loaded, now let's take care of the buffer
     CBufferIO_InrImage<T> bLoader(&stream);
     if(image.data != static_cast<T*>(0)) delete[] image.data;
     image.data = bLoader.load(image.getBufSize());
     
-//     // If machine endianness is not the same as file endianness, swap buffer
-//     if(GetCpuEndianness()!=hLoader.endianness())
-//     {
-//         SwapEndianness(image.m_buf, (unsigned long) image.getBufSize());
-//     }
-//     
     stream.close();
 
     return 0;
@@ -532,9 +490,8 @@ template<typename T>
 /*static*/ int Image<T>::saveInrGz(const char *fileName)
 {
     std::ostream * stream = NULL;
-    //if(si.compression == CSaveInfo::GZip) 
+
     stream = new ogzstream(fileName);
-    //else if(si.compression == CSaveInfo::Uncompressed) stream = new std::ofstream(fileName.c_str());
     
     // Brutality once again...
     assert(!stream->bad() && !stream->fail());
@@ -543,12 +500,8 @@ template<typename T>
     CHeaderIO_InrImage* hSaver=NULL;
     CBufferIO_InrImage<T>* bSaver=NULL;
     
-//     if(si.fileType == CSaveInfo::InrImage) 
-//     {
-        hSaver = new CHeaderIO_InrImage(stream);
-        bSaver = new CBufferIO_InrImage<T>(stream);
-//     }
-    
+    hSaver = new CHeaderIO_InrImage(stream);
+    bSaver = new CBufferIO_InrImage<T>(stream);    
     
     // Save header
     CImageHeader h;

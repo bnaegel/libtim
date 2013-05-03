@@ -1,8 +1,8 @@
 /*
  * This file is part of libTIM.
  *
- * Copyright (©) 2005-20013  Benoit Naegel
- * Copyright (©) 20013 Theo de Carpentier
+ * Copyright (©) 2005-2013  Benoit Naegel
+ * Copyright (©) 2013 Theo de Carpentier
  *
  * libTIM is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -147,7 +147,7 @@ void RegionGrowingCriterion(Image <T> &src, Image <T2> &marker, FlatSE &se, bool
 	while(!stop)
 	{
 	iter++;
-	//std::cout << "Number of neighbors: " << neighborSet.size() << "   " << iter << "\n";
+
 	//we search for the neighbor having the maximum priority (here least)
 	pair <long int, int> bestOffset;
 	std::vector <pair <long int ,int> > bestOffsetList;
@@ -185,7 +185,6 @@ void RegionGrowingCriterion(Image <T> &src, Image <T2> &marker, FlatSE &se, bool
 		sRegion.sumIntensity[labelToOffset(itO->second)]+=src(itO->first);
 		sRegion.nbPoints[labelToOffset(itO->second)]++;
 		
-		//std::cout << "Marker(" << bestOffset.first << ")=" << bestOffset.second << "\n";
 		//mark the point as processed (never process it again)
 		processedPoints[itO->first]=true;
 		}
@@ -225,7 +224,7 @@ void RegionGrowingCriterion(Image <T> &src, Image <T2> &marker, FlatSE &se, bool
 		s << nbFrame;
 		std::stringstream name;
 		name << "Anims/RG_criterion_"<<s.str()<< ".pgm";
-		//std::cout << "Writing: " << name.str() << "\n";
+
 		for(int i=0; i<tmp.getBufSize(); i++) tmp(i)=(unsigned char)marker(i);
 		adjustContrast(tmp);
 		tmp.save(name.str().c_str() );
@@ -331,7 +330,6 @@ void seededRegionGrowingExactAlgorithm(Image <T> &im, Image <TLabel> &marker, Fl
 	std::cout << "TOTO= " << toto << "\n";
 	std::cout << "CONTOUR= " << contour << "\n";
 	
-	//std::cout << "Size of contour points: " << regions[1].size() << "\n";
 	typename offsetsContainerType::iterator itC;
 	
 	typename regionsType::iterator itR;
@@ -358,11 +356,10 @@ void seededRegionGrowingExactAlgorithm(Image <T> &im, Image <TLabel> &marker, Fl
 	for(itR=regions.begin(); itR!=endR; ++itR)
 		{
 		//browse offsets
-		//std::cout << "On scanne la r�gion " << itR->first << "\n";
 		for(itC=itR->second.begin(); itC!=itR->second.end(); ++itC)
 			{
 			nPoints++;
-			//std::cout << "On browse les points \n";
+
 			TOffset p=*itC;
 			if(imageContourBorder(*itC)==true) {
 			bool isContour=false;
@@ -390,13 +387,11 @@ void seededRegionGrowingExactAlgorithm(Image <T> &im, Image <TLabel> &marker, Fl
 				
 				imageContourBorder(p)=false;
 				eraseQueue.push(p);
-				//itR->second.erase(itC);
-				//std::cout << "Erase. Size: " << itR->second.size() << "\n";
+
 				}
 			}
 		}
 		//Remove interior points
- 		//std::cout << "We remove " << eraseQueue.size() << " Interior points \n";
 		while(!eraseQueue.empty() ) 
 			{
 			TOffset p=eraseQueue.front();
@@ -405,7 +400,7 @@ void seededRegionGrowingExactAlgorithm(Image <T> &im, Image <TLabel> &marker, Fl
 			}
 		
 	}
-	//std::cout << "Number of points: " << nPoints << "\n";	
+
 	//2) Put the best offset in the corresponding region
 	
 	if(!stop) 
@@ -429,120 +424,6 @@ void seededRegionGrowingExactAlgorithm(Image <T> &im, Image <TLabel> &marker, Fl
 		*it=markerBorder(it.x+back[0],it.y+back[1],it.z+back[2]);
 		
 }
-
-/*
-
-
-
-template <class T, class T2>
-void RegionGrowingSalembierBasic(GImage <T> &src, GImage <T2> &marker, GFlatSE &se, bool observe=false)
-{
-	GOrderedQueue <GPoint >oq;
-	
-	GImage <unsigned char> tmp(src);
-	
-	int dx=src.getSizeX();
-	int dy=src.getSizeY();
-	int dz=src.getSizeZ();
-	
-	int max=std::numeric_limits<int>::max();
-	int min=std::numeric_limits<int>::min();
-	
-	map <T2, double> sumIntensityRegions;
-	map <T2, int>    nbPointsRegions;
-	
-	
-	
-	///Image containing the priority of points in the queue. Max if not in the queue
-	GImage <bool> inFilePrio(src.getSize() );
-	for(int i=0; i<inFilePrio.getBufSize(); i++) inFilePrio(i)=false;
-	
-	//std::cout << "Image size: " << marker.getBufSize() << "\n";
-	
-	///Insert markers with minimum priority (here 0)
-	for(int z=0; z<dz; z++)
-		for(int y=0; y<dy; y++)
-			for(int x=0; x<dx; x++)
-				{	
-				if(marker(x,y,z)!=T2(0)) 
-					{
-					GPoint p(x,y,z);
-					oq.put(0, p);
-					inFilePrio(p)=true;
-					sumIntensityRegions[marker(x,y,z)]+=src(x,y,z);
-					nbPointsRegions[marker(x,y,z)]++;
-					}
-				}
-
-int iter=0;
-int nbFrame=0;
-while(!oq.empty())
-		{
-		GPoint p=oq.get();
-		iter++;
-		
-		//std::cout << iter << "\n";
-		//If observe, generate animation
-		if(observe)
-			if(iter%(dx*dy*dz/100) == 0) {nbFrame++; 
-			char name[256]; sprintf(name,"Anims/markerSalembier_%i.pgm",nbFrame);
-			std::cout << "Writing: " << name << "\n";
-		
-			
-			for(int i=0; i<tmp.getBufSize(); i++) tmp(i)=(unsigned char)marker(i);
-			tmp.save(name);
-			}
-		///
-		
-		if(marker(p)!=T2(0) )
-			{
-			for(int i=0; i<se.getNbPoints(); i++)
-					{
-					GPoint q=p + se.getPoint(i);
-					if(src.isPosValid(q) )
-						if(marker(q)==T2(0) && inFilePrio(q) == false)
-						{
-						long prio=(long)(100*fabs(src(q) - (double)sumIntensityRegions[ marker(p)]/ nbPointsRegions[ marker(p) ]));
-						oq.put(prio, q); 
-						inFilePrio(q)=true;
-						}
-					}			
-			}
-		else {
-			long prio=std::numeric_limits<long>::max();
-			GPoint bestQ;
-				for(int i=0; i<se.getNbPoints(); i++)
-					{
-					GPoint q=p + se.getPoint(i);
-					if(src.isPosValid(q) )
-						if(marker(q)!=T2(0) )
-						 {
-						long tmpPrio=(long)(100*fabs(src(p) - sumIntensityRegions[ marker(q)]/ nbPointsRegions[ marker(q) ]));
-						if(tmpPrio<prio)
-							{
-							prio=tmpPrio;
-							bestQ=q;
-							}	
-						}
-					}
-				marker(p)=marker(bestQ);
-				sumIntensityRegions[marker(p)]+=src(p);
-				nbPointsRegions[marker(p)]++;
-				
-				for(int i=0; i<se.getNbPoints(); i++)
-					{
-					GPoint q=p + se.getPoint(i);
-					if(src.isPosValid(q) )
-						if(marker(q)==T2(0) && inFilePrio(q)==false)
-						 {
-							long prio=(long)(100*fabs(src(q) - sumIntensityRegions[ marker(p)]/ nbPointsRegions[ marker(p) ]));
-							oq.put(prio,q);	
-							inFilePrio(q)=true;
-						}
-					}		
-		}
-	}
-}*/
 
 ///Seeded region growing algorithm.
 /** Adaptation of the algorithm of Adams and Bischof (and similar algorithm proposed by Salembier) 
@@ -604,10 +485,6 @@ void seededRegionGrowing(Image <T> &img, Image <T2> &marker, FlatSE &se, bool ob
 			}
 		}
 		
-	
-	
-	//std::cout << "Image size: " << marker.getBufSize() << "\n";
-	
 	FlatSE::iterator itSe;
 	FlatSE::iterator endSe=se.end();
 	
@@ -743,16 +620,12 @@ void seededRegionGrowing0(Image <T> &img, Image <T2> &marker, FlatSE &se, bool o
 			imageRegions.setPoint(offsetBorder,*it);
 			}
 		}
-		
-	//markerBorder.saveInrGz("borderMarker.inr.gz");
 	
 	double INIT=-1;
 	
 	///Image containing the priority of points in the queue. Max if not in the queue
 	Image <double> inFilePrio(markerBorder.getSize() );
 	inFilePrio.fill(INIT );
-	
-	//std::cout << "Image size: " << marker.getBufSize() << "\n";
 	
 	FlatSE::iterator itSe;
 	FlatSE::iterator endSe=se.end();
@@ -772,11 +645,8 @@ while(!oq.empty())
 					if(markerBorder(q)==T2(0) && inFilePrio(q) == INIT)
 					{
 					double prio=imageRegions.computeDistance( p , q);
-					//if(prio < inFilePrio(q) );
-						//{
-						oq.put(prio, q); 
-						inFilePrio(q)=prio;
-						//}
+					oq.put(prio, q); 
+					inFilePrio(q)=prio;
 					}
 				}			
 			}
@@ -870,15 +740,12 @@ void seededRegionGrowing0(Image <RGB> &img, Image <T2> &marker, FlatSE &se, bool
 			oq.put(value,offsetBorder);
 			imageRegions.setPoint(offsetBorder,*it);
 			}
-		}
-// 	
+		}	
 	double INIT=-1;
 	
 	///Image containing the priority of points in the queue. Max if not in the queue
 	Image <double> inFilePrio(markerBorder.getSize() );
 	inFilePrio.fill(INIT );
-	
-	//std::cout << "Image size: " << marker.getBufSize() << "\n";
 	
 	FlatSE::iterator itSe;
 	FlatSE::iterator endSe=se.end();
@@ -898,11 +765,8 @@ while(!oq.empty())
 					if(markerBorder(q)==T2(0) && inFilePrio(q) == INIT)
 					{
 					double prio=imageRegions.computeDistance( p , q);
-					//if(prio < inFilePrio(q) );
-						//{
-						oq.put(prio, q); 
-						inFilePrio(q)=prio;
-						//}
+					oq.put(prio, q); 
+					inFilePrio(q)=prio;
 					}
 				}			
 			}

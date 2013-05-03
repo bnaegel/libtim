@@ -1,8 +1,8 @@
 /*
  * This file is part of libTIM.
  *
- * Copyright (©) 2005-20013  Benoit Naegel
- * Copyright (©) 20013 Theo de Carpentier
+ * Copyright (©) 2005-2013  Benoit Naegel
+ * Copyright (©) 2013 Theo de Carpentier
  *
  * libTIM is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ void viscousClosingMercuryBasic(Image <T> &src, double r0)
 			tmp(i)=(int)src(i)+t;
 		r=functionR0(r0,t);
 		std::cout << "T= " << (int)t << "Tmax= " << (int)maxVal << "r= " << r << "\n";
-		//r=min(r,1.0);
+
 		if(r>=1)
 		{
 		se.makeBallEuclidian2D(res, r);

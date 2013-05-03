@@ -1,8 +1,8 @@
 /*
  * This file is part of libTIM.
  *
- * Copyright (©) 2005-20013  Benoit Naegel
- * Copyright (©) 20013 Theo de Carpentier
+ * Copyright (Â©) 2005-2013  Benoit Naegel
+ * Copyright (Â©) 2013 Theo de Carpentier
  *
  * libTIM is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -91,10 +91,6 @@ void addBorders(Image<T> &im, FlatSE &se, T value)
 		frontOffsets[1] = std::max(frontOffsets[1],(itSe->y));
 		frontOffsets[2] = std::max(frontOffsets[2],(itSe->z));
 	}
-	
-// 	std::cout << "Back offsets: " << backOffsets[0] << " " << backOffsets[1] << " "
-// 	<< backOffsets[2] << "\n";
-// 	std::cout << "Front offsets: " << frontOffsets[0] << " " << frontOffsets[1] << " " << frontOffsets[2] << "\n";
 	
 	for (int i = 0; i < 3; i++)
 	{
@@ -452,8 +448,6 @@ Image <U8> regionalMinima(Image <T> img, FlatSE se)
 {
 	std::queue<TOffset> fifo;
 	
-	//std::fill(imgMinima, &imgMinima[img.getBufSize()],true);
-	
 	const TCoord *back=se.getNegativeOffsets();
 	const TCoord *front=se.getPositiveOffsets();
 	
@@ -516,9 +510,6 @@ Image <U8> regionalMinima(Image <T> img, FlatSE se)
 				}
 		}
 	
-	//Reste le recadrage dans les dimensions originales.
-	//utiliser classe spécifique?
-	
 	Image <U8> result=img;
 	typename Image<U8>::iteratorXYZ itLabelXYZ;
 	typename Image<U8>::iteratorXYZ endRes=result.end();
@@ -552,8 +543,6 @@ template <class T>
 Image <U8> regionalMaxima(Image <T> img, FlatSE se)
 {
 	std::queue<TOffset> fifo;
-	
-	//std::fill(imgMinima, &imgMinima[img.getBufSize()],true);
 	
 	const TCoord *back=se.getNegativeOffsets();
 	const TCoord *front=se.getPositiveOffsets();
@@ -616,9 +605,6 @@ Image <U8> regionalMaxima(Image <T> img, FlatSE se)
 					}
 				}
 		}
-	
-	//Reste le recadrage dans les dimensions originales.
-	//utiliser classe spécifique?
 	
 	Image <U8> result=img;
 	typename Image<U8>::iteratorXYZ itLabelXYZ;
@@ -1031,7 +1017,7 @@ Image <T> hitOrMissIntegralK(Image <T> &im, FlatSE &seA, FlatSE &seB)
 		
 		if(diff>currentMax) currentMax= diff;
 		}
-	//std::cout <<"Integral HMT: Max difference: " << currentMax << "\n";
+
 	return res;
 }
 
@@ -1053,9 +1039,6 @@ Image <T> hitOrMissSupremalH(Image <T> &im, FlatSE &seA, FlatSE &seB)
 	eroA=erosion(im,seA);
 	dilB=dilation(im,seBSym);
 	
-	//eroA.save("eroA.pgm");
-	//dilB.save("dilB.pgm");
-	
 	T minValue=std::numeric_limits<T>::min();
 	
 	typename Image<T>::iterator itRes;
@@ -1075,8 +1058,7 @@ Image <T> hitOrMissSupremalH(Image <T> &im, FlatSE &seA, FlatSE &seB)
 		
 		if(diff>currentMax) currentMax= diff;
 		}
-	//std::cout <<"Supremal H  HMT: Max difference: " << currentMax << "\n";
-	
+		
 	return res;
 }
 
@@ -1098,10 +1080,7 @@ Image <T> hitOrMissSupremalK(Image <T> &im, FlatSE &seA, FlatSE &seB)
 	
 	eroA=erosion(im,seA);
 	dilB=dilation(im,seBSym);
-	
-	//eroA.save("eroA.pgm");
-	//dilB.save("dilB.pgm");
-	
+
 	T minValue=std::numeric_limits<T>::min();
 	
 	typename Image<T>::iterator itRes;
@@ -1121,30 +1100,10 @@ Image <T> hitOrMissSupremalK(Image <T> &im, FlatSE &seA, FlatSE &seB)
 		
 		if(diff>currentMax) currentMax= diff;
 		}
-	//std::cout <<"Supremal K HMT: Max difference: " << currentMax << "\n";
 	
 	return res;
 }
 
-
-///Morphological probing (Barat et al)
-// template <class VoxelType>
-// void hitOrMissProbing(GImage <VoxelType> &im, GFlatSE &seA)
-// {
-// 	GImage <int> eroA=im;
-// 	GImage <int> dilB=im;
-// 	
-// 	GFlatSE seBSym=seA;
-// 	seBSym.makeSymmetric();
-// 	
-// 	erosionBorderMin(eroA,seA);
-// 	dilation(dilB,seBSym);
-// 	
-// 	GImage <int> res=im;
-// 	res=dilB-eroA;
-// 	
-// 	im=res;
-// }
 
 ///Grey-level hit-or-miss opening: Soille's version
 /**

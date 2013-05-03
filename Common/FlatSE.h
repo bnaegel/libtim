@@ -1,8 +1,8 @@
 /*
  * This file is part of libTIM.
  *
- * Copyright (©) 2005-20013  Benoit Naegel
- * Copyright (©) 20013 Theo de Carpentier
+ * Copyright (©) 2005-2013  Benoit Naegel
+ * Copyright (©) 2013 Theo de Carpentier
  *
  * libTIM is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -76,7 +76,6 @@ class FlatSE
 		
 		//Negative and positive offsets of SE 
 		//Useful to add borders
-		//TODO: add a specific class image with borders
 		TCoord negativeOffsets[3];
 		TCoord positiveOffsets[3];
 		
@@ -128,7 +127,6 @@ class FlatSE
 	
 	//Various neighborhoods
 	
-	//TODO: separate between structuring elements (i.e. containing the origin) and connexities (i.e. do NOT contain the origin)
 	/// Basic neighborhoods in 2D N4 and N8
 	void make2DN4();
 	void make2DN5();
@@ -158,9 +156,7 @@ class FlatSE
 		std::cout << "FlatSE \n"; 
 		for(unsigned int i=0; i< points.size(); i++) points[i].print(); 
 		std::cout <<" "; std::cout << "\n";}
-	
-	//TODO: add display in mode text of the structuring element
-	
+
 	void reserve(size_t size) {points.reserve(size); offsets.reserve(size);}
 	void clear(){points.clear(); offsets.clear();}
 	

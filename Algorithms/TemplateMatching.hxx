@@ -1,8 +1,8 @@
 /*
  * This file is part of libTIM.
  *
- * Copyright (©) 2005-20013  Benoit Naegel
- * Copyright (©) 20013 Theo de Carpentier
+ * Copyright (©) 2005-2013  Benoit Naegel
+ * Copyright (©) 2013 Theo de Carpentier
  *
  * libTIM is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -70,93 +70,6 @@ Image <int> templateMatchingL2(const Image <T> &im, const NonFlatSE <U8> &mask)
 	
 	return res;
 }	
-
-///Same thing but without the border hits condition
-
-// template <class T>
-// GImage <int> templateMatchingL2(const GImage <T> &im, const GMask &mask)
-// {
-// 	int dx=im.getSizeX();
-// 	int dy=im.getSizeY();
-// 	int dz=im.getSizeZ();
-// 	
-// 	GImage <int> res(im.getSize());
-// 	
-// 	int maxValue=std::numeric_limits<int>::max();
-// 	
-// 	T maxValueImageType=std::numeric_limits<T>::max();
-// 	
-// 	for(int z=0; z<dz; z++)
-// 		for(int y=0; y<dy; y++)
-// 			for(int x=0; x<dx; x++)
-// 				{
-// 				bool hitsBorder=false;
-// 				int currentDifference=0;
-// 				GPoint p(x,y,z);
-// 				for(int i=0; i<mask.getNbPoints(); i++)
-// 					{
-// 					GPoint q=p+mask.getPoint(i);
-// 					if(res.isPosValid(q))
-// 						{
-// 						int templateValue=mask.getValue(i);
-// 						currentDifference+=(templateValue-im(q))*(templateValue-im(q));
-// 						}
-// 					}
-// 				
-// 				res(x,y,z)=currentDifference/mask.getNbPoints();
-// 				}
-// 	return res;
-// }	
-
-///Same thing but with two templates: one for foreground (255), the other for background (0)
-
-// template <class T>
-// GImage <int> templateMatchingL2(const GImage <T> &im, const GFlatSE &seA, const GFlatSE &seB)
-// {
-// 	int dx=im.getSizeX();
-// 	int dy=im.getSizeY();
-// 	int dz=im.getSizeZ();
-// 	
-// 	GImage <int> res(im.getSize());
-// 	
-// 	int maxValue=std::numeric_limits<int>::max();
-// 	
-// 	T maxValueImageType=std::numeric_limits<T>::max();
-// 	
-// 	T maxImage=im.getMax();
-// 	
-// 	for(int z=0; z<dz; z++)
-// 		for(int y=0; y<dy; y++)
-// 			for(int x=0; x<dx; x++)
-// 				{
-// 				
-// 				int currentDifference=0;
-// 				GPoint p(x,y,z);
-// 				///Background: if a point hits the border it has a 0 contribution
-// 				for(int i=0; i<seB.getNbPoints(); i++)
-// 					{
-// 					GPoint q=p+seB.getPoint(i);
-// 					if(res.isPosValid(q))
-// 						currentDifference+=(T(0)-im(q))*(T(0)-im(q));
-// 					else currentDifference+=(maxValueImageType)*(maxValueImageType);
-// 					}
-// 				
-// 				///Foreground: if a point hits the border we stop
-// 				for(int i=0; i<seA.getNbPoints(); i++)
-// 					{
-// 					GPoint q=p+seA.getPoint(i);
-// 					if(res.isPosValid(q))
-// 						currentDifference+=(maxImage-im(q))*(maxImage-im(q));
-// 					else currentDifference+=(maxValueImageType)*(maxValueImageType);
-// 						
-// 					}
-// 				
-// 				res(x,y,z)=currentDifference/(seA.getNbPoints()+seB.getNbPoints() );
-// 				}
-// 	
-// 	return res;
-// }
-
 	
 template <class T, class T2>
 Image <T> printBestTemplate(const Image <T2> &resTM, const Image <T> &im, const FlatSE &A, T2 value)

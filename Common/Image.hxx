@@ -1,8 +1,8 @@
 /*
  * This file is part of libTIM.
  *
- * Copyright (©) 2005-20013  Benoit Naegel
- * Copyright (©) 20013 Theo de Carpentier
+ * Copyright (©) 2005-2013  Benoit Naegel
+ * Copyright (©) 2013 Theo de Carpentier
  *
  * libTIM is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -297,32 +297,6 @@ Image<T>  Image<T>::crop(const TCoord fromX, const TCoord toX,
 				}
 	return res;
 }
- 
-// template <> 
-// inline GImage<RGB>  GImage<RGB>::crop(int fromX, int toX, int fromY, int toY, int fromZ, int toZ)
-// {
-// 	int dx=toX-fromX;
-// 	int dy=toY-fromY;
-// 	int dz=toZ-fromZ;
-// 	assert(dx>=0 && dy>=0 && dz>=0);
-// 	
-// 	GImage <RGB> res(dx,dy,dz);
-// 	//VoxelType min=std::numeric_limits<VoxelType>::min();
-// 	//res.fill(min);
-// 	for(int z=fromZ; z<toZ; z++)
-// 		for(int y=fromY; y<toY; y++)
-// 			for(int x=fromX; x<toX; x++)
-// 				{
-// 				if(this->isPosValid(x,y,z) )
-// 					{
-// 					res(x-fromX,y-fromY,z-fromZ)[0]=(*this)(x,y,z)[0];
-// 					res(x-fromX,y-fromY,z-fromZ)[1]=(*this)(x,y,z)[1];
-// 					res(x-fromX,y-fromY,z-fromZ)[2]=(*this)(x,y,z)[2];
-// 					}
-// 				}
-// 	return res;
-// }
-
 
 template <class VoxelType> 
 void Image<VoxelType>::copy(Image<VoxelType> &im,
@@ -330,14 +304,6 @@ void Image<VoxelType>::copy(Image<VoxelType> &im,
 		                     int x2, int y2, int z2,
 			                 int px, int py, int pz)
 {
-	/*
-	assert( im.isPosValid(x1,y1,z1) );
-	assert( im.isPosValid(x2,y2,z2) );
-
-	assert( isPosValid(px + x2 - x1,
-		               py + y2 - y1,
-		               pz + z2 - z1) );
-*/
 	for (int x = 0; x <= x2-x1; x++)
 	{
 		for (int y = 0; y <= y2-y1; y++)
@@ -356,14 +322,6 @@ void Image<VoxelType>::copyFast(Image<VoxelType> &im,
 		                     int x2, int y2, int z2,
 			                 int px, int py, int pz)
 {
-	/*
-	assert( im.isPosValid(x1,y1,z1) );
-	assert( im.isPosValid(x2,y2,z2) );
-
-	assert( isPosValid(px + x2 - x1,
-		               py + y2 - y1,
-		               pz + z2 - z1) );
-*/
 	typename Image<VoxelType>::iteratorXYZ it;
 	typename Image<VoxelType>::iteratorXYZ end=this->end();
 	for (it=this->begin(); it!=end; ++it)
