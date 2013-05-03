@@ -1,8 +1,8 @@
 /*
  * This file is part of libTIM.
  *
- * Copyright (©) 2005-20013  Benoit Naegel
- * Copyright (©) 20013 Theo de Carpentier
+ * Copyright (©) 2005-2013  Benoit Naegel
+ * Copyright (©) 2013 Theo de Carpentier
  *
  * libTIM is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,12 +61,7 @@ unsigned int &width, unsigned int &height, unsigned int &colormax )
       str_stream.clear();
       str_stream.str(str);
       str_stream>> colormax;
-
-
-     // std::cout << format << "\n" << width << " " << height << "\n" << colormax << "\n";
 }
-
-//TODO: load should return a value!!!!
 
 template <>
 inline int Image<U8>::load(const char*filename, Image <U8> &im)
@@ -234,15 +229,13 @@ inline int Image <U16>::save( const char *filename) {
 
       int maxVal=(int)(this->getMax());
 
-	 /* file << "P5\n#CREATOR: GImage \n" << width << " " << height << "\n" << "65535\n" ;
-	 */
-	  file << "P5\n#CREATOR: GImage \n" << width << " " << height << "\n" << maxVal << "\n" ;
+      file << "P5\n#CREATOR: GImage \n" << width << " " << height << "\n" << maxVal << "\n" ;
 
-	  file.write(reinterpret_cast<char *> (this->data),buf_size);
+      file.write(reinterpret_cast<char *> (this->data),buf_size);
 
-	  file << "\n";
+      file << "\n";
 
-	  file.close();
+      file.close();
 }
 
 template <>
@@ -283,45 +276,5 @@ inline int Image <RGB>::save( const char *filename) {
 
 	  return 1;
 }
-
-/*
-template <>
-		inline int Image <RGB>::save( const char *filename) {
-	std::ofstream file(filename,std::ios_base::trunc  | std::ios_base::binary);
-	if(!file)
-	{
-		std::cerr << "Image file I/O error\n";
-		return 0;
-	}
-
-	std::string str;
-	std::string format;
-
-	int width=getSizeX();
-	int height=getSizeY();
-
-	int buf_size = width*height*3;
-
-	file << "P6\n#CREATOR: GImage \n" << width << " " << height << "\n" << "255\n" ;
-
-	U8 *buf=new U8[width*height*3];
-
-	for(int i=0; i<width*height; i++)
-	{
-		buf[i*3]=(*this)(i)[0];
-		buf[i*3+1]=(*this)(i)[1];
-		buf[i*3+2]=(*this)(i)[2];
-	}
-
-	file.write(reinterpret_cast<char *> (buf),buf_size);
-
-	file << "\n";
-
-	file.close();
-
-	delete[] buf;
-
-	return 1;
-		}*/
 
 }

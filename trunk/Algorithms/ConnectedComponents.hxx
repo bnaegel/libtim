@@ -1,8 +1,8 @@
 /*
  * This file is part of libTIM.
  *
- * Copyright (©) 2005-20013  Benoit Naegel
- * Copyright (©) 20013 Theo de Carpentier
+ * Copyright (©) 2005-2013  Benoit Naegel
+ * Copyright (©) 2013 Theo de Carpentier
  *
  * libTIM is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -74,14 +74,13 @@ Image <TLabel> labelConnectedComponents(Image <T> &img, FlatSE &se)
 				fifo.pop();
 		
 				resBorder(p)=currentLabel;
-				//std::cout << "On scan:\n";
+
 				for(itSe=se.begin(); itSe!=endSe; ++itSe)
 					{
 					TOffset q=p+ *itSe;
 					
 					if(imBorder(q)>0 && resBorder(q)==0)
 						{
-						//std::cout << q << " ";
 						resBorder(q)=currentLabel;
 						fifo.push(q);
 						}
@@ -89,7 +88,7 @@ Image <TLabel> labelConnectedComponents(Image <T> &img, FlatSE &se)
 				}
 			
 			currentLabel++;
-			//std::cout << "Current Label= " << currentLabel << "\n";
+
 			}
  		}
 		

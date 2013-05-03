@@ -1,8 +1,8 @@
 /*
  * This file is part of libTIM.
  *
- * Copyright (©) 2005-20013  Benoit Naegel
- * Copyright (©) 20013 Theo de Carpentier
+ * Copyright (©) 2005-2013  Benoit Naegel
+ * Copyright (©) 2013 Theo de Carpentier
  *
  * libTIM is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,13 +41,11 @@ class ImageRegionsInfos {
 	public:
 		ImageRegionsInfos(Image <T> &img, Image <T2> &seedRegions):imgSrc(img), seedRegions(seedRegions) {}
 		
-		//p(Ri,q)
 		///Return the distance between p and q. The return  value can be interpreted as a priority.
 		double computeDistance(Point <TCoord> &p, Point <TCoord>  &q)
 			{
 			double moy=(double)sumIntensityRegions[(seedRegions)(p)]/nbPointsRegions[(seedRegions)(p)];
 			double prio=(fabs((imgSrc)(q)-moy));
-			//cout << "Prio: " << prio <<"\n";
 			return prio;
 			}
 		
@@ -59,7 +57,7 @@ class ImageRegionsInfos {
 				}
 			double moy=(double)sumIntensityRegions[(seedRegions)(p)]/nbPointsRegions[(seedRegions)(p)];
 			double prio=(fabs((imgSrc)(q)-moy));
-			//cout << "Prio: " << prio <<"\n";
+			
 			return prio;
 			}
 		
@@ -102,7 +100,6 @@ class ImageRegionsInfosRGB {
 	public:
 		ImageRegionsInfosRGB(Image <RGB> &img, Image <TLabel> &seedRegions):imgSrc(img), seedRegions(seedRegions) {}
 		
-		//p(Ri,q)
 		///Return the distance between p and q. The return  value can be interpreted as a priority.
 		double computeDistance(Point <TCoord> &p, Point <TCoord>  &q)
 			{
@@ -120,7 +117,6 @@ class ImageRegionsInfosRGB {
 			
 			
 			double prio=diffR+diffG+diffB;
-			//cout << "Prio: " << prio <<"\n";
 			return prio;
 			}
 		
@@ -144,7 +140,6 @@ class ImageRegionsInfosRGB {
 			
 			
 			double prio=diffR+diffG+diffB;
-			//cout << "Prio: " << prio <<"\n";
 			return prio;
 			}
 		

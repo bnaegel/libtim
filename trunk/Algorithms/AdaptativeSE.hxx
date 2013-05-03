@@ -1,8 +1,8 @@
 /*
  * This file is part of libTIM.
  *
- * Copyright (©) 2005-20013  Benoit Naegel
- * Copyright (©) 20013 Theo de Carpentier
+ * Copyright (Â©) 2005-2013  Benoit Naegel
+ * Copyright (Â©) 2013 Theo de Carpentier
  *
  * libTIM is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,13 +22,6 @@
 
 namespace LibTIM {
 
-
-
-//TODO: ajouter à l'élément structurant uniquement les points ayant une mesure statistique par rapport
-//au voisinage (moyenne, écart-type) proche du point considéré.
-// Gain: vitesse (précalcul)
-
-
 template <class T>
 void dynamicSeNormL2(Image <T> &img, const Point <TCoord> &p, const FlatSE &B, int param,  FlatSE &se)
 {
@@ -41,7 +34,6 @@ void dynamicSeNormL2(Image <T> &img, const Point <TCoord> &p, const FlatSE &B, i
 	//Scan entire image to compute the similarity measure between p and each q
 	//If similarity measure is lesser or equal to param, we include the point in the se
 	
-	//for(int z=0; z<dz; z++)
 		for(int y=-10; y<10; y++)
 			for(int x=-10; x<10; x++)
 				{
@@ -90,7 +82,7 @@ FlatSE &se, int nbPoints)
 		{
 		int x=rand()%dx;
 		int y=rand()%dy;
-		//cout << "x: " << x << "y: " << y << "\n";
+	
 		Point <TCoord> q(x,y,0);
 		nghb.push_back(q);
 		}
@@ -112,7 +104,7 @@ FlatSE &se, int nbPoints)
 						}
 					}
 				sim=sqrt((double)sim/B.getNbPoints());
-				//std::cout << "Similarity: " << sim << "\n";
+
 				if(sim<=param)
 					{
 					se.addPoint(q-p);
@@ -162,7 +154,6 @@ void dynamicSeNormL2NPoints(Image <T> &img, const Point <TCoord> &p, const FlatS
 				}
 			//Does not require normalization as we keep the smallest values
 			vectorPoints[sim]=q;
-			//std::cout << "Similarity: " << sim << "\n";
 			}
 			}
 	//Now keep the NbPoints most similar points
@@ -377,7 +368,6 @@ inline void dynamicSeS1v2(Image <vector <bool> > &img, const Point <TCoord> &p, 
 	//Here similarity is based on the 8-neighborhood of p
 	vector <bool> pContext=img(p);
 	
-	//for(int z=0; z<dz; z++)
 		for(int y=-10; y<=10; y++)
 			for(int x=-10; x<=10; x++)
 				{

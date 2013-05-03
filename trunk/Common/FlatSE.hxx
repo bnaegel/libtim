@@ -1,8 +1,8 @@
 /*
  * This file is part of libTIM.
  *
- * Copyright (©) 2005-20013  Benoit Naegel
- * Copyright (©) 20013 Theo de Carpentier
+ * Copyright (©) 2005-2013  Benoit Naegel
+ * Copyright (©) 2013 Theo de Carpentier
  *
  * libTIM is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -102,15 +102,11 @@ inline void FlatSE::setNegPosOffsets()
 	}
 }
 
-
-// -------
-
 inline const TCoord* FlatSE::getNegativeOffsets() const
 {
 	return negativeOffsets;
 }
 
-// ---
 inline const TCoord* FlatSE::getPositiveOffsets() const
 {
 	return positiveOffsets;
@@ -134,15 +130,12 @@ inline const TCoord* FlatSE::getPositiveOffsets() const
 	Image<U8> result(imageSize);
  	result.fill(0);
 	
-	//cout << imageSize[0] << " " << imageSize[1] << " " << imageSize[2] << "\n";
-	
 	//Coordinates of the origin in image
 	Point<TCoord>  oImage(imageSize[0]/2,imageSize[1]/2,imageSize[2]/2);
 	
  	for (int i = 0; i < getNbPoints(); i++)
  	{
  		Point<TCoord>  c = getPoint(i)+oImage;
-		//c.print();
  		result(c)=255;
  	}
  	return result;
@@ -162,7 +155,6 @@ inline void FlatSE::makeSymmetric()
 		result.points.push_back(p);
 		result.setNegPosOffsets();
 		}
-	
 	
 	*this=result;	
 }

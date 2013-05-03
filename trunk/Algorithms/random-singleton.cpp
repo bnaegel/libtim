@@ -1,8 +1,8 @@
 /*
  * This file is part of libTIM.
  *
- * Copyright (©) 2005-20013  Benoit Naegel
- * Copyright (©) 20013 Theo de Carpentier
+ * Copyright (©) 2005-2013  Benoit Naegel
+ * Copyright (©) 2013 Theo de Carpentier
  *
  * libTIM is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +27,6 @@ using namespace std;
 
 inline static double sqr(double x) {return x*x;}
 
-//Ces constantes sont requises par l'algorithme du generateur aleatoire
 //These consts are required by the algorithm
 const int Random::NTAB = 32;
 
@@ -50,7 +49,6 @@ long  Random::idum2  = 123456789L;
 long  Random::iy     = 0;
 long* Random::iv     = 0;
 
-//definition du singleton
 Random Random::Singleton(0);
 
 void Random::Randomize(long seed)
@@ -74,10 +72,7 @@ void Random::Randomize(long seed)
 
   iy = iv[0];
 }
-//fin Randomize()
 
-//Cette fonction renvoie un double pseudo-aleatoire uniformement dans ]0;1[
-//Il s'agit de l'algorithme de L'Ecuyer avec melange de Bays-Durham
 //This function returns a double, taken uniformly in ]0;1[
 //It is the algorithm of L'Ecuyer with a Bays-Durham shuffle
 double Random::theRandom(void)
@@ -100,37 +95,33 @@ double Random::theRandom(void)
       
   double temp = AM*iy;
   if (temp >= RNMX)
-    return RNMX;  //empeche de renvoyer 1 / prevents from returning 1
+    return RNMX;  //prevents from returning 1
   else
     return temp;
 }
-//fin theRandom()
 
-//Renvoie un double de la Gaussienne de moyenne et d'ecartype specifies
 //Returns a double taken on a Gaussian with specified mean and standard deviation
 double Random::Gaussian(double mean, double standardDeviation)
 {
-  const int NbTirages = 12; //augmenter pour une meilleure precision. 12 est bien.
-                            //increase for better precision. 12 works fine.
+  const int NbTirages = 12; //increase for better precision. 12 works fine.
   double valeur = 0;
   for(int i=0 ; i < NbTirages ; ++i)
     valeur += Random::Uniform();
    
-  //on recentre la somme / centering the sum
+  //centering the sum
   valeur -= NbTirages/2;
 
-  //on etale suivant l'ecartype / spread with standard deviation
-  //le 12 n'a rien a voir avec NbTirages, mais explique pourquoi justement, on prend souvent
+  //spread with standard deviation
   //NbTirages = 12
   //the 12 is not related to NbTirages, but it explains why it is often chosen that NbTirages=12
   valeur *= (NbTirages == 12) ? standardDeviation
                               : sqrt(12/static_cast<double>(NbTirages))*standardDeviation;
 
-  //on centre sur la moyenne / debias
+  //debias
   valeur += mean;
 
   return valeur;
 }
-//fin Gaussian()
 
-//fin random-singleton.cpp
+
+//end random-singleton.cpp
