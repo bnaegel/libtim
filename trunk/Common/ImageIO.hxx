@@ -85,7 +85,8 @@ inline int Image<U8>::load(const char*filename, Image <U8> &im)
     if(format!="P5" || colormax >=256)
     	{
     	std::cerr<< "Error: either type mismatch image type or image is in ASCII .ppm format\n";
-    	exit(1);
+	flie.close();
+    	return 0;
     	}
     else {
     	if(im.data!=0) delete[] im.data;
@@ -123,7 +124,8 @@ inline int Image<U16>::load(const char*filename, Image <U16> &im)
     if(format!="P5")
     	{
     	std::cerr<< "Error: either type mismatch image type or image is in ASCII .ppm format\n";
-    	exit(1);
+	file.close();
+	return 0;
     	}
     else {
     	if(im.data!=(U16*)(0)) delete[] im.data;
@@ -160,7 +162,8 @@ inline int Image<RGB>::load(const char*filename, Image <RGB> &im)
     if(format!="P6" || colormax>=256)
     	{
     	std::cerr<< "Error: either type mismatch image type or image is in ASCII .ppm format\n";
-    	exit(1);
+	file.close();
+    	return 0;
     	}
     else {
     	if(im.data!=(RGB*)(0)) delete[] im.data;

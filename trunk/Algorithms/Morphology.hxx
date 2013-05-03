@@ -23,7 +23,7 @@
 #include "Common/Image.h"
 #include <cmath>
 #include <unistd.h>
-
+#include <algorithm>
 
 
 namespace LibTIM {
@@ -418,7 +418,7 @@ Image<T> rankFilter(Image<T> im, FlatSE se, int rank)
 				currentNeighbor++;
 				}
 
-			sort(neighborsPtr,neighborsPtr+neighborSize );
+			std::sort(neighborsPtr,neighborsPtr+neighborSize );
 			*it=neighborsPtr[rank];
 			}
 		delete neighborsPtr;
