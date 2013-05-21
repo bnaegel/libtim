@@ -68,6 +68,19 @@ void adjustContrast(Image <T> &im, T A, T B)
 		}
 }
 
+///Same thing but with A, B, a and b given in parameters
+
+template <class T>
+void adjustContrast(Image <T> &im, T A, T B, T a, T b)
+{
+	if( (b-a)!=0)
+		{	
+		double ratio=(double)(B-A)/(b-a);
+		for(int i=0; i<im.getBufSize(); i++)
+			im(i)=(T)(A+(im(i)-a)*ratio);
+		}
+}
+
 ///For each marker compute the mean of the points on original image
 template <class T, class T2>
 Image <T> computeMarkerMean(Image <T> &src, Image <T2> &marker)
