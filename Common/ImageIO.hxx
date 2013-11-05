@@ -80,7 +80,7 @@ inline int Image<U8>::load(const char*filename, Image <U8> &im)
     if(format!="P5" || colormax >=256)
     	{
     	std::cerr<< "Error: either type mismatch image type or image is in ASCII .ppm format\n";
-	flie.close();
+	file.close();
     	return 0;
     	}
     else {
