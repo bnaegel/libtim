@@ -54,16 +54,16 @@ int main(int argc, char *argv[])
 	// Copie de l'image originale
 	Image <U8> ori=im;
 	
-	// Construction du component-tree par la m�thode de Salembier
+	// Construction du component-tree par la mï¿½thode de Salembier
 	ComponentTree<U8> tree(im);
 	
 	
-	// Ecriture de l'arbre au format .dot: attention, dans le cas d'images "naturelles" le fichier peut-�tre gros ...
+	// Ecriture de l'arbre au format .dot: attention, dans le cas d'images "naturelles" le fichier peut-ï¿½tre gros ...
    	if(!tree.writeDot("testBefore.dot"))
    		std::cerr << "Error writing dot file\n";
 //  	
  	
- 	// Elagage de l'arbre en utilisant un param�tre relatif � la taille de la composante
+ 	// Elagage de l'arbre en utilisant un paramï¿½tre relatif ï¿½ la taille de la composante
 	if(argc==3)	
 		tree.areaFiltering(atoi(argv[2]));
 	else
@@ -75,18 +75,18 @@ int main(int argc, char *argv[])
 	//tree.writeSignature(signature,"signature.dat");
 	//tree.compacityFiltering(atoi(argv[2]),atoi(argv[3]));
  	
- 	// Reconstruction d'une image � partir de l'arbre �lagu� 	
+ 	// Reconstruction d'une image ï¿½ partir de l'arbre ï¿½laguï¿½ 	
  	Image <U8> res=tree.constructImage(ComponentTree<U8>::DIRECT);
  	
- 	// Creation d'une image contenant les r�sidus de la transformation 	
+ 	// Creation d'une image contenant les rï¿½sidus de la transformation 	
 	Image<U8> residue=ori-res;
  	residue.save("residue.pgm");
 	
-	// Ecriture de l'image originale et de l'image filtr�e
+	// Ecriture de l'image originale et de l'image filtrï¿½e
  	ori.save("treeIn.pgm");
  	res.save("treeOut.pgm");
 	
-	// Ecriture de l'arbre �lagu� au format .dot
+	// Ecriture de l'arbre ï¿½laguï¿½ au format .dot
    	if(!tree.writeDot("testAfter.dot"))
 		std::cerr << "Error writing dot file\n";
 
