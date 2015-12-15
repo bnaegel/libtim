@@ -19,7 +19,7 @@
  */
 
 #include "Common/OrderedQueue.h"
-#include "Common/TinyXML/tinyxml.h"
+#include "Common/tinyxml/tinyxml.h"
 
 #include <iostream>
 #include <set>
