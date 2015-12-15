@@ -2,8 +2,8 @@ INCLUDE_DIR=-I../.
 
 
 example: example.cpp
-	g++ -O3  ${INCLUDE_DIR} example.cpp -o example
+	g++ -O3  $(INCLUDE_DIR) example.cpp -o example
 ccArea: ccArea.cpp
-	g++ -O3 -fpermissive ${INCLUDE_DIR} ccArea.cpp -o ccArea
-exemple_simple: exemple_simple.cpp
-	g++ -O3 -fpermissive ${INCLUDE_DIR} exemple_simple.cpp -o exemple_simple
+	g++ -O3  $(INCLUDE_DIR) ccArea.cpp -o ccArea
+simple_example: simple_example.cpp
+	g++ -O3  $(INCLUDE_DIR) simple_example.cpp -o simple_example
