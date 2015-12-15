@@ -22,6 +22,7 @@
 #define ComponentTree_h
 
 #include "Morphology.h"
+#include "Common/TinyXML/tinyxml.h"
 
 namespace LibTIM {
 
@@ -129,6 +130,12 @@ class ComponentTree {
 		**/
 
 		int writeDot(const char *filename);
+
+		/**
+		  * @brief Print tree in a .XML file
+		**/
+		void writeXml_rec(Node *node, TiXmlElement * nodeXML);
+		int writeXml(const char *filename);
 
 		/**
 		  * @brief Restore original tree (i.e. clear all filtering)

@@ -19,6 +19,8 @@
  */
 
 #include "Common/OrderedQueue.h"
+#include "Common/TinyXML/tinyxml.h"
+
 #include <iostream>
 #include <set>
 #include <stack>
@@ -582,6 +584,81 @@ int ComponentTree<T>::writeDot(const char *filename)
 		}
 	else
 		return 0;
+}
+
+template <class T>
+void ComponentTree<T>::writeXml_rec(Node *node, TiXmlElement * nodeXML)
+{
+	//Add the children node to the XML tree
+	for(std::vector<Node *>::iterator it=node->childs.begin(); it!=node->childs.end(); ++it)
+	{
+		TiXmlElement * temp = new TiXmlElement( "Node" );
+		temp->SetAttribute("label", (*it)->label);
+		temp->SetAttribute("h", (*it)->h);
+		temp->SetAttribute("area", (*it)->area);
+		temp->SetAttribute("contrast", (*it)->contrast);
+		temp->SetAttribute("volume", (*it)->volume);
+		temp->SetAttribute("contourLength", (*it)->contourLength);
+		temp->SetAttribute("compacity", (*it)->compacity);
+		temp->SetAttribute("complexity", (*it)->complexity);
+		temp->SetAttribute("subNodes", (*it)->subNodes);
+
+		temp->SetDoubleAttribute("m01", (*it)->m01);
+		temp->SetDoubleAttribute("m10", (*it)->m10);
+		temp->SetDoubleAttribute("m20", (*it)->m20);
+		temp->SetDoubleAttribute("m02", (*it)->m02);
+		
+		temp->SetDoubleAttribute("I", (*it)->I);
+
+		nodeXML->LinkEndChild(temp);
+		
+		//Call recursively		
+		writeXml_rec((*it), temp);
+	}
+}
+
+template <class T>
+int ComponentTree<T>::writeXml(const char *filename)
+{
+	//Create xml doc
+	TiXmlDocument doc;
+	//header
+	TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "", "" );
+	doc.LinkEndChild( decl );
+	
+	TiXmlElement * ctXML = new TiXmlElement( "ComponentTree" );
+	ctXML->SetAttribute("filename", filename);
+	doc.LinkEndChild( ctXML );	
+
+	//Root of component-tree
+	Node *root=m_root;
+
+	//Add the current node to the XML tree
+	TiXmlElement * rootXML = new TiXmlElement( "Node" );
+	rootXML->SetAttribute("label", root->label);
+	rootXML->SetAttribute("h", root->h);
+	rootXML->SetAttribute("area", root->area);
+	rootXML->SetAttribute("contrast", root->contrast);
+	rootXML->SetAttribute("volume", root->volume);
+	rootXML->SetAttribute("contourLength", root->contourLength);
+	rootXML->SetAttribute("compacity", root->compacity);
+	rootXML->SetAttribute("complexity", root->complexity);
+	rootXML->SetAttribute("subNodes", root->subNodes);
+	rootXML->SetDoubleAttribute("m01", root->m01);
+	rootXML->SetDoubleAttribute("m10", root->m10);
+	rootXML->SetDoubleAttribute("m20", root->m20);
+	rootXML->SetDoubleAttribute("m02", root->m02);
+	rootXML->SetDoubleAttribute("I", root->I);
+
+	ctXML->LinkEndChild(rootXML);
+
+	//Call recursively on each node of the tree
+	writeXml_rec(root, rootXML);
+
+	//Save to disk
+	doc.SaveFile(filename);
+	
+	return 1;
 }
 
 
@@ -1424,7 +1501,7 @@ int SalembierRecursiveImplementation<T>::computeContourLength()
 				}
 			}
 		}
-
+    return 1;
 }
 
 template <class T>
@@ -1498,6 +1575,7 @@ int SalembierRecursiveImplementation<T>::computeBoundingBox(Node *tree)
 			tmp->father->ymax=std::max(tmp->father->ymax, tmp->ymax);
 			}
 		}
+    return 1;
 }
 
 template <class T>
@@ -1518,6 +1596,7 @@ int SalembierRecursiveImplementation<T>::computeAttributes(Node *tree)
 		tree->m02=computeM02(tree);
 		computeInertiaMoment(tree);
 		}
+    return 1;
 }
 
 //////////////////////////////////////////////////////////////
@@ -1546,7 +1625,8 @@ inline int SalembierRecursiveImplementation<T>::update_attributes(Node *n, TOffs
 
 	if(imCoord.y < n->ymin) n->ymin=imCoord.y;
 	if(imCoord.y > n->ymax) n->ymax=imCoord.y;
-
+    
+    return 1;
 }
 
 template <class T>
@@ -1733,6 +1813,8 @@ int SalembierRecursiveImplementation<T>::init(Image <T> &img, FlatSE &connexity)
 		}
 
 	delete[] histo;
+    
+    return 1;
 }
 
 template <class T>
