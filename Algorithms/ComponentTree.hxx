@@ -861,6 +861,7 @@ int ComponentTree<T>::areaFiltering(int tMin, int tMax)
 				}
 			}
 		}
+    return 0;
 }
 
 template <class T>
