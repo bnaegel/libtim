@@ -22,7 +22,7 @@
 #define ComponentTree_h
 
 #include "Morphology.h"
-#include "Common/TinyXML/tinyxml.h"
+#include "Common/tinyxml/tinyxml.h"
 
 namespace LibTIM {
 
