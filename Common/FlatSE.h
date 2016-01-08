@@ -91,7 +91,7 @@ class FlatSE
 		}
 	
 	/// returns the number of points contained in the structuring element (cardinal of the set)
-	int getNbPoints() const;
+	unsigned long getNbPoints() const;
 
 	/// computes the offset of each point, according to "size"
 	void setContext(const TSize *size);

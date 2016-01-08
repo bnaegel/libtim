@@ -64,7 +64,7 @@ inline FlatSE &FlatSE::operator=(const FlatSE &src)
 }
 
 
-inline int FlatSE::getNbPoints() const
+inline unsigned long FlatSE::getNbPoints() const
 {
 	return points.size();
 }
@@ -515,7 +515,6 @@ void FlatSE::makeBallEuclidian3D(Image  <VoxelType> &img, double r)
 	int uy=(int)(r/vy);
 	int uz=(int)(r/vz);
 	
-	int uxux=ux*ux; int uyuy=uy*uy; int uzuz=uz*uz;
 	double rr=r*r;
 	
 	std::cout << "Vx= " << vx << " " << " Vy= " << vy << " Vz= " << vz << "\n";

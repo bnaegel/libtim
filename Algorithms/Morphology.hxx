@@ -372,7 +372,7 @@ Image <T> externalMorphologicalGradient(Image <T> im, FlatSE se)
 template <class T>
 Image<T> rankFilter(Image<T> im, FlatSE se, int rank)
 {
-	int neighborSize=se.getNbPoints();
+	unsigned long neighborSize=se.getNbPoints();
 	
 	if(rank<=0)
 		return erosion(im,se);
@@ -612,7 +612,7 @@ Image <U8> regionalMaxima(Image <T> img, FlatSE se)
 	
 	for(itLabelXYZ=result.begin(); itLabelXYZ!=endRes; ++itLabelXYZ)
 		{
-		if((imgMaxima(itLabelXYZ.x+back[0], itLabelXYZ.y+back[1], itLabelXYZ.z+back[2])==true) )
+		if(imgMaxima(itLabelXYZ.x+back[0], itLabelXYZ.y+back[1], itLabelXYZ.z+back[2])==true )
 			*itLabelXYZ=255;
 		else *itLabelXYZ=0;
 		}

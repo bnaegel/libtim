@@ -279,7 +279,7 @@ class SalembierRecursiveImplementation: public ComponentTreeStrategy <T> {
 		}
 
 	Node *computeTree();
-	int computeAttributes(Node *tree);
+	void computeAttributes(Node *tree);
 
 	int computeArea(Node *tree);
 	int computeContrast(Node *tree);
@@ -301,12 +301,12 @@ class SalembierRecursiveImplementation: public ComponentTreeStrategy <T> {
 
 	private:
 		//Helper functions
-		inline int update_attributes(Node *n, TOffset &imBorderOffset);
+		inline void update_attributes(Node *n, TOffset &imBorderOffset);
 		inline int flood(int m) ;
 		void link_node(Node *tree, Node *child) ;
 		Node *new_node(int h, int n)  ;
 
-		int init(Image <T> &img, FlatSE &connexity) ;
+		void init(Image <T> &img, FlatSE &connexity) ;
 
 		int hToIndex(int h)  {return h-hMin;}
 		int indexToH(int h)  {return h+hMin;}

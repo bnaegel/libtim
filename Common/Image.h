@@ -318,7 +318,7 @@ public:
 
 	const Point<TCoord> getCoord  (TOffset offset) const {
 		Point <TCoord> res;
-		res.z=offset/(getSizeX()*getSizeY());
+		res.z=(int)(offset/(getSizeX()*getSizeY()));
 		res.y=(offset%(getSizeX()*getSizeY()))/getSizeX();
 		res.x=offset % getSizeX();
 		return res;

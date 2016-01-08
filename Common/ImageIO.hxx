@@ -197,9 +197,7 @@ namespace LibTIM {
         int height=getSizeY();
         
         int buf_size = width*height;
-        
-        int maxVal=(int)(this->getMax());
-        
+                
         file << "P5\n#CREATOR: GImage \n" << width << " " << height << "\n" << "255" ;
         file << "\n";
         
