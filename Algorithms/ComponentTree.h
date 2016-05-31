@@ -45,53 +45,56 @@ const int localMin=std::numeric_limits<int>::min();
 
 //TODO: a generic structure that contains Node attributes
 struct Node {
-		Node()
-		: label(-1),xmin(localMax),ymin(localMax),
-		xmax(localMin),ymax(localMin),area(0),
-		contrast(0), volume(0),  contourLength(0),
-		complexity(0), subNodes(0),status(true),
-		m01(0),m10(0),m20(0),m02(0),
-		father(0), active(true)
-			{
-			pixels.reserve(7); childs.reserve(5);
-			}
-		int label;
-		int ori_h;
-		int h;
-		int xmin;
-		int xmax;
-		int ymin;
-		int ymax;
-		int area;
-		int contrast;
-		int volume;
-		int contourLength;
-		int complexity;
-		int compacity;
-
-		int subNodes;
-
-		//experimental... moments
-		long double m01;
-		long double m10;
-		long double m20;
-		long double m02;
-		//moment d'inertie (first Hu's invariant moment)
-		double I;
-
-		bool status;
-		bool active;
-		//Distance measure between the node and a reference vector
-		//(and eventually a covariance matrix for Mahalanobis distance)
-		double dist;
-
-		//Common to all type of nodes:
-		Node *father;
-		typedef std::vector<TOffset> ContainerPixels;
-		ContainerPixels pixels;
-		typedef  std::vector<Node *> ContainerChilds;
-		ContainerChilds childs;
-		};
+    Node()
+    : label(-1),xmin(localMax),ymin(localMax),
+    xmax(localMin),ymax(localMin),area(0),
+    contrast(0), volume(0),  contourLength(0),
+    complexity(0), subNodes(0),status(true),
+    m01(0),m10(0),m20(0),m02(0),
+    father(0), active(true),debug(0)
+    {
+        pixels.reserve(7); childs.reserve(5);
+    }
+    int label;
+    int ori_h;
+    int h;
+    int xmin;
+    int xmax;
+    int ymin;
+    int ymax;
+    int area;
+    int contrast;
+    int volume;
+    int contourLength;
+    int complexity;
+    int compacity;
+    
+    int debug;
+    
+    int subNodes;
+    
+    //experimental... moments
+    long double m01;
+    long double m10;
+    long double m20;
+    long double m02;
+    //moment d'inertie (first Hu's invariant moment)
+    double I;
+    
+    bool status;
+    bool active;
+    //Distance measure between the node and a reference vector
+    //(and eventually a covariance matrix for Mahalanobis distance)
+    double dist;
+    
+    //Common to all type of nodes:
+    Node *father;
+    typedef std::vector<TOffset> ContainerPixels;
+    ContainerPixels pixels;
+    typedef  std::vector<Node *> ContainerChilds;
+    ContainerChilds childs;
+    ContainerPixels contour;
+};
 
 
 typedef std::vector<std::vector<Node *> > IndexType;
@@ -239,7 +242,11 @@ class ComponentTree {
 
 		//max-tree index
 		IndexType index;
-
+    
+        //hmin
+        int hMin;
+        int hToIndex(int h)  {return h-hMin;}
+        int indexToH(int h)  {return h+hMin;}
 };
 
 /** @brief Abstract class for strategy to compute component tree
@@ -255,7 +262,7 @@ class ComponentTreeStrategy {
 	virtual ~ComponentTreeStrategy() {};
 
 	virtual Node *computeTree()=0;
-	virtual int computeAttributes(Node *tree)=0;
+	virtual void computeAttributes(Node *tree)=0;
 
 
 
@@ -297,7 +304,9 @@ class SalembierRecursiveImplementation: public ComponentTreeStrategy <T> {
 	int computeComplexityAndCompacity(Node *tree);
 
 	int computeBoundingBox(Node *tree);
-
+    
+    int hToIndex(int h)  {return h-hMin;}
+    int indexToH(int h)  {return h+hMin;}
 
 	private:
 		//Helper functions
@@ -308,8 +317,7 @@ class SalembierRecursiveImplementation: public ComponentTreeStrategy <T> {
 
 		void init(Image <T> &img, FlatSE &connexity) ;
 
-		int hToIndex(int h)  {return h-hMin;}
-		int indexToH(int h)  {return h+hMin;}
+		
 
 		//members
 		Image <T> imBorder;
@@ -341,7 +349,7 @@ class SalembierRecursiveImplementation: public ComponentTreeStrategy <T> {
 		// For now, container for accessing nodes by level and cc number
 		//typedef std::map <T, std::map<TLabel,  Node *> > IndexType;
 		//typedef Node *** IndexType;
-
+    public:
 		IndexType index;
 
 		ComponentTree<T> *m_parent;

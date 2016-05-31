@@ -18,6 +18,8 @@
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/gpl>.
  */
 
+//TODO: remove tinyxml dependancy
+
 #include "Common/OrderedQueue.h"
 #include "Common/tinyxml/tinyxml.h"
 
@@ -25,10 +27,6 @@
 #include <set>
 #include <stack>
 #include <map>
-
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
 
 namespace LibTIM {
 
@@ -51,7 +49,6 @@ template <class T>
 ComponentTree<T>::ComponentTree( Image< T > & img , FlatSE &connexity)
 :m_root(0),m_img(img)
 {
-
 	SalembierRecursiveImplementation<T> strategy(this,connexity);
 
 	m_root=strategy.computeTree();
@@ -834,6 +831,7 @@ int ComponentTree<T>::contrastFiltering(int tMin, int tMax)
 				}
 			}
 		}
+    return 0;
 }
 
 template <class T>
@@ -954,6 +952,7 @@ int ComponentTree<T>::complexityFiltering(int tMin, int tMax)
 					}
 				}
 			}
+    return 1;
 }
 
 template <class T>
@@ -980,6 +979,7 @@ int ComponentTree<T>::compacityFiltering(int tMin, int tMax)
 					}
 				}
 			}
+    return 0;
 }
 
 template <class T>
@@ -1426,11 +1426,15 @@ int SalembierRecursiveImplementation<T>::computeVolume(Node *tree)
 }
 
 
-/** @brief Compute compacity
+/** @brief Compute contour length
   *
 **/
 
-//Here we use shape-based attribute
+//Principle:  -scan image pixels
+//            -for each pixel p of value v scan the neighbors (8-connected neighbor gives a 4-connected contour)
+//              and retain the neighbor of minimal value v'
+//            -update each node n containing p of value v'<vn<v (increment contour length)
+//      (if p is not a pixel contour in n, it is not a pixel contour in the ancestors of n)
 
 template <class T>
 int SalembierRecursiveImplementation<T>::computeContourLength()
@@ -1580,7 +1584,7 @@ int SalembierRecursiveImplementation<T>::computeBoundingBox(Node *tree)
 }
 
 template <class T>
-int SalembierRecursiveImplementation<T>::computeAttributes(Node *tree)
+void SalembierRecursiveImplementation<T>::computeAttributes(Node *tree)
 {
 	if(tree!=0)
 		{
@@ -1597,13 +1601,13 @@ int SalembierRecursiveImplementation<T>::computeAttributes(Node *tree)
 		tree->m02=computeM02(tree);
 		computeInertiaMoment(tree);
 		}
-    return 1;
+    
 }
 
 //////////////////////////////////////////////////////////////
 
 template <class T>
-inline int SalembierRecursiveImplementation<T>::update_attributes(Node *n, TOffset &imBorderOffset)
+inline void SalembierRecursiveImplementation<T>::update_attributes(Node *n, TOffset &imBorderOffset)
 {
 	//conversion offset imBorder->im
 	Point <TCoord> imCoord=imBorder.getCoord(imBorderOffset);
@@ -1627,7 +1631,6 @@ inline int SalembierRecursiveImplementation<T>::update_attributes(Node *n, TOffs
 	if(imCoord.y < n->ymin) n->ymin=imCoord.y;
 	if(imCoord.y > n->ymax) n->ymax=imCoord.y;
     
-    return 1;
 }
 
 template <class T>
@@ -1728,20 +1731,21 @@ Node * SalembierRecursiveImplementation<T>::computeTree()
 
 	Node *root=index[hToIndex(hMin)][0];
 
-	//WARNING: this is for now evil, for research purposes only!
-
+	// crop STATUS image to recover original dimensions
+    
 	this->m_parent->STATUS=this->STATUS.crop(back[0],this->STATUS.getSizeX()-front[0],
 	back[1],this->STATUS.getSizeY()-front[1],
 	back[2],this->STATUS.getSizeZ()-front[2]);
 
 	this->m_parent->index=this->index;
+    this->m_parent->hMin=this->hMin;
 
 	return root;
 }
 
 //initialize global index for nodes
 template <class T>
-int SalembierRecursiveImplementation<T>::init(Image <T> &img, FlatSE &connexity)
+void SalembierRecursiveImplementation<T>::init(Image <T> &img, FlatSE &connexity)
 {
 	FlatSE se=connexity;
 
@@ -1814,8 +1818,6 @@ int SalembierRecursiveImplementation<T>::init(Image <T> &img, FlatSE &connexity)
 		}
 
 	delete[] histo;
-    
-    return 1;
 }
 
 template <class T>

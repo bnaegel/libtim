@@ -54,11 +54,11 @@ int main(int argc, char *argv[])
 	// Copie de l'image originale
 	Image <U8> ori=im;
 	
-	// Construction du component-tree par la mï¿½thode de Salembier
+	// Construction du component-tree par la méthode de Salembier
 	ComponentTree<U8> tree(im);
 	
 	
-	// Ecriture de l'arbre au format .dot: attention, dans le cas d'images "naturelles" le fichier peut-ï¿½tre gros ...
+	// Ecriture de l'arbre au format .dot: attention, dans le cas d'images "naturelles" le fichier peut-être gros ...
    	if(!tree.writeDot("testBefore.dot"))
    		std::cerr << "Error writing dot file\n";
 //  	
