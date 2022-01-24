@@ -456,6 +456,8 @@ inline void FlatSE::make3DN27()
 	Point<TCoord>  DSE(1,1,-1);
 	Point<TCoord>  DO(0,0,-1);
 	
+	points.push_back(O);
+	
 	points.push_back(N);
 	points.push_back(S);
 	points.push_back(W);
