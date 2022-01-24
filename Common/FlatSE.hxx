@@ -341,6 +341,171 @@ void FlatSE::makeBallChessboard2D(Image <VoxelType> &img, double rx, double ry)
 	this->setNegPosOffsets();
 }
 
+inline void FlatSE::make3DN6()
+{
+	points.clear();
+	offsets.clear();
+	
+	Point<TCoord>  N(0,-1);
+	Point<TCoord>  S(0,1);
+	Point<TCoord>  W(-1,0);
+	Point<TCoord>  E(1,0);
+	
+	Point<TCoord>  UO(0,0,1);
+	Point<TCoord>  DO(0,0,-1);
+	
+	points.push_back(N);
+	points.push_back(S);
+	points.push_back(W);
+	points.push_back(E);
+	
+	points.push_back(UO);
+	points.push_back(DO);
+	
+	this->setNegPosOffsets();
+}
+
+inline void FlatSE::make3DN7()
+{
+	points.clear();
+	offsets.clear();
+	
+	Point<TCoord>  O(0,0,0);
+	
+	Point<TCoord>  N(0,-1);
+	Point<TCoord>  S(0,1);
+	Point<TCoord>  W(-1,0);
+	Point<TCoord>  E(1,0);
+	
+	Point<TCoord>  UO(0,0,1);
+	Point<TCoord>  DO(0,0,-1);
+	
+	points.push_back(O);
+	
+	points.push_back(N);
+	points.push_back(S);
+	points.push_back(W);
+	points.push_back(E);
+	
+	points.push_back(UO);
+	points.push_back(DO);
+	
+	this->setNegPosOffsets();
+}
+
+inline void FlatSE::make3DN18()
+{
+	points.clear();
+	offsets.clear();
+	
+	Point<TCoord>  N(0,-1);
+	Point<TCoord>  S(0,1);
+	Point<TCoord>  W(-1,0);
+	Point<TCoord>  E(1,0);
+	
+	Point<TCoord>  NW(-1,-1);
+	Point<TCoord>  NE(1,-1);
+	Point<TCoord>  SW(-1,1);
+	Point<TCoord>  SE(1,1);
+	
+	Point<TCoord>  UN(0,-1,1);
+	Point<TCoord>  US(0,1,1);
+	Point<TCoord>  UW(-1,0,1);
+	Point<TCoord>  UE(1,0,1);
+	Point<TCoord>  UO(0,0,1);
+	
+	Point<TCoord>  DN(0,-1,-1);
+	Point<TCoord>  DS(0,1,-1);
+	Point<TCoord>  DW(-1,0,-1);
+	Point<TCoord>  DE(1,0,-1);
+	
+	Point<TCoord>  DO(0,0,-1);
+	
+	points.push_back(N);
+	points.push_back(S);
+	points.push_back(W);
+	points.push_back(E);
+	
+	points.push_back(NW);
+	points.push_back(NE);
+	points.push_back(SW);
+	points.push_back(SE);
+	
+	points.push_back(UN);
+	points.push_back(US);
+	points.push_back(UW);
+	points.push_back(UE);
+	
+	points.push_back(UO);
+	
+	points.push_back(DN);
+	points.push_back(DS);
+	points.push_back(DW);
+	points.push_back(DE);
+	
+	points.push_back(DO);
+	
+	this->setNegPosOffsets();
+}
+
+inline void FlatSE::make3DN19()
+{
+	points.clear();
+	offsets.clear();
+	
+	Point<TCoord>  O(0,0,0);
+	
+	Point<TCoord>  N(0,-1);
+	Point<TCoord>  S(0,1);
+	Point<TCoord>  W(-1,0);
+	Point<TCoord>  E(1,0);
+	
+	Point<TCoord>  NW(-1,-1);
+	Point<TCoord>  NE(1,-1);
+	Point<TCoord>  SW(-1,1);
+	Point<TCoord>  SE(1,1);
+	
+	Point<TCoord>  UN(0,-1,1);
+	Point<TCoord>  US(0,1,1);
+	Point<TCoord>  UW(-1,0,1);
+	Point<TCoord>  UE(1,0,1);
+	Point<TCoord>  UO(0,0,1);
+	
+	Point<TCoord>  DN(0,-1,-1);
+	Point<TCoord>  DS(0,1,-1);
+	Point<TCoord>  DW(-1,0,-1);
+	Point<TCoord>  DE(1,0,-1);
+	Point<TCoord>  DO(0,0,-1);
+	
+	points.push_back(O);
+	
+	points.push_back(N);
+	points.push_back(S);
+	points.push_back(W);
+	points.push_back(E);
+	
+	points.push_back(NW);
+	points.push_back(NE);
+	points.push_back(SW);
+	points.push_back(SE);
+	
+	points.push_back(UN);
+	points.push_back(US);
+	points.push_back(UW);
+	points.push_back(UE);
+	
+	points.push_back(UO);
+	
+	points.push_back(DN);
+	points.push_back(DS);
+	points.push_back(DW);
+	points.push_back(DE);
+	
+	points.push_back(DO);
+	
+	this->setNegPosOffsets();
+}
+
 inline void FlatSE::make3DN26()
 {
 	points.clear();

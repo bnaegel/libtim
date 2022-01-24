@@ -135,9 +135,11 @@ class FlatSE
 	
 	void make2DEuclidianBall(int r);
 	
-	///In 3D N6,18,26
+	///In 3D N6,7,18,19,26,27
 	void make3DN6();
+	void make3DN7();
 	void make3DN18();
+	void make3DN19();
 	void make3DN26();
 	void make3DN27();
 	
