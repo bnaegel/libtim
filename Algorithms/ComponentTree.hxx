@@ -1140,9 +1140,49 @@ Node * ComponentTree<T>::coordToNode(TCoord x, TCoord y)
 template <class T>
 Node * ComponentTree<T>::coordToNode(TCoord x, TCoord y, TCoord z)
 {
-	TOffset offset=m_img.getOffset(x,y,z);
-	return offsetToNode(offset);
+        TOffset offset=m_img.getOffset(x,y,z);
+        return offsetToNode(offset);
 }
+
+
+template <class T>
+Node * ComponentTree<T>::indexedCoordToNode(TCoord x, TCoord y, TCoord z, std::vector<Node *> &nodes)
+{
+        TOffset offset=m_img.getOffset(x,y,z);
+        return nodes[offset];
+}
+
+
+template <class T>
+std::vector<Node *> ComponentTree<T>::indexedNodes()
+{
+        unsigned int img_size = m_img.getSizeX() * m_img.getSizeY() * m_img.getSizeZ();
+        std::vector<Node *> index(img_size);
+
+        Node *res=0;
+        std::queue<Node *> fifo;
+        fifo.push(m_root);
+
+        while(!fifo.empty() )
+                {
+                Node *n=fifo.front();
+                fifo.pop();
+
+                if(n!=0)
+                        {
+                        Node::ContainerPixels::iterator it;
+                        for(it=n->pixels.begin(); it!=n->pixels.end(); ++it)
+                                {
+                                index[*it]=n;
+                                }
+                        Node::ContainerChilds::iterator jt;
+                        for(jt=n->childs.begin(); jt!=n->childs.end(); ++jt)
+                                fifo.push(*jt);
+                        }
+                }
+        return index;
+}
+
 
 template <class T>
 Node * ComponentTree<T>::offsetToNode(TOffset offset)

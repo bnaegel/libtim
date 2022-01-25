@@ -216,6 +216,10 @@ class ComponentTree {
 
 		Node * coordToNode(TCoord x, TCoord y);
 		Node * coordToNode(TCoord x, TCoord y, TCoord z);
+
+                Node * indexedCoordToNode(TCoord x, TCoord y, TCoord z, std::vector<Node *> &nodes);
+                std::vector <Node *> indexedNodes();
+
 		Node * offsetToNode(TOffset offset);
 
 		void constructImageMin(Image <T> &res);
