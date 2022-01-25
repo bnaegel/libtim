@@ -215,6 +215,7 @@ class ComponentTree {
 		bool isInclude(FlatSE &se, Node::ContainerPixels &pixels);
 
 		Node * coordToNode(TCoord x, TCoord y);
+		Node * coordToNode(TCoord x, TCoord y, TCoord z);
 		Node * offsetToNode(TOffset offset);
 
 		void constructImageMin(Image <T> &res);

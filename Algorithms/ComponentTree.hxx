@@ -1136,6 +1136,14 @@ Node * ComponentTree<T>::coordToNode(TCoord x, TCoord y)
 	return offsetToNode(offset);
 }
 
+
+template <class T>
+Node * ComponentTree<T>::coordToNode(TCoord x, TCoord y, TCoord z)
+{
+	TOffset offset=m_img.getOffset(x,y,z);
+	return offsetToNode(offset);
+}
+
 template <class T>
 Node * ComponentTree<T>::offsetToNode(TOffset offset)
 {
