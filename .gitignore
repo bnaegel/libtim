@@ -1,2 +1,5 @@
 # QtCreator
 *.pro.user
+
+# PGM
+*.pgm
