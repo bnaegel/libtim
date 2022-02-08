@@ -31,22 +31,49 @@ int main(int argc, char *argv[]) {
   ComponentTree<U8> tree(im, connexity);
 
   // Valeurs d'attribut pour chaque pixel
-  Image<U8> res = im;
+  Image<double> res_ = im;
+  double min_attr = std::numeric_limits<double>::max();
+  double max_attr = std::numeric_limits<double>::min();
+
   std::vector<Node *> nodes = tree.indexedNodes();
+  for (std::size_t i = 0; i < res_.getSizeX(); i++)
+    for (std::size_t j = 0; j < res_.getSizeY(); j++)
+      for (std::size_t k = 0; k < res_.getSizeZ(); k++) {
+        Node *n = tree.indexedCoordToNode(i, j, k, nodes);
+        // remplacer n->attribut par l'attribut souhaité
+        // double attr = (double)(n->area);
+        double attr = (double)(n->contrast);
+        // double attr = (double)(n->compacity);
 
-  std::cout << "[INFO] image size" << res.getSizeX() << " " << res.getSizeY()
-            << " " << res.getSizeZ() << std::endl;
+        // si l'on cherche la maximum dans la branche parent
+        /*
+        // sauvegarde valeur initiale
+        double attr_init = attr;
+        // parcours de l'arbre
+        while(n->father != tree.m_root) {
+            n = n->father;
+            attr = std::max(attr, (double)(n->compacity));
+        }
+        attr = std::max(attr, (double)(tree.m_root->compacity));
+        */
 
-  int attr_global_max = 0;
-  int attr_max = 0;
+        min_attr = std::min(min_attr, attr);
+        max_attr = std::max(max_attr, attr);
 
-  for (std::size_t i = 0; i < res.getSizeX(); i++)
-    for (std::size_t j = 0; j < res.getSizeY(); j++)
-      for (std::size_t k = 0; k < res.getSizeZ(); k++) {
-        res(i, j, k) = tree.indexedCoordToNode(i, j, k, nodes)->compacity;
-        if (res(i, j, k) > attr_global_max) attr_global_max = res(i, j, k);
+        res_(i, j, k) = attr;
       }
-  std::cout << attr_global_max << std::endl;
+
+  std::cout << "[INFO] attribute " << min_attr << " " << max_attr << std::endl;
+
+  // normalization [?, ?] -> [0, 255]
+  Image<U8> res = res_;
+
+  for (std::size_t i = 0; i < res_.getSizeX(); i++)
+    for (std::size_t j = 0; j < res_.getSizeY(); j++)
+      for (std::size_t k = 0; k < res_.getSizeZ(); k++) {
+        res(i, j, k) =
+            255 * (((res_(i, j, k) - min_attr)) / (max_attr - min_attr));
+      }
 
   // Création d'une image contenant les residue de la transformation
   Image<U8> residue = ori - res;
@@ -55,4 +82,17 @@ int main(int argc, char *argv[]) {
   // Ecriture de l'image originale et de l'image filtrée
   ori.save("attr_in.pgm");
   res.save("attr_out.pgm");
+}
+
+// non utilisé, pour chercher la valeur maximum dans les fils
+double rec_max(Node *n) {
+  double attr = n->compacity;
+
+  Node::ContainerChilds::iterator jt;
+  for (jt = n->childs.begin(); jt != n->childs.end(); ++jt) {
+    double tmp = rec_max(*jt);
+    if (tmp > attr) attr = tmp;
+  }
+
+  return attr;
 }
