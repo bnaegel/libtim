@@ -55,7 +55,7 @@ struct Table{
 typedef Table<U8,3> RGB;
 
 //Type of image size 
-typedef unsigned short TSize;
+typedef unsigned long TSize;
 
 //Type of point spacing
 typedef double TSpacing;
