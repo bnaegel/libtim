@@ -23,8 +23,8 @@
 
 namespace LibTIM {
 
-static int getOffset(int x,  int y, int z,
-			         int tx, int ty)
+static long getOffset(long x,  long y, long z,
+                     long tx, long ty)
 {
 	return x + y*tx + z*tx*ty;
 }
@@ -45,12 +45,12 @@ void Image<VoxelType>::setImageInfos(Image <VoxelType2> &im)
 template <class T> 
 Image<T>::Image(const TSize *size)
 {
-	for (int i = 0; i < 3; i++)
+    for (long i = 0; i < 3; i++)
 	{
 		this->size[i] = size[i];
 	}
 	
-	for (int i = 0; i < 3; i++)
+    for (long i = 0; i < 3; i++)
 	{
 		this->spacing[i] = 1.0;
 	}
@@ -75,7 +75,7 @@ Image<T>::Image(const TSize xSize, const TSize ySize, const TSize zSize)
 	this->size[1] = ySize;
 	this->size[2] = zSize;
 	
-	for (int i = 0; i < 3; i++)
+    for (long i = 0; i < 3; i++)
 	{
 		this->spacing[i] = 1.0;
 	}
@@ -96,8 +96,8 @@ Image<T>::Image(const TSize xSize, const TSize ySize, const TSize zSize)
 template <class T>
 Image<T>::Image(const TSize *size, const TSpacing *spacing, const T *data)
 {
-	for (int i = 0; i < 3; i++) this->size[i] = size[i];
-	for (int i = 0; i < 3; i++) this->spacing[i] = spacing[i];
+    for (long i = 0; i < 3; i++) this->size[i] = size[i];
+    for (long i = 0; i < 3; i++) this->spacing[i] = spacing[i];
 	this->dataSize=this->size[0]*this->size[1]*this->size[2];
 	
 	try {
@@ -109,15 +109,15 @@ Image<T>::Image(const TSize *size, const TSpacing *spacing, const T *data)
     	exit(-1);
   		}
 	
-	for(int i=0; i<this->dataSize; i++) this->data[i]=data[i];
+    for(long i=0; i<this->dataSize; i++) this->data[i]=data[i];
 }
 
 //Copy ctor
 template <class T> 
 Image<T>::Image(const Image<T> &im)
 {
-	for (int i = 0; i < 3; i++) this->size[i] = im.size[i];
-	for (int i = 0; i < 3; i++) this->spacing[i] = im.spacing[i];
+    for (long i = 0; i < 3; i++) this->size[i] = im.size[i];
+    for (long i = 0; i < 3; i++) this->spacing[i] = im.spacing[i];
 	
 	dataSize=im.size[0]*im.size[1]*im.size[2];
 	try {
@@ -129,7 +129,7 @@ Image<T>::Image(const Image<T> &im)
     	exit(-1);
   		}
 
-	for (int i=0; i<this->dataSize; i++)
+    for (long i=0; i<this->dataSize; i++)
 		data[i] = im.data[i];
 }
 
@@ -139,8 +139,8 @@ Image <T> & Image<T>::operator=(const Image <T> &im)
 {
 	if(this != &im)
 		{
-		for (int i = 0; i < 3; i++) this->size[i] = im.size[i];
-		for (int i = 0; i < 3; i++) this->spacing[i] = im.spacing[i];
+        for (long i = 0; i < 3; i++) this->size[i] = im.size[i];
+        for (long i = 0; i < 3; i++) this->spacing[i] = im.spacing[i];
 		if(this->data != 0)
 			{
 			delete[] this->data;
@@ -156,7 +156,7 @@ Image <T> & Image<T>::operator=(const Image <T> &im)
     		exit(-1);
   			}
 
-		for (int i=0; i<this->dataSize; i++)
+        for (long i=0; i<this->dataSize; i++)
 			this->data[i] = im.data[i];
 		}
 	return *this;
@@ -187,7 +187,7 @@ Image<T>::Image( const Image<T2> &im)
     	exit(-1);
   		}
 	
-	for (int i=0; i < this->dataSize; i++)
+    for (long i=0; i < this->dataSize; i++)
 		this->data[i] = static_cast<T> (im(i));
 }
 
@@ -196,7 +196,7 @@ Image<T>::Image( const Image<T2> &im)
 template <class T>
 Image <T> &Image<T>::operator+=(Image <T> &op)
 {
-	for(int i=0; i<dataSize; i++)
+    for(long i=0; i<dataSize; i++)
 		this->data[i]+=op(i);
 	return *this;
 }
@@ -204,7 +204,7 @@ Image <T> &Image<T>::operator+=(Image <T> &op)
 template <class T>
 Image <T> &Image<T>::operator-=(Image <T> &op)
 {
-	for(int i=0; i<dataSize; i++)
+    for(long i=0; i<dataSize; i++)
 		this->data[i]-=op(i);
 	return *this;
 }
@@ -212,7 +212,7 @@ Image <T> &Image<T>::operator-=(Image <T> &op)
 template <class T>
 Image <T> &Image<T>::operator*=(Image <T> &op)
 {
-	for(int i=0; i<dataSize; i++)
+    for(long i=0; i<dataSize; i++)
 		this->data[i]*=op(i);
 	return *this;
 }
@@ -220,7 +220,7 @@ Image <T> &Image<T>::operator*=(Image <T> &op)
 template <class T>
 Image <T> &Image<T>::operator&=(Image <T> &op)
 {
-	for(int i=0; i<dataSize; i++)
+    for(long i=0; i<dataSize; i++)
 		this->data[i]=std::min(this->data[i],op(i));
 	return *this;
 }
@@ -228,7 +228,7 @@ Image <T> &Image<T>::operator&=(Image <T> &op)
 template <class T>
 Image <T> &Image<T>::operator|=(Image <T> &op)
 {
-	for(int i=0; i<dataSize; i++)
+    for(long i=0; i<dataSize; i++)
 		this->data[i]=std::max(this->data[i],op(i));
 	return *this;
 }
@@ -239,7 +239,7 @@ Image <T> &Image<T>::operator!()
 	T max=std::numeric_limits<T>::max();
 	T min=std::numeric_limits<T>::min();
 	
-	for(int i=0; i<this->dataSize; i++)
+    for(long i=0; i<this->dataSize; i++)
 		this->data[i]=max+min-this->data[i];
 	return *this;
 }
@@ -249,7 +249,7 @@ template <class T>
 T Image<T>::getMax(void) const
 { 
 T max=std::numeric_limits<T>::min(); 
-for (int i=0;i<dataSize; i++) 
+for (long i=0;i<dataSize; i++)
 	if(this->data[i]>max) 
 		max=this->data[i]; 
 return max;
@@ -259,7 +259,7 @@ template <class T>
 T Image<T>::getMin(void) const
 { 
 T min=std::numeric_limits<T>::max(); 
-for (int i=0;i<this->dataSize; i++) 
+for (long i=0;i<this->dataSize; i++)
 	if(this->data[i]<min) 
 		min=this->data[i]; 
 return min;
@@ -270,7 +270,7 @@ return min;
 template <class T> 
 void Image<T>::fill(const T value)
 {
-	for(int i=0; i<this->dataSize; i++)
+    for(long i=0; i<this->dataSize; i++)
 		this->data[i]=value;
 }
 
@@ -300,15 +300,15 @@ Image<T>  Image<T>::crop(const TCoord fromX, const TCoord toX,
 
 template <class VoxelType> 
 void Image<VoxelType>::copy(Image<VoxelType> &im,
- 			                 int x1, int y1, int z1,
-		                     int x2, int y2, int z2,
-			                 int px, int py, int pz)
+                             long x1, long y1, long z1,
+                             long x2, long y2, long z2,
+                             long px, long py, long pz)
 {
-	for (int x = 0; x <= x2-x1; x++)
+    for (long x = 0; x <= x2-x1; x++)
 	{
-		for (int y = 0; y <= y2-y1; y++)
+        for (long y = 0; y <= y2-y1; y++)
 		{
-			for (int z = 0; z <= z2-z1; z++)
+            for (long z = 0; z <= z2-z1; z++)
 			{				
 				this->operator()(px + x, py + y, pz + z)=im(x + x1, y + y1, z + z1);
 			}
@@ -318,9 +318,9 @@ void Image<VoxelType>::copy(Image<VoxelType> &im,
 
 template <class VoxelType> 
 void Image<VoxelType>::copyFast(Image<VoxelType> &im,
- 			                 int x1, int y1, int z1,
-		                     int x2, int y2, int z2,
-			                 int px, int py, int pz)
+                             long x1, long y1, long z1,
+                             long x2, long y2, long z2,
+                             long px, long py, long pz)
 {
 	typename Image<VoxelType>::iteratorXYZ it;
 	typename Image<VoxelType>::iteratorXYZ end=this->end();
@@ -350,13 +350,13 @@ Image<VoxelType> Image<VoxelType>::getReflection()
 {
 	Image<VoxelType> im(*this);
 
-	int *taille = getSize();
+    long *taille = getSize();
 
-	for (int x = 0; x < taille[0]; x++)
+    for (long x = 0; x < taille[0]; x++)
 	{
-		for (int y = 0; y < taille[1]; y++)
+        for (long y = 0; y < taille[1]; y++)
 		{
-			for (int z = 0; z < taille[2]; z++)
+            for (long z = 0; z < taille[2]; z++)
 			{
 				im(x,y,z)=im(taille[0]-x-1,taille[1]-y-1,taille[2]-z-1);
 			}

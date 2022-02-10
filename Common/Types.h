@@ -61,13 +61,13 @@ typedef unsigned long TSize;
 typedef double TSpacing;
 
 //Type of points coordinates
-typedef int TCoord;
+typedef long TCoord;
 
 //Type of label
 typedef unsigned long TLabel;
 
 //Type of offset
-typedef  long TOffset;
+typedef long TOffset;
 
 const float FLOAT_EPSILON=0.0000000001f;
 }
