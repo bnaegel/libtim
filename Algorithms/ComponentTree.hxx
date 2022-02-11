@@ -1334,6 +1334,39 @@ long SalembierRecursiveImplementation<T>::computeArea(Node *tree)
 }
 
 template <class T>
+double SalembierRecursiveImplementation<T>::computeMSER(Node *tree, unsigned int delta)
+{
+    if(tree!=0)
+        {
+        Node::ContainerChilds::iterator it;
+        for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
+            {
+            tree->mser = computeMSER(*it, delta);
+            }
+        double mser = 1;
+        double area_node = tree->area;
+        int level_node = tree->h;
+
+        do
+        {
+            tree = tree->father;
+            //std::cout << tree << std::endl;
+        }
+        while((tree->h - tree->father->h < delta) && tree != tree->father);
+
+        double area_father = tree->area;
+        // la vrai mser
+        mser = (area_father - area_node) / (area_node);
+        // normalization par Rk+d
+        // mser = (area_father - area_node) / (area_father);
+
+        return mser;
+        }
+    // error
+    else return -1;
+}
+
+template <class T>
 int SalembierRecursiveImplementation<T>::computeSubNodes(Node *tree)
 {
 	if(tree!=0)
@@ -1637,6 +1670,8 @@ void SalembierRecursiveImplementation<T>::computeAttributes(Node *tree)
 	if(tree!=0)
 		{
 		tree->area=computeArea(tree);
+        // choose the delta parameter here
+        tree->mser=computeMSER(tree, 20);
 		tree->contrast=computeContrast(tree);
 		tree->volume=computeVolume(tree);
 
