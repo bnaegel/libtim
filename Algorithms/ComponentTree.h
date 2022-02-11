@@ -62,7 +62,7 @@ struct Node {
     int xmax;
     int ymin;
     int ymax;
-    int area;
+    long area;
     int contrast;
     int volume;
     int contourLength;
@@ -150,7 +150,7 @@ class ComponentTree {
 		  * @brief Area filtering
 		**/
 
-		int areaFiltering(int tMin, int tMax=std::numeric_limits<int>::max());
+        int areaFiltering(long tMin, long tMax=std::numeric_limits<long>::max());
 
 		/**
 		  * @brief Contrast filtering
@@ -293,7 +293,7 @@ class SalembierRecursiveImplementation: public ComponentTreeStrategy <T> {
 	Node *computeTree();
 	void computeAttributes(Node *tree);
 
-	int computeArea(Node *tree);
+    long computeArea(Node *tree);
 	int computeContrast(Node *tree);
 	int computeVolume(Node *tree);
 	int computeSubNodes(Node *tree);

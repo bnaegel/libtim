@@ -835,7 +835,7 @@ int ComponentTree<T>::contrastFiltering(int tMin, int tMax)
 }
 
 template <class T>
-int ComponentTree<T>::areaFiltering(int tMin, int tMax)
+int ComponentTree<T>::areaFiltering(long tMin, long tMax)
 {
 	if(m_root!=0)
 		{
@@ -1318,7 +1318,7 @@ int SalembierRecursiveImplementation<T>::computeContrast(Node *tree)
 }
 
 template <class T>
-int SalembierRecursiveImplementation<T>::computeArea(Node *tree)
+long SalembierRecursiveImplementation<T>::computeArea(Node *tree)
 {
 	if(tree!=0)
 		{
