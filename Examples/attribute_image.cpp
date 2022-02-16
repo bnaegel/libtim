@@ -42,8 +42,9 @@ int main(int argc, char *argv[]) {
         Node *n = tree.indexedCoordToNode(i, j, k, nodes);
         // remplacer n->attribut par l'attribut souhaité
         // double attr = (double)(n->area);
-        double attr = (double)(n->contrast);
+        // double attr = (double)(n->contrast);
         // double attr = (double)(n->compacity);
+        double attr = (double)(n->mser);
 
         // si l'on cherche la maximum dans la branche parent
         /*
@@ -52,9 +53,9 @@ int main(int argc, char *argv[]) {
         // parcours de l'arbre
         while(n->father != tree.m_root) {
             n = n->father;
-            attr = std::max(attr, (double)(n->compacity));
+            attr = std::max(attr, (double)(n->mser));
         }
-        attr = std::max(attr, (double)(tree.m_root->compacity));
+        attr = std::max(attr, (double)(tree.m_root->mser));
         */
 
         min_attr = std::min(min_attr, attr);
@@ -86,7 +87,7 @@ int main(int argc, char *argv[]) {
 
 // non utilisé, pour chercher la valeur maximum dans les fils
 double rec_max(Node *n) {
-  double attr = n->compacity;
+  double attr = n->mser;
 
   Node::ContainerChilds::iterator jt;
   for (jt = n->childs.begin(); jt != n->childs.end(); ++jt) {
