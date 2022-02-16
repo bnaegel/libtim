@@ -47,7 +47,7 @@ const int localMin=std::numeric_limits<int>::min();
 struct Node {
     Node()
     : label(-1),xmin(localMax),ymin(localMax),
-    xmax(localMin),ymax(localMin),area(0), mser(1),
+    xmax(localMin),ymax(localMin),area(0), mser(0),
     contrast(0), volume(0),  contourLength(0),
     complexity(0), subNodes(0),status(true),
     m01(0),m10(0),m20(0),m02(0),
