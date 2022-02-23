@@ -25,10 +25,19 @@ int main(int argc, char *argv[]) {
   // Copie de l'image originale
   Image<U8> ori = im;
 
+  // dual
+  /*
+  for (std::size_t i = 0; i < im.getSizeX(); i++)
+    for (std::size_t j = 0; j < im.getSizeY(); j++)
+      for (std::size_t k = 0; k < im.getSizeZ(); k++) {
+        im(i, j, k) = 255 - im(i, j, k);
+      }
+  */
+
   // Construction du component-tree par la méthode de Salembier
   FlatSE connexity;
   connexity.make2DN8();
-  ComponentTree<U8> tree(im, connexity);
+  ComponentTree<U8> tree(im, connexity, 5);
 
   // Valeurs d'attribut pour chaque pixel
   Image<double> res_ = im;
@@ -41,22 +50,33 @@ int main(int argc, char *argv[]) {
       for (std::size_t k = 0; k < res_.getSizeZ(); k++) {
         Node *n = tree.indexedCoordToNode(i, j, k, nodes);
         // remplacer n->attribut par l'attribut souhaité
-        // double attr = (double)(n->area);
-        // double attr = (double)(n->contrast);
-        // double attr = (double)(n->compacity);
-        double attr = (double)(n->mser);
 
-        // si l'on cherche la maximum dans la branche parent
-        /*
+        double attr = (double)(n->mser);
+        // si l'on cherche la maximum / minimum, dans la branche parent
         // sauvegarde valeur initiale
         double attr_init = attr;
+        // noeud selectionné
+        Node *n_s = n;
         // parcours de l'arbre
         while(n->father != tree.m_root) {
             n = n->father;
-            attr = std::max(attr, (double)(n->mser));
+            if(attr == n->mser) {}
+            else if(attr < n->mser)
+            {
+                /*
+                n_s = n;
+                attr = n->mser;
+                */
+            }
+            else
+            {
+                n_s = n;
+                attr = n->mser;
+            }
         }
-        attr = std::max(attr, (double)(tree.m_root->mser));
-        */
+        // attr = std::max(attr, (double)(tree.m_root->mser));
+        // si on souhaite utiliser un autre attribut pour la valeur
+        attr = n_s->area;
 
         min_attr = std::min(min_attr, attr);
         max_attr = std::max(max_attr, attr);
