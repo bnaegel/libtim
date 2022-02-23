@@ -22,8 +22,13 @@
 #include "Common/FlatSE.h"
 #include "Common/Image.h"
 #include <cmath>
-#include <unistd.h>
 #include <algorithm>
+
+#if _WIN32
+    #include <io.h>
+#else
+    #include <unistd.h>
+#endif
 
 
 namespace LibTIM {
