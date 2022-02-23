@@ -49,10 +49,20 @@ template <class T>
 ComponentTree<T>::ComponentTree( Image< T > & img , FlatSE &connexity)
 :m_root(0),m_img(img)
 {
-	SalembierRecursiveImplementation<T> strategy(this,connexity);
+    SalembierRecursiveImplementation<T> strategy(this,connexity);
 
-	m_root=strategy.computeTree();
-	strategy.computeAttributes(m_root);
+    m_root=strategy.computeTree();
+    strategy.computeAttributes(m_root);
+}
+
+template <class T>
+ComponentTree<T>::ComponentTree( Image< T > & img , FlatSE &connexity, unsigned int delta)
+:m_root(0),m_img(img)
+{
+    SalembierRecursiveImplementation<T> strategy(this,connexity);
+
+    m_root=strategy.computeTree();
+    strategy.computeAttributes(m_root, delta);
 }
 
 template <class T>
@@ -1667,24 +1677,32 @@ int SalembierRecursiveImplementation<T>::computeBoundingBox(Node *tree)
 template <class T>
 void SalembierRecursiveImplementation<T>::computeAttributes(Node *tree)
 {
-	if(tree!=0)
-		{
-		tree->area=computeArea(tree);
-        // choose the delta parameter here
-        tree->mser=computeMSER(tree, 5);
-		tree->contrast=computeContrast(tree);
-		tree->volume=computeVolume(tree);
+    if(tree!=0)
+        {
+        tree->area=computeArea(tree);
+        tree->contrast=computeContrast(tree);
+        tree->volume=computeVolume(tree);
 
-		computeComplexityAndCompacity(tree);
- 		computeBoundingBox(tree);
-		tree->subNodes=computeSubNodes(tree);
-		tree->m01=computeM01(tree);
-		tree->m10=computeM10(tree);
-		tree->m20=computeM20(tree);
-		tree->m02=computeM02(tree);
-		computeInertiaMoment(tree);
-		}
-    
+        computeComplexityAndCompacity(tree);
+        computeBoundingBox(tree);
+        tree->subNodes=computeSubNodes(tree);
+        tree->m01=computeM01(tree);
+        tree->m10=computeM10(tree);
+        tree->m20=computeM20(tree);
+        tree->m02=computeM02(tree);
+        computeInertiaMoment(tree);
+        }
+
+}
+
+template <class T>
+void SalembierRecursiveImplementation<T>::computeAttributes(Node *tree, unsigned int delta)
+{
+    if(tree!=0)
+        {
+        tree->area=computeArea(tree);
+        tree->mser=computeMSER(tree, delta);
+        }
 }
 
 //////////////////////////////////////////////////////////////

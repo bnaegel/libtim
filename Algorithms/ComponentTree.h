@@ -111,8 +111,9 @@ template <class T>
 class ComponentTree {
 	public:
 		ComponentTree() {};
-		ComponentTree(Image <T> &img);
-		ComponentTree(Image <T> &img, FlatSE &connexity);
+        ComponentTree(Image <T> &img);
+        ComponentTree(Image <T> &img, FlatSE &connexity);
+        ComponentTree(Image <T> &img, FlatSE &connexity, unsigned int delta);
 		~ComponentTree();
 
 		enum ConstructionDecision {MIN,MAX,DIRECT};
@@ -291,8 +292,9 @@ class SalembierRecursiveImplementation: public ComponentTreeStrategy <T> {
 		delete[] hq;
 		}
 
-	Node *computeTree();
-	void computeAttributes(Node *tree);
+    Node *computeTree();
+    void computeAttributes(Node *tree);
+    void computeAttributes(Node *tree, unsigned int delta);
 
     long computeArea(Node *tree);
     double computeMSER(Node *tree, unsigned int delta);
