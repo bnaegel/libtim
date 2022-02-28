@@ -849,7 +849,7 @@ int ComponentTree<T>::contrastFiltering(int tMin, int tMax)
 }
 
 template <class T>
-int ComponentTree<T>::areaFiltering(long tMin, long tMax)
+int ComponentTree<T>::areaFiltering(int64_t tMin, int64_t tMax)
 {
 	if(m_root!=0)
 		{
@@ -1332,7 +1332,7 @@ int SalembierRecursiveImplementation<T>::computeContrast(Node *tree)
 }
 
 template <class T>
-long SalembierRecursiveImplementation<T>::computeArea(Node *tree)
+int64_t SalembierRecursiveImplementation<T>::computeArea(Node *tree)
 {
 	if(tree!=0)
 		{
@@ -1348,7 +1348,7 @@ long SalembierRecursiveImplementation<T>::computeArea(Node *tree)
 }
 
 template <class T>
-double SalembierRecursiveImplementation<T>::computeMSER(Node *tree, unsigned int delta)
+int64_t SalembierRecursiveImplementation<T>::computeMSER(Node *tree, unsigned int delta)
 {
     if(tree!=0)
         {
@@ -1357,8 +1357,8 @@ double SalembierRecursiveImplementation<T>::computeMSER(Node *tree, unsigned int
             {
             tree->mser = computeMSER(*it, delta);
             }
-        double mser = -1;
-        long area_node = tree->area;
+        int64_t mser = std::numeric_limits<int64_t>::infinity();
+        int64_t area_node = tree->area;
         int level_node = tree->h;
 
         while((level_node - tree->h < delta) && (tree != tree->father))
@@ -1368,16 +1368,18 @@ double SalembierRecursiveImplementation<T>::computeMSER(Node *tree, unsigned int
 
         if((level_node - tree->h) >= delta)
         {
-            long area_father = tree->area;
-            mser = ((double)(area_father - area_node) / (double)(area_node));
-            // normalization par Rk+d
-            // mser = (area_father - area_node) / (area_father);
+            int64_t area_father = tree->area;
+            mser = ((int64_t)1000)
+                    *
+                    std::max((double)(std::numeric_limits<int32_t>::max()/10000),
+                    ((double)(area_father - area_node) / (double)(area_node))
+                    );
         }
 
         return mser;
         }
     // error
-    else return -1;
+    else return std::numeric_limits<int64_t>::infinity();
 }
 
 template <class T>
