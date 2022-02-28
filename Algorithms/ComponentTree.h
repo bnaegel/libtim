@@ -72,7 +72,7 @@ struct Node {
     
     int debug;
     
-    int subNodes;
+    int64_t subNodes;
     
     //experimental... moments
     long double m01;
@@ -300,7 +300,7 @@ class SalembierRecursiveImplementation: public ComponentTreeStrategy <T> {
     int64_t computeMSER(Node *tree, unsigned int delta);
 	int computeContrast(Node *tree);
 	int computeVolume(Node *tree);
-	int computeSubNodes(Node *tree);
+    int64_t computeSubNodes(Node *tree);
 
 	long double computeM01(Node *tree);
 	long double computeM10(Node *tree);

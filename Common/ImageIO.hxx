@@ -193,10 +193,10 @@ namespace LibTIM {
         std::string str;
         std::string format;
         
-        int width=getSizeX();
-        int height=getSizeY();
+        TSize width=getSizeX();
+        TSize height=getSizeY();
         
-        int buf_size = width*height;
+        TSize buf_size = width*height;
                 
         file << "P5\n#CREATOR: GImage \n" << width << " " << height << "\n" << "255" ;
         file << "\n";
@@ -222,10 +222,10 @@ namespace LibTIM {
         std::string str;
         std::string format;
         
-        int width=getSizeX();
-        int height=getSizeY();
+        TSize width=getSizeX();
+        TSize height=getSizeY();
         
-        int buf_size = width*height*sizeof(U16);
+        TSize buf_size = width*height*sizeof(U16);
         
         int maxVal=(int)(this->getMax());
         
@@ -253,10 +253,10 @@ namespace LibTIM {
         std::string str;
         std::string format;
         
-        int width=getSizeX();
-        int height=getSizeY();
+        TSize width=getSizeX();
+        TSize height=getSizeY();
         
-        int buf_size = width*height*3;
+        TSize buf_size = width*height*3;
         
         file << "P6\n#CREATOR: GImage \n" << width << " " << height << "\n" << "255\n" ;
         

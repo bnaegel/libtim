@@ -28,13 +28,13 @@ namespace LibTIM {
 
 inline FlatSE::FlatSE(const Image <unsigned char> &im)
 {
-	int dx=im.getSizeX();
-	int dy=im.getSizeY();
-	int dz=im.getSizeZ();
+    TSize dx=im.getSizeX();
+    TSize dy=im.getSizeY();
+    TSize dz=im.getSizeZ();
 	
-	int oImx=dx/2;
-	int oImy=dy/2;
-	int oImz=dz/2;
+    TSize oImx=dx/2;
+    TSize oImy=dy/2;
+    TSize oImz=dz/2;
 	
 	for(int z=0; z<dz; z++)
 		for(int y=0; y<dy; y++)
@@ -64,7 +64,7 @@ inline FlatSE &FlatSE::operator=(const FlatSE &src)
 }
 
 
-inline unsigned long FlatSE::getNbPoints() const
+inline size_t FlatSE::getNbPoints() const
 {
 	return points.size();
 }
@@ -78,7 +78,7 @@ inline void FlatSE::setContext(const TSize *imSize)
 	std::vector<Point<TCoord> >::iterator end=points.end();
 	for(it=points.begin(); it!=end; ++it)
 	{
-		int offset = it->x + (it->y)*imSize[0] + (it->z)*imSize[0]*imSize[1];
+        TSize offset = it->x + (it->y)*imSize[0] + (it->z)*imSize[0]*imSize[1];
 		offsets.push_back(offset);
 	}
 }

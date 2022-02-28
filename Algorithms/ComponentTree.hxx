@@ -1173,7 +1173,6 @@ std::vector<Node *> ComponentTree<T>::indexedNodes()
         unsigned int img_size = m_img.getSizeX() * m_img.getSizeY() * m_img.getSizeZ();
         std::vector<Node *> index(img_size);
 
-        Node *res=0;
         std::queue<Node *> fifo;
         fifo.push(m_root);
 
@@ -1361,17 +1360,17 @@ int64_t SalembierRecursiveImplementation<T>::computeMSER(Node *tree, unsigned in
         int64_t area_node = tree->area;
         int level_node = tree->h;
 
-        while((level_node - tree->h < delta) && (tree != tree->father))
+        while((level_node - tree->h < (int)delta) && (tree != tree->father))
         {
             tree = tree->father;
         }
 
-        if((level_node - tree->h) >= delta)
+        if((level_node - tree->h) >= (int)delta)
         {
             int64_t area_father = tree->area;
             mser = ((int64_t)1000)
                     *
-                    std::max((double)(std::numeric_limits<int32_t>::max()/10000),
+                    (int64_t)std::max((double)(std::numeric_limits<int32_t>::max()/10000),
                     ((double)(area_father - area_node) / (double)(area_node))
                     );
         }
@@ -1383,14 +1382,14 @@ int64_t SalembierRecursiveImplementation<T>::computeMSER(Node *tree, unsigned in
 }
 
 template <class T>
-int SalembierRecursiveImplementation<T>::computeSubNodes(Node *tree)
+int64_t SalembierRecursiveImplementation<T>::computeSubNodes(Node *tree)
 {
 	if(tree!=0)
 		{
 		Node::ContainerChilds::iterator it;
 		for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
 			{
-			tree->subNodes=tree->childs.size()+computeSubNodes(*it);
+            tree->subNodes=tree->childs.size()+computeSubNodes(*it);
 			}
 		return tree->subNodes;
 		}
@@ -1509,7 +1508,7 @@ int SalembierRecursiveImplementation<T>::computeVolume(Node *tree)
 			}
 		else local_contrast=tree->h-tree->father->h;
 
-		tree->volume=tree->area* local_contrast;
+        tree->volume=(int)tree->area * local_contrast;
 
 		Node::ContainerChilds::iterator it;
 		for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
@@ -1646,7 +1645,6 @@ int SalembierRecursiveImplementation<T>::computeComplexityAndCompacity(Node *tre
 template <class T>
 int SalembierRecursiveImplementation<T>::computeBoundingBox(Node *tree)
 {
-	int xmin,xmax,ymin,ymax;
 	std::queue<Node *> fifo;
 	std::stack<Node *> stackNodes;
 

@@ -27,7 +27,7 @@
 namespace LibTIM{
 
 /** \defgroup ccLabelling Connected Components Labelling
-/** \ingroup Morpho 
+    \ingroup Morpho
 **/
 /*@{*/
 
@@ -105,8 +105,9 @@ Image <TLabel> labelConnectedComponents(Image <T> &img, FlatSE &se)
 
 ///Sort the connected components by their size and keep only the iest largest one(s)
 /// Largest one = 1 (not 0)
- 
-inline void keepIestLargestComponent(Image <TLabel> &img, FlatSE &se, int Iest)
+
+// inline void keepIestLargestComponent(Image <TLabel> &img, FlatSE &se, int Iest)
+inline void keepIestLargestComponent(Image <TLabel> &img, int Iest)
 {
 	///Map CC number to its size
 	typedef std::map <TLabel, int> mapCCType;
