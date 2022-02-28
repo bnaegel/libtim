@@ -84,7 +84,7 @@ Image<int> attributeImage(Image<U8> &im, AttributeID value_attribute, AttributeI
                   if(attr == attr_father) {}
                   // maximise attribute (be carefule to infinity)
                   else if(attr_father > attr && selection_rule == MAX &&
-                          attr_father < std::numeric_limits<int32_t>::max()/1000)
+                          attr_father < std::numeric_limits<int32_t>::max()-1)
                   {
                       n_s = n;
                       attr = attr_father;

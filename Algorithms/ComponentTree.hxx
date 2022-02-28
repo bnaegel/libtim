@@ -1356,7 +1356,7 @@ int64_t SalembierRecursiveImplementation<T>::computeMSER(Node *tree, unsigned in
             {
             tree->mser = computeMSER(*it, delta);
             }
-        int64_t mser = std::numeric_limits<int64_t>::infinity();
+        int64_t mser = std::numeric_limits<int64_t>::max();
         int64_t area_node = tree->area;
         int level_node = tree->h;
 
@@ -1370,7 +1370,7 @@ int64_t SalembierRecursiveImplementation<T>::computeMSER(Node *tree, unsigned in
             int64_t area_father = tree->area;
             mser = ((int64_t)1000)
                     *
-                    (int64_t)std::max((double)(std::numeric_limits<int32_t>::max()/10000),
+                    (int64_t)std::min((double)(std::numeric_limits<int32_t>::max()/10000),
                     ((double)(area_father - area_node) / (double)(area_node))
                     );
         }
@@ -1378,7 +1378,7 @@ int64_t SalembierRecursiveImplementation<T>::computeMSER(Node *tree, unsigned in
         return mser;
         }
     // error
-    else return std::numeric_limits<int64_t>::infinity();
+    else return std::numeric_limits<int64_t>::max();
 }
 
 template <class T>
