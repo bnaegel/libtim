@@ -27,7 +27,7 @@ enum AttributeSelectionRule {
 
 int32_t int64Toint32(int64_t a)
 {
-    return std::max(std::min(a, (int64_t)std::numeric_limits<int32_t>::max()), (int64_t)std::numeric_limits<int32_t>::min());
+    return (int32_t)std::max(std::min(a, (int64_t)std::numeric_limits<int32_t>::max()), (int64_t)std::numeric_limits<int32_t>::min());
 }
 
 int getAttribute(Node *n, AttributeID attribute_id) {
@@ -61,9 +61,9 @@ Image<int> attributeImage(Image<U8> &im, AttributeID value_attribute, AttributeI
     Image<int> res = im;
 
     std::vector<Node *> nodes = tree.indexedNodes();
-    for (std::size_t i = 0; i < res.getSizeX(); i++)
-      for (std::size_t j = 0; j < res.getSizeY(); j++)
-        for (std::size_t k = 0; k < res.getSizeZ(); k++) {
+    for (TSize i = 0; i < res.getSizeX(); i++)
+      for (TSize j = 0; j < res.getSizeY(); j++)
+        for (TSize k = 0; k < res.getSizeZ(); k++) {
           int attr;
           Node *n = tree.indexedCoordToNode(i, j, k, nodes);
           // noeud selectionné
@@ -118,9 +118,9 @@ int normalizeAndSave(Image<U8> &ori, Image<int> &res_, std::string name, int lim
     std::cout << "[INFO] attribute [" << min_attr << ", " << max_attr << "]" << std::endl;
 
     // limit [?, ?] -> [0, limit]
-    for (std::size_t i = 0; i < res_.getSizeX(); i++)
-      for (std::size_t j = 0; j < res_.getSizeY(); j++)
-        for (std::size_t k = 0; k < res_.getSizeZ(); k++) {
+    for (TSize i = 0; i < res_.getSizeX(); i++)
+      for (TSize j = 0; j < res_.getSizeY(); j++)
+        for (TSize k = 0; k < res_.getSizeZ(); k++) {
             res_(i, j, k) = std::min(res_(i, j, k), limit);
         }
 
@@ -131,9 +131,9 @@ int normalizeAndSave(Image<U8> &ori, Image<int> &res_, std::string name, int lim
     Image<U8> res = res_;
 
     // normalization [?, ?] -> [0, 255]
-    for (std::size_t i = 0; i < res_.getSizeX(); i++)
-      for (std::size_t j = 0; j < res_.getSizeY(); j++)
-        for (std::size_t k = 0; k < res_.getSizeZ(); k++) {
+    for (TSize i = 0; i < res_.getSizeX(); i++)
+      for (TSize j = 0; j < res_.getSizeY(); j++)
+        for (TSize k = 0; k < res_.getSizeZ(); k++) {
           res(i, j, k) =
               (U8)(255.0 * (((double)(res_(i, j, k) - min_attr)) / (double)(max_attr - min_attr)));
         }
@@ -150,9 +150,9 @@ int normalizeAndSave(Image<U8> &ori, Image<int> &res_, std::string name, int lim
     residue.save((name + std::string("_residue.pgm")).c_str());
 
     // Image residue inversé
-    for (std::size_t i = 0; i < res.getSizeX(); i++)
-      for (std::size_t j = 0; j < res.getSizeY(); j++)
-        for (std::size_t k = 0; k < res.getSizeZ(); k++) {
+    for (TSize i = 0; i < res.getSizeX(); i++)
+      for (TSize j = 0; j < res.getSizeY(); j++)
+        for (TSize k = 0; k < res.getSizeZ(); k++) {
           res(i, j, k) = 255 - res(i, j, k);
         }
     Image<U8> residue_inv = ori - res;
@@ -193,9 +193,9 @@ int main(int argc, char *argv[]) {
   if(dual)
   {
       Image<U8> im_dual = im;
-      for (std::size_t i = 0; i < im.getSizeX(); i++)
-        for (std::size_t j = 0; j < im.getSizeY(); j++)
-          for (std::size_t k = 0; k < im.getSizeZ(); k++) {
+      for (TSize i = 0; i < im.getSizeX(); i++)
+        for (TSize j = 0; j < im.getSizeY(); j++)
+          for (TSize k = 0; k < im.getSizeZ(); k++) {
             im_dual(i, j, k) = 255 - im_dual(i, j, k);
           }
       res_ = attributeImage(im_dual, AREA, MSER, delta, rule);
@@ -206,6 +206,7 @@ int main(int argc, char *argv[]) {
 }
 
 // non utilisé, pour chercher la valeur maximum dans les fils
+/*
 double rec_max(Node *n) {
   double attr = n->mser;
 
@@ -217,3 +218,4 @@ double rec_max(Node *n) {
 
   return attr;
 }
+*/
