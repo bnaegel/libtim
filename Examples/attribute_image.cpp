@@ -16,29 +16,26 @@ enum AttributeID {
   VOLUME,
   CONTOUR_LENGTH,
   COMPLEXITY,
-  COMPACITY,
-  HU_INVARIANT_MOMENT
+  COMPACITY
 };
 
-int longToInt(long a)
-{
-    return std::max(std::min(a, (long)std::numeric_limits<int>::max()), (long)std::numeric_limits<int>::min());
-}
+enum AttributeSelectionRule {
+  NODE,
+  MIN,
+  MAX
+};
 
-int doubleToInt(double a, long m=1000)
+int32_t int64Toint32(int64_t a)
 {
-    if (a != -1.0)
-        return std::max(std::min(longToInt((long)(m*a)), std::numeric_limits<int>::max()), std::numeric_limits<int>::min());
-    else
-        return std::numeric_limits<int>::max();
+    return std::max(std::min(a, (int64_t)std::numeric_limits<int32_t>::max()), (int64_t)std::numeric_limits<int32_t>::min());
 }
 
 int getAttribute(Node *n, AttributeID attribute_id) {
   switch (attribute_id) {
     case AREA:
-      return longToInt(n->area);
+      return int64Toint32(n->area);
     case MSER:
-      return doubleToInt(n->mser);
+      return int64Toint32(n->mser);
     case CONTRAST:
       return n->contrast;
     case VOLUME:
@@ -49,13 +46,11 @@ int getAttribute(Node *n, AttributeID attribute_id) {
       return n->complexity;
     case COMPACITY:
       return n->compacity;
-    case HU_INVARIANT_MOMENT:
-        return (int)n->I;
   }
   return 0;
 }
 
-Image<int> attributeImage(Image<U8> &im, AttributeID value_attribute, AttributeID selection_attribute, unsigned int delta)
+Image<int> attributeImage(Image<U8> &im, AttributeID value_attribute, AttributeID selection_attribute, unsigned int delta, AttributeSelectionRule selection_rule=NODE)
 {
     // Construction du component-tree par la méthode de Salembier
     FlatSE connexity;
@@ -64,45 +59,51 @@ Image<int> attributeImage(Image<U8> &im, AttributeID value_attribute, AttributeI
 
     // Valeurs d'attribut pour chaque pixel
     Image<int> res = im;
-    int min_attr = std::numeric_limits<int>::max();
-    int max_attr = std::numeric_limits<int>::min();
 
     std::vector<Node *> nodes = tree.indexedNodes();
     for (std::size_t i = 0; i < res.getSizeX(); i++)
       for (std::size_t j = 0; j < res.getSizeY(); j++)
         for (std::size_t k = 0; k < res.getSizeZ(); k++) {
+          int attr;
           Node *n = tree.indexedCoordToNode(i, j, k, nodes);
-          // remplacer par l'attribut souhaité
-          int attr = getAttribute(n, selection_attribute);
-
-          // maximum / minimum, dans la branche parent
-          int attr_father;
           // noeud selectionné
           Node *n_s = n;
-          // parcours de l'arbre
-          while(n->father != tree.m_root) {
-              n = n->father;
-              attr_father = getAttribute(n, selection_attribute);
 
-              if(attr == attr_father) {}
-              // maximise attribute
-              else if(attr < attr_father)
-              {
-                  /*
-                  n_s = n;
-                  attr = attr_father;
-                  */
+          if(selection_rule != NODE)
+          {
+              // remplacer par l'attribut souhaité
+              attr = getAttribute(n, selection_attribute);
+
+              // maximum / minimum, dans la branche parent
+              int attr_father;
+              // parcours de l'arbre
+              while(n->father != tree.m_root) {
+                  n = n->father;
+                  attr_father = getAttribute(n, selection_attribute);
+
+                  if(attr == attr_father) {}
+                  // maximise attribute (be carefule to infinity)
+                  else if(attr_father > attr && selection_rule == MAX &&
+                          attr_father < std::numeric_limits<int32_t>::max()/1000)
+                  {
+                      n_s = n;
+                      attr = attr_father;
+                  }
+                  // minimize attribute
+                  else if(attr_father < attr && selection_rule == MIN)
+                  {
+                      n_s = n;
+                      attr = attr_father;
+                  }
               }
-              else
+              if(attr < 0)
               {
-                  n_s = n;
-                  attr = attr_father;
+                  std::cout << "ERROR: NEGATIVE SELECTION ATTRIBUTE" << attr << std::endl;
+                  exit(1);
               }
           }
-          attr = getAttribute(n_s, value_attribute);
 
-          min_attr = std::min(min_attr, attr);
-          max_attr = std::max(max_attr, attr);
+          attr = getAttribute(n_s, value_attribute);
 
           res(i, j, k) = attr;
         }
@@ -176,27 +177,30 @@ int main(int argc, char *argv[]) {
 
   // Copie de l'image originale
   Image<U8> ori = im;
+  ori.save("attr_in.pgm");
 
-  // Dual
-  Image<U8> im_dual = im;
-  for (std::size_t i = 0; i < im.getSizeX(); i++)
-    for (std::size_t j = 0; j < im.getSizeY(); j++)
-      for (std::size_t k = 0; k < im.getSizeZ(); k++) {
-        im_dual(i, j, k) = 255 - im_dual(i, j, k);
-      }
 
-  unsigned int delta = 20;
-  int limit = 4096; // 256 4096 16384 65536 262144
+  unsigned int delta = 5;
+  int limit = 16384; // 256 4096 16384 65536 262144
+  AttributeSelectionRule rule = MIN;
   // compute image
-  Image<int> res_ = attributeImage(im, AREA, MSER, delta);
+  Image<int> res_ = attributeImage(im, AREA, MSER, delta, rule);
   // save result as U8 img
   normalizeAndSave(ori, res_, "attr", limit);
 
-  // same for dual
-  res_ = attributeImage(im_dual, AREA, MSER, delta);
-  normalizeAndSave(ori, res_, "attr_dual", limit);
-
-  ori.save("attr_in.pgm");
+  // Dual
+  bool dual = true;
+  if(dual)
+  {
+      Image<U8> im_dual = im;
+      for (std::size_t i = 0; i < im.getSizeX(); i++)
+        for (std::size_t j = 0; j < im.getSizeY(); j++)
+          for (std::size_t k = 0; k < im.getSizeZ(); k++) {
+            im_dual(i, j, k) = 255 - im_dual(i, j, k);
+          }
+      res_ = attributeImage(im_dual, AREA, MSER, delta, rule);
+      normalizeAndSave(ori, res_, "attr_dual", limit);
+  }
 
   return 0;
 }
