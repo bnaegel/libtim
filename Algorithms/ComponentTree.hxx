@@ -1368,11 +1368,9 @@ int64_t SalembierRecursiveImplementation<T>::computeMSER(Node *tree, unsigned in
         if((level_node - tree->h) >= (int)delta)
         {
             int64_t area_father = tree->area;
-            mser = ((int64_t)1000)
-                    *
-                    (int64_t)std::min((double)(std::numeric_limits<int32_t>::max()/2000),
-                    ((double)(area_father - area_node) / (double)(area_node))
-                    );
+            mser = (int64_t)(1000.0 * std::min(
+                      (double)(std::numeric_limits<int32_t>::max()/1000),
+                      ((double)(area_father - area_node) / (double)(area_node))));
         }
 
         return mser;
