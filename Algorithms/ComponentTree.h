@@ -47,7 +47,7 @@ const int localMin=std::numeric_limits<int>::min();
 struct Node {
     Node()
     : label(-1),xmin(localMax),ymin(localMax),
-    xmax(localMin),ymax(localMin),area(0), mser(0),
+    xmax(localMin),ymax(localMin),area(0), mser(std::numeric_limits<long double>::max()),
     contrast(0), volume(0),  contourLength(0),
     complexity(0), subNodes(0),status(true),
     m01(0),m10(0),m20(0),m02(0),
@@ -63,7 +63,7 @@ struct Node {
     int ymin;
     int ymax;
     int64_t area;
-    int64_t mser;
+    long double mser;
     int contrast;
     int volume;
     int contourLength;
@@ -297,7 +297,7 @@ class SalembierRecursiveImplementation: public ComponentTreeStrategy <T> {
     void computeAttributes(Node *tree, unsigned int delta);
 
     int64_t computeArea(Node *tree);
-    int64_t computeMSER(Node *tree, unsigned int delta);
+    long double computeMSER(Node *tree, unsigned int delta);
 	int computeContrast(Node *tree);
 	int computeVolume(Node *tree);
     int64_t computeSubNodes(Node *tree);
