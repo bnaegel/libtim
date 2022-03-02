@@ -119,10 +119,23 @@ class ComponentTree {
 		enum ConstructionDecision {MIN,MAX,DIRECT};
 		Image <T> constructImage(ConstructionDecision decision=MIN);
 		Image <T> &constructImageOptimized();
+
+        enum Attribute {
+          AREA,
+          MSER,
+          CONTRAST,
+          VOLUME,
+          CONTOUR_LENGTH,
+          COMPLEXITY,
+          COMPACITY
+        };
+        template<class TVal, class TSel>
+        Image <TVal> constructImageAttribute(Attribute value_attribute, Attribute selection_attribute=MSER, ConstructionDecision selection_rule=DIRECT);
+
+
 		/**
 		  * @brief Print tree on standard output
 		**/
-
 		void print();
 
 		/**
@@ -228,6 +241,16 @@ class ComponentTree {
 		void constructImageMax(Image<T> &res);
 		void constructImageDirect(Image<T> &res);
 		void constructImageDirectExpe(Image<T> &res);
+
+        template<class TVal>
+        TVal getAttribute(Node *n, Attribute attribute_id);
+        template<class TVal, class TSel>
+        void constructImageAttributeMin(Image<TVal> &res, Attribute value_attribute, Attribute selection_attribute);
+        template<class TVal, class TSel>
+        void constructImageAttributeMax(Image<TVal> &res, Attribute value_attribute, Attribute selection_attribute);
+        template<class TVal>
+        void constructImageAttributeDirect(Image<TVal> &res, Attribute value_attribute);
+
 
 		void constructNode(Image <T> &res, Node *node);
 		void constructNodeDirect(Image <T> &res, Node *node);

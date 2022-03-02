@@ -348,6 +348,145 @@ Image <T> ComponentTree<T>::constructImage(ConstructionDecision decision)
 	return res;
 }
 
+template<class T> template<class TVal>
+TVal ComponentTree<T>::getAttribute(Node *n, ComponentTree::Attribute attribute_id)
+{
+    switch (attribute_id) {
+    case AREA:
+      return n->area;
+    case MSER:
+      return n->mser;
+    case CONTRAST:
+      return n->contrast;
+    case VOLUME:
+      return n->volume;
+    case CONTOUR_LENGTH:
+      return n->contourLength;
+    case COMPLEXITY:
+      return n->complexity;
+    case COMPACITY:
+      return n->compacity;
+  }
+  return 0;
+}
+
+template<class T> template<class TVal, class TSel>
+void ComponentTree<T>::constructImageAttributeMin(Image<TVal> &res, ComponentTree::Attribute value_attribute, ComponentTree::Attribute selection_attribute)
+{
+    res.fill(TVal(0));
+
+    std::vector<Node *> nodes = indexedNodes();
+    for (TSize i = 0; i < res.getSizeX(); i++)
+        for (TSize j = 0; j < res.getSizeY(); j++)
+            for (TSize k = 0; k < res.getSizeZ(); k++)
+            {
+                Node *n = indexedCoordToNode(i, j, k, nodes);
+                // noeud selectionné
+                Node *n_s = n;
+                TSel attr = getAttribute<TSel>(n, selection_attribute);
+                // minimum, dans la branche parent
+                TSel attr_father;
+                // parcours de l'arbre
+                while(n->father != m_root) {
+                    n = n->father;
+                    attr_father = getAttribute<TSel>(n, selection_attribute);
+
+                    if(attr_father < attr &&
+                       attr_father > 0)
+                    {
+                        n_s = n;
+                        attr = attr_father;
+                    }
+                }
+                if(attr < 0)
+                {
+                    std::cout << "ERROR: NEGATIVE SELECTION ATTRIBUTE" << attr << std::endl;
+                    exit(1);
+                }
+
+                res(i, j, k) = getAttribute<TVal>(n_s, value_attribute);
+            }
+}
+
+template<class T> template<class TVal, class TSel>
+void ComponentTree<T>::constructImageAttributeMax(Image<TVal> &res, ComponentTree::Attribute value_attribute, ComponentTree::Attribute selection_attribute)
+{
+    res.fill(TVal(0));
+
+    std::vector<Node *> nodes = indexedNodes();
+    for (TSize i = 0; i < res.getSizeX(); i++)
+        for (TSize j = 0; j < res.getSizeY(); j++)
+            for (TSize k = 0; k < res.getSizeZ(); k++)
+            {
+                Node *n = indexedCoordToNode(i, j, k, nodes);
+                // noeud selectionné
+                Node *n_s = n;
+                TSel attr = getAttribute<TSel>(n, selection_attribute);
+                // maximum dans la branche parent
+                TSel attr_father;
+                // parcours de l'arbre
+                while(n->father != m_root) {
+                    n = n->father;
+                    attr_father = getAttribute<TSel>(n, selection_attribute);
+
+                    if(attr_father > attr &&
+                       attr_father < std::numeric_limits<TSel>::max())
+                    {
+                        n_s = n;
+                        attr = attr_father;
+                    }
+                }
+                if(attr < 0)
+                {
+                    std::cout << "ERROR: NEGATIVE SELECTION ATTRIBUTE" << attr << std::endl;
+                    exit(1);
+                }
+
+                res(i, j, k) = getAttribute<TVal>(n_s, value_attribute);
+            }
+}
+
+template<class T> template<class TVal>
+void ComponentTree<T>::constructImageAttributeDirect(Image<TVal> &res, ComponentTree::Attribute value_attribute)
+{
+    res.fill(TVal(0));
+
+    std::vector<Node *> nodes = indexedNodes();
+    for (TSize i = 0; i < res.getSizeX(); i++)
+        for (TSize j = 0; j < res.getSizeY(); j++)
+            for (TSize k = 0; k < res.getSizeZ(); k++)
+            {
+                Node *n = indexedCoordToNode(i, j, k, nodes);
+                TVal attr = getAttribute<TVal>(n, value_attribute);
+                res(i, j, k) = attr;
+            }
+}
+
+template<class T> template<class TVal, class TSel>
+Image<TVal> ComponentTree<T>::constructImageAttribute(ComponentTree::Attribute value_attribute, ComponentTree::Attribute selection_attribute, ComponentTree::ConstructionDecision selection_rule)
+{
+    Image <TVal> res(m_img.getSize());
+
+    if(m_root!=0)
+    {
+        switch(selection_rule)
+        {
+        case MIN:
+            constructImageAttributeMin<TVal, TSel>(res, value_attribute, selection_attribute);
+            break;
+        case MAX:
+            constructImageAttributeMax<TVal, TSel>(res, value_attribute, selection_attribute);
+            break;
+        case DIRECT:
+            constructImageAttributeDirect<TVal>(res, value_attribute);
+            break;
+        }
+    }
+    else
+        res.fill(TVal(0));
+
+    return res;
+}
 
 
 template <class T>
