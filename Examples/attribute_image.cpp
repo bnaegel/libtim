@@ -119,7 +119,7 @@ int normalizeAndSave(Image<U8> &ori, Image<T> &res_, std::string name, int limit
     for (TSize i = 0; i < res_.getSizeX(); i++)
       for (TSize j = 0; j < res_.getSizeY(); j++)
         for (TSize k = 0; k < res_.getSizeZ(); k++) {
-            res_(i, j, k) = std::min(res_(i, j, k), limit);
+            res_(i, j, k) = std::min((int)res_(i, j, k), limit);
         }
 
     min_attr = res_.getMin();
@@ -180,6 +180,18 @@ int main(int argc, char *argv[]) {
 
   unsigned int delta = 5;
   int limit = 4411800; // 256 4096 16384 65536 262144
+
+  /*
+  FlatSE connexity;
+  connexity.make2DN8();
+  ComponentTree<U8> tree(im, connexity, delta);
+
+  Image<int64_t> res = tree.constructImageAttribute<int64_t, long double>
+          (ComponentTree<U8>::AREA, ComponentTree<U8>::MSER, ComponentTree<U8>::MAX);
+  normalizeAndSave(ori, res, "attr", limit);
+  return 0;
+  */
+
   AttributeSelectionRule rule = MIN;
   // compute image
   Image<int> res_ = attributeImage<int64_t, long double>(im, AREA, MSER, delta, rule);
