@@ -3,3 +3,7 @@
 
 # PGM
 *.pgm
+
+# working directory
+working_dir
+
