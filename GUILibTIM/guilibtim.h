@@ -9,6 +9,13 @@
 
 using namespace QtCharts;
 
+#include "Algorithms/ComponentTree.h"
+#include "Algorithms/ConnectedComponents.h"
+#include "Common/FlatSE.h"
+#include "Common/Image.h"
+
+using namespace LibTIM;
+
 namespace Ui {
 class GUILibTIM;
 }
@@ -31,6 +38,11 @@ private slots:
 private:
     Ui::GUILibTIM *ui;
     QGraphicsScene *graphicsScene;
+    QGraphicsRectItem *rectClick = nullptr;
+
+    ComponentTree<U8> *componentTree = nullptr;
+
+    void computeComponentTree(QImage image);
 };
 
 #endif // GUILIBTIM_H
