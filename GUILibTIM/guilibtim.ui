@@ -16,22 +16,17 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_3">
     <item row="0" column="0" rowspan="2">
-     <layout class="QGridLayout" name="gridLayout_left">
-      <item row="0" column="0">
-       <widget class="QSlider" name="verticalSlider">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <layout class="QGridLayout" name="gridLayout_left"/>
     </item>
     <item row="0" column="3" rowspan="2">
      <layout class="QGridLayout" name="gridLayout_right">
       <item row="0" column="0">
-       <widget class="QSlider" name="verticalSlider_2">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
+       <widget class="QChartView" name="chartView" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
        </widget>
       </item>
@@ -49,7 +44,14 @@
      </layout>
     </item>
     <item row="0" column="2">
-     <widget class="QGraphicsViewClick" name="graphicsView"/>
+     <widget class="QGraphicsViewClick" name="graphicsView">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -88,6 +90,12 @@
    <class>QGraphicsViewClick</class>
    <extends>QGraphicsView</extends>
    <header>GUILibTIM/qgraphicsviewclick.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QChartView</class>
+   <extends>QWidget</extends>
+   <header>QChartView</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

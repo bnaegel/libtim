@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,15 +26,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         GUILibTIM/main.cpp \
         GUILibTIM/guilibtim.cpp \
+        GUILibTIM/qgraphicsviewclick.cpp \
     Algorithms/random-singleton.cpp \
     Common/tinyxml/tinystr.cpp \
     Common/tinyxml/tinyxml.cpp \
     Common/tinyxml/tinyxmlerror.cpp \
-    Common/tinyxml/tinyxmlparser.cpp \
-    GUILibTIM/qgraphicsviewclick.cpp
+    Common/tinyxml/tinyxmlparser.cpp
+
 
 HEADERS += \
         GUILibTIM/guilibtim.h \
+        GUILibTIM/qgraphicsviewclick.h \
     Algorithms/AdaptativeSE.h \
     Algorithms/AdaptativeSE.hxx \
     Algorithms/ColorProcessing.h \
@@ -79,8 +81,7 @@ HEADERS += \
     Common/NonFlatSE.hxx \
     Common/OrderedQueue.h \
     Common/Point.h \
-    Common/Types.h \
-    GUILibTIM/qgraphicsviewclick.h
+    Common/Types.h
 
 FORMS += \
         GUILibTIM/guilibtim.ui

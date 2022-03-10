@@ -43,4 +43,12 @@ void GUILibTIM::on_actionImport_PNG_triggered()
 void GUILibTIM::on_graphicsView_mousePressed(QPoint p)
 {
     qDebug() << p;
+
+    QLineSeries* series = new QLineSeries();
+    for(int i = 0; i< 255; i++)
+        series->append(i, (i/10)+sin(i/2)+(rand()%2));
+
+    ui->chartView->chart()->removeAllSeries();
+    ui->chartView->chart()->addSeries(series);
+    ui->chartView->chart()->createDefaultAxes();
 }

@@ -5,6 +5,9 @@
 
 #include <QMainWindow>
 #include <QGraphicsView>
+#include <QtCharts>
+
+using namespace QtCharts;
 
 namespace Ui {
 class GUILibTIM;
