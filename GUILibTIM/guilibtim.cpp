@@ -39,3 +39,8 @@ void GUILibTIM::on_actionImport_PNG_triggered()
         graphicsScene->addPixmap(pixmap);
     }
 }
+
+void GUILibTIM::on_graphicsView_mousePressed(QPoint p)
+{
+    qDebug() << p;
+}

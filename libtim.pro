@@ -30,7 +30,8 @@ SOURCES += \
     Common/tinyxml/tinystr.cpp \
     Common/tinyxml/tinyxml.cpp \
     Common/tinyxml/tinyxmlerror.cpp \
-    Common/tinyxml/tinyxmlparser.cpp
+    Common/tinyxml/tinyxmlparser.cpp \
+    GUILibTIM/qgraphicsviewclick.cpp
 
 HEADERS += \
         GUILibTIM/guilibtim.h \
@@ -78,7 +79,8 @@ HEADERS += \
     Common/NonFlatSE.hxx \
     Common/OrderedQueue.h \
     Common/Point.h \
-    Common/Types.h
+    Common/Types.h \
+    GUILibTIM/qgraphicsviewclick.h
 
 FORMS += \
         GUILibTIM/guilibtim.ui

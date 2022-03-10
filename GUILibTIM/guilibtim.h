@@ -1,10 +1,10 @@
 #ifndef GUILIBTIM_H
 #define GUILIBTIM_H
 
+#include <QDebug>
+
 #include <QMainWindow>
 #include <QGraphicsView>
-
-#include <QDebug>
 
 namespace Ui {
 class GUILibTIM;
@@ -22,6 +22,8 @@ private slots:
     void on_actionImport_TIFF_triggered();
 
     void on_actionImport_PNG_triggered();
+
+    void on_graphicsView_mousePressed(QPoint p);
 
 private:
     Ui::GUILibTIM *ui;
