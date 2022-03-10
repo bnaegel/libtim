@@ -33,12 +33,21 @@ private slots:
 
     void on_actionImport_PNG_triggered();
 
-    void on_graphicsView_mousePressed(QPoint p);
+    void update_views(QPoint p);
+    void update_views();
 
 private:
     Ui::GUILibTIM *ui;
+    // graphic view (image)
     QGraphicsScene *graphicsScene;
     QGraphicsRectItem *rectClick = nullptr;
+    QPoint selection;
+    // chart view (values)
+    QLineSeries* series_A;
+    QLineSeries* series_B;
+    QValueAxis* axis_X;
+    QValueAxis* axis_YA;
+    QValueAxis* axis_YB;
 
     ComponentTree<U8> *componentTree = nullptr;
 
