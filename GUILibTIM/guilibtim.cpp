@@ -46,11 +46,7 @@ void GUILibTIM::on_actionImport_TIFF_triggered()
     QImage image;
     if (image.load(filename))
     {
-        QPixmap pixmap = QPixmap::fromImage(image);
-        graphicsScene->clear();
-        rectClick = nullptr;
-        graphicsScene->addPixmap(pixmap);
-
+        update_image_view(image);
         computeComponentTree(image);
     }
 
@@ -67,28 +63,73 @@ void GUILibTIM::on_actionImport_PNG_triggered()
     QImage image;
     if (image.load(filename))
     {
-        QPixmap pixmap = QPixmap::fromImage(image);
-        graphicsScene->clear();
-        rectClick = nullptr;
-        graphicsScene->addPixmap(pixmap);
-
+        update_image_view(image);
         computeComponentTree(image);
     }
+}
+
+void GUILibTIM::on_pushButton_view_attribute_clicked()
+{
+    if(componentTree == nullptr)
+        return;
+
+    QString choice = ui->comboBox_attribute->currentText();
+    int64_t limit = ui->doubleSpinBox_value_limit->value();
+
+    QImage view_image;
+    if(choice == "value AREA")
+    {
+        Image<int64_t> res = componentTree->constructImageAttribute<int64_t, long double>
+                  (ComponentTree<U8>::AREA, ComponentTree<U8>::AREA, ComponentTree<U8>::DIRECT);
+        view_image = QImageFromImage(res, limit);
+    }
+    else if(choice == "value AREA min MSER")
+    {
+        Image<int64_t> res = componentTree->constructImageAttribute<int64_t, long double>
+                  (ComponentTree<U8>::AREA, ComponentTree<U8>::MSER, ComponentTree<U8>::MIN);
+        view_image = QImageFromImage(res, limit);
+    }
+    else if(choice == "value MSER min MSER")
+    {
+        Image<long double> res = componentTree->constructImageAttribute<long double, long double>
+                  (ComponentTree<U8>::MSER, ComponentTree<U8>::MSER, ComponentTree<U8>::MIN);
+        view_image = QImageFromImage(res, limit);
+    }
+    else
+    {
+        return;
+    }
+
+    QGraphicsScene *scene = new QGraphicsScene();
+    QGraphicsView *view = new QGraphicsView(scene);
+    QPixmap pixmap = QPixmap::fromImage(view_image);
+    scene->addPixmap(pixmap);
+    view->show();
+}
+
+void GUILibTIM::on_pushButton_view_node_clicked()
+{
+    // todo
+    Node* n = componentTree->coordToNode(selection.x(), selection.y(), 0);
 }
 
 void GUILibTIM::update_views(QPoint p)
 {
     selection = p;
-    update_views();
-}
 
-void GUILibTIM::update_views()
-{
     if(rectClick != nullptr)
         delete rectClick;
 
     rectClick = graphicsScene->addRect(selection.x()-4, selection.y()-4, 8, 8, QPen(QColor(255, 0, 0)), QBrush(QColor(255, 0, 0)));
 
+    if(componentTree == nullptr)
+        return;
+
+    update_views();
+}
+
+void GUILibTIM::update_views()
+{
     if(componentTree == nullptr)
         return;
 
@@ -125,18 +166,99 @@ void GUILibTIM::update_views()
     axis_YB->setRange(0, max_B);
 }
 
-void GUILibTIM::computeComponentTree(QImage image)
+void GUILibTIM::update_image_view(QImage image)
+{
+    QPixmap pixmap = QPixmap::fromImage(image);
+    graphicsScene->clear();
+    rectClick = nullptr;
+    graphicsScene->addPixmap(pixmap);
+}
+
+Image<U8> GUILibTIM::ImageFromQImage(QImage &qimage)
+{
+    Image<U8> image(qimage.width(), qimage.height(), 1);
+
+    for(int x = 1; x < qimage.width(); ++x)
+        for(int y = 1; y < qimage.height(); ++y)
+            image(x, y, 0) = qimage.pixel(x, y);
+
+    return image;
+}
+
+QImage GUILibTIM::QImageFromImage(Image<U8> &image)
+{
+    // return QImage(image.getData(), image.getSizeX(), image.getSizeY(), QImage::Format_Grayscale8);
+
+    QImage qimage(image.getSizeX(), image.getSizeY(), QImage::Format_Grayscale8);
+
+    for(int x = 0; x < qimage.width(); ++x)
+        for(int y = 0; y < qimage.height(); ++y)
+        {
+            QColor color(image(x, y, 0), image(x, y, 0), image(x, y, 0));
+            qimage.setPixelColor(x, y, color);
+        }
+
+    return qimage;
+}
+
+QImage GUILibTIM::QImageFromImage(Image<int64_t> &image, int64_t limit)
+{
+    QImage qimage(image.getSizeX(), image.getSizeY(), QImage::Format_Grayscale8);
+
+    if(limit == 0)
+        limit = std::max(image.getMax(), 1LL);
+
+    for(int x = 0; x < qimage.width(); ++x)
+    {
+        for(int y = 0; y < qimage.height(); ++y)
+        {
+            double normalized_val = ((double)std::min(image(x, y, 0), limit) / (double)limit);
+            int c = ((double)normalized_val*255.0);
+            QColor color(c, c, c);
+            qimage.setPixelColor(x, y, color);
+        }
+    }
+
+    return qimage;
+}
+
+QImage GUILibTIM::QImageFromImage(Image<long double> &image, long double limit)
+{
+    QImage qimage(image.getSizeX(), image.getSizeY(), QImage::Format_Grayscale8);
+
+    if(limit == 0)
+        limit = std::max((long double)image.getMax(), (long double)1.0);
+
+    long double normalized_val;
+    int c;
+
+    for(int x = 0; x < qimage.width(); ++x)
+    {
+        for(int y = 0; y < qimage.height(); ++y)
+        {
+            normalized_val = ((long double)std::min(image(x, y, 0), limit) / (long double)limit);
+            c = ((long double)normalized_val*255.0);
+            QColor color(c, c, c);
+            qimage.setPixelColor(x, y, color);
+        }
+    }
+
+    return qimage;
+}
+
+void GUILibTIM::computeComponentTree(Image<U8> &image)
 {
     if(componentTree != nullptr)
         delete componentTree;
 
-    Image<U8> im(image.width(), image.height(), 1);
-    for(int x = 0; x < image.width(); ++x)
-        for(int y = 0; y < image.height(); ++y)
-            im(x, y, 0) = image.pixel(x, y);
-
     unsigned int delta = 5;
     FlatSE connexity;
     connexity.make3DN26();
-    componentTree = new ComponentTree<U8>(im, connexity, delta);
+    componentTree = new ComponentTree<U8>(image, connexity, delta);
+}
+
+void GUILibTIM::computeComponentTree(QImage qimage)
+{
+    this->libtim_image = ImageFromQImage(qimage);
+    computeComponentTree(libtim_image);
 }

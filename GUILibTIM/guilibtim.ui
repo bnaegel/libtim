@@ -15,8 +15,79 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_3">
+    <item row="0" column="2">
+     <widget class="QGraphicsViewClick" name="graphicsView">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
     <item row="0" column="0" rowspan="2">
      <layout class="QGridLayout" name="gridLayout_left"/>
+    </item>
+    <item row="1" column="2">
+     <layout class="QGridLayout" name="gridLayout_bottom">
+      <item row="2" column="1">
+       <widget class="QComboBox" name="comboBox_attribute">
+        <item>
+         <property name="text">
+          <string>value AREA</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>value AREA min MSER</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>value MSER min MSER</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="spinBox_view_node_branch">
+        <property name="maximum">
+         <number>255</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QPushButton" name="pushButton_view_attribute">
+        <property name="text">
+         <string>view attribute image</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QSlider" name="horizontalSlider_Z">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QPushButton" name="pushButton_view_node">
+        <property name="text">
+         <string>view node pixels (and parents)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_value_limit">
+        <property name="decimals">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <double>16777216.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item row="0" column="3" rowspan="2">
      <layout class="QGridLayout" name="gridLayout_right">
@@ -25,7 +96,7 @@
         <item row="0" column="0">
          <widget class="QLabel" name="label_max_ya">
           <property name="text">
-           <string>max left</string>
+           <string>max MSER</string>
           </property>
          </widget>
         </item>
@@ -52,7 +123,7 @@
         <item row="1" column="0">
          <widget class="QLabel" name="label_max_yb">
           <property name="text">
-           <string>max right</string>
+           <string>max AREA</string>
           </property>
          </widget>
         </item>
@@ -69,27 +140,6 @@
        </widget>
       </item>
      </layout>
-    </item>
-    <item row="1" column="2">
-     <layout class="QGridLayout" name="gridLayout_bottom">
-      <item row="0" column="0">
-       <widget class="QSlider" name="horizontalSlider">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="0" column="2">
-     <widget class="QGraphicsViewClick" name="graphicsView">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-     </widget>
     </item>
    </layout>
   </widget>
