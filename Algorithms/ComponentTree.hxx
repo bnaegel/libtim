@@ -1496,18 +1496,24 @@ long double SalembierRecursiveImplementation<T>::computeMSER(Node *tree, unsigne
             tree->mser = computeMSER(*it, delta);
             }
         long double mser = std::numeric_limits<long double>::max();
-        int64_t area_node = tree->area;
-        int level_node = tree->h;
+        int64_t area_node, area_father;
+        int h_node, h_father;
 
-        while((level_node - tree->h < (int)delta) && (tree != tree->father))
+        area_node = tree->area;
+        h_node = tree->h;
+
+        while((h_node - tree->h < (int)delta) && (tree != tree->father))
         {
             tree = tree->father;
         }
 
-        if((level_node - tree->h) >= (int)delta)
+        if((h_node - tree->h) >= (int)delta)
         {
-            int64_t area_father = tree->area;
+            area_father = tree->area;
+            h_father = tree->h;
+
             mser = ((long double)(area_father - area_node)) / ((long double)(area_node));
+            // mser = ((long double)(area_father - area_node)) / ((long double)(h_node - h_father));
         }
 
         return mser;
