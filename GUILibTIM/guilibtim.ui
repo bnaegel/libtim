@@ -73,7 +73,7 @@
       <item row="1" column="0">
        <widget class="QPushButton" name="pushButton_view_node">
         <property name="text">
-         <string>view node pixels (and parents)</string>
+         <string>view node pixels</string>
         </property>
        </widget>
       </item>
@@ -159,7 +159,14 @@
     <addaction name="actionImport_TIFF"/>
     <addaction name="actionImport_PNG"/>
    </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionInvert_Image"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
   </widget>
   <action name="actionImport_TIFF">
    <property name="text">
@@ -169,6 +176,11 @@
   <action name="actionImport_PNG">
    <property name="text">
     <string>Import PNG</string>
+   </property>
+  </action>
+  <action name="actionInvert_Image">
+   <property name="text">
+    <string>Invert Image</string>
    </property>
   </action>
  </widget>

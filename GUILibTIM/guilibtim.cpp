@@ -11,6 +11,9 @@ GUILibTIM::GUILibTIM(QWidget *parent) :
     ui->graphicsView->setScene(graphicsScene);
     selection = QPoint(0, 0);
 
+    external_scene = new QGraphicsScene();
+    external_view = new QGraphicsView(external_scene);
+
     series_A = new QLineSeries();
     series_B = new QLineSeries();
     axis_X = new QValueAxis();
@@ -46,8 +49,9 @@ void GUILibTIM::on_actionImport_TIFF_triggered()
     QImage image;
     if (image.load(filename))
     {
-        update_image_view(image);
-        computeComponentTree(image);
+        this->libtim_image = ImageFromQImage(image);
+        update_image_view(QImageFromImage(libtim_image));
+        computeComponentTree(libtim_image);
     }
 
     // todo : 3D TIFF read implementation
@@ -63,9 +67,22 @@ void GUILibTIM::on_actionImport_PNG_triggered()
     QImage image;
     if (image.load(filename))
     {
-        update_image_view(image);
-        computeComponentTree(image);
+        libtim_image = ImageFromQImage(image);
+        update_image_view(QImageFromImage(libtim_image));
+        computeComponentTree(libtim_image);
     }
+}
+
+void GUILibTIM::on_actionInvert_Image_triggered()
+{
+    for (TSize i = 0; i < libtim_image.getSizeX(); i++)
+      for (TSize j = 0; j < libtim_image.getSizeY(); j++)
+        for (TSize k = 0; k < libtim_image.getSizeZ(); k++) {
+          libtim_image(i, j, k) = 255 - libtim_image(i, j, k);
+        }
+
+    update_image_view(QImageFromImage(libtim_image));
+    computeComponentTree(libtim_image);
 }
 
 void GUILibTIM::on_pushButton_view_attribute_clicked()
@@ -100,17 +117,56 @@ void GUILibTIM::on_pushButton_view_attribute_clicked()
         return;
     }
 
-    QGraphicsScene *scene = new QGraphicsScene();
-    QGraphicsView *view = new QGraphicsView(scene);
+    external_scene->clear();
     QPixmap pixmap = QPixmap::fromImage(view_image);
-    scene->addPixmap(pixmap);
-    view->show();
+    external_scene->addPixmap(pixmap);
+    if(!external_view->isVisible())
+        external_view->show();
 }
 
 void GUILibTIM::on_pushButton_view_node_clicked()
 {
-    // todo
+    if(componentTree == nullptr)
+        return;
+
+    QImage view_image;
+    view_image = QImageFromImage(libtim_image);
+    view_image.convertTo(QImage::Format_RGB888);
+
     Node* n = componentTree->coordToNode(selection.x(), selection.y(), 0);
+
+    for(int i = 0; i < ui->spinBox_view_node_branch->value(); ++i)
+        n = n->father;
+
+    std::vector<TOffset> pixels = componentTree->merge_pixels(n);
+    /*
+    std::function<std::vector<TOffset>(Node* n)> get_node_pixels;
+    get_node_pixels = [&get_node_pixels](Node* n)->std::vector<TOffset>
+    {
+        std::vector<TOffset> all = n->pixels;
+
+        Node::ContainerChilds::iterator jt;
+        for (jt = n->childs.begin(); jt != n->childs.end(); ++jt) {
+          std::vector<TOffset> tmp = get_node_pixels(*jt);
+
+          all.insert(all.end(), tmp.begin(), tmp.end());
+        }
+        return all;
+    };
+    std::vector<TOffset> pixels = get_node_pixels(n);
+    */
+
+    for(std::vector<TOffset>::iterator it = std::begin(pixels); it != std::end(pixels); ++it) {
+        Point<TCoord> p = libtim_image.getCoord((*it));
+
+        view_image.setPixelColor(p.x, p.y, QColor(255.0, 0.0, 0.0));
+    }
+
+    external_scene->clear();
+    QPixmap pixmap = QPixmap::fromImage(view_image);
+    external_scene->addPixmap(pixmap);
+    if(!external_view->isVisible())
+        external_view->show();
 }
 
 void GUILibTIM::update_views(QPoint p)
@@ -255,10 +311,4 @@ void GUILibTIM::computeComponentTree(Image<U8> &image)
     FlatSE connexity;
     connexity.make3DN26();
     componentTree = new ComponentTree<U8>(image, connexity, delta);
-}
-
-void GUILibTIM::computeComponentTree(QImage qimage)
-{
-    this->libtim_image = ImageFromQImage(qimage);
-    computeComponentTree(libtim_image);
 }

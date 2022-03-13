@@ -33,6 +33,8 @@ private slots:
 
     void on_actionImport_PNG_triggered();
 
+    void on_actionInvert_Image_triggered();
+
     void on_pushButton_view_attribute_clicked();
 
     void on_pushButton_view_node_clicked();
@@ -54,6 +56,9 @@ private:
     QValueAxis* axis_X;
     QValueAxis* axis_YA;
     QValueAxis* axis_YB;
+    // grahic view (external)
+    QGraphicsView *external_view;
+    QGraphicsScene *external_scene;
 
     // DATA
     // image
@@ -65,7 +70,6 @@ private:
     static QImage    QImageFromImage(Image<int64_t> &image, int64_t limit);
     static QImage    QImageFromImage(Image<long double> &image, long double limit);
     void computeComponentTree(Image<U8> &image);
-    void computeComponentTree(QImage qimage);
 };
 
 #endif // GUILIBTIM_H
