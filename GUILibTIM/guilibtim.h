@@ -35,12 +35,13 @@ private slots:
 
     void on_actionInvert_Image_triggered();
 
-    void on_pushButton_view_attribute_clicked();
+    void on_spinBox_view_node_branch_valueChanged(int);
 
-    void on_pushButton_view_node_clicked();
+    void on_pushButton_view_attribute_clicked();
 
     void update_views(QPoint p);
     void update_views();
+    void update_view_node();
 
 private:
     // UI
@@ -56,9 +57,8 @@ private:
     QValueAxis* axis_X;
     QValueAxis* axis_YA;
     QValueAxis* axis_YB;
-    // grahic view (external)
-    QGraphicsView *external_view;
-    QGraphicsScene *external_scene;
+    // grahic view (secondary)
+    QGraphicsScene *graphicsScene_2;
 
     // DATA
     // image

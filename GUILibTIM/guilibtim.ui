@@ -44,6 +44,11 @@
         </item>
         <item>
          <property name="text">
+          <string>value MSER</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>value MSER min MSER</string>
          </property>
         </item>
@@ -70,13 +75,6 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QPushButton" name="pushButton_view_node">
-        <property name="text">
-         <string>view node pixels</string>
-        </property>
-       </widget>
-      </item>
       <item row="2" column="2">
        <widget class="QDoubleSpinBox" name="doubleSpinBox_value_limit">
         <property name="decimals">
@@ -87,11 +85,18 @@
         </property>
        </widget>
       </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="checkBox_view_node">
+        <property name="text">
+         <string>view node pixels</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
     <item row="0" column="3" rowspan="2">
      <layout class="QGridLayout" name="gridLayout_right">
-      <item row="1" column="0">
+      <item row="2" column="0">
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="0">
          <widget class="QLabel" name="label_max_ya">
@@ -129,7 +134,7 @@
         </item>
        </layout>
       </item>
-      <item row="0" column="0">
+      <item row="1" column="0">
        <widget class="QChartView" name="chartView" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -138,6 +143,9 @@
          </sizepolicy>
         </property>
        </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QGraphicsView" name="graphicsView_2"/>
       </item>
      </layout>
     </item>

@@ -11,8 +11,8 @@ GUILibTIM::GUILibTIM(QWidget *parent) :
     ui->graphicsView->setScene(graphicsScene);
     selection = QPoint(0, 0);
 
-    external_scene = new QGraphicsScene();
-    external_view = new QGraphicsView(external_scene);
+    graphicsScene_2 = new QGraphicsScene();
+    ui->graphicsView_2->setScene(graphicsScene_2);
 
     series_A = new QLineSeries();
     series_B = new QLineSeries();
@@ -85,6 +85,11 @@ void GUILibTIM::on_actionInvert_Image_triggered()
     computeComponentTree(libtim_image);
 }
 
+void GUILibTIM::on_spinBox_view_node_branch_valueChanged(int)
+{
+    update_view_node();
+}
+
 void GUILibTIM::on_pushButton_view_attribute_clicked()
 {
     if(componentTree == nullptr)
@@ -106,6 +111,12 @@ void GUILibTIM::on_pushButton_view_attribute_clicked()
                   (ComponentTree<U8>::AREA, ComponentTree<U8>::MSER, ComponentTree<U8>::MIN);
         view_image = QImageFromImage(res, limit);
     }
+    else if(choice == "value MSER")
+    {
+        Image<long double> res = componentTree->constructImageAttribute<long double, long double>
+                  (ComponentTree<U8>::MSER, ComponentTree<U8>::MSER, ComponentTree<U8>::DIRECT);
+        view_image = QImageFromImage(res, limit);
+    }
     else if(choice == "value MSER min MSER")
     {
         Image<long double> res = componentTree->constructImageAttribute<long double, long double>
@@ -117,14 +128,12 @@ void GUILibTIM::on_pushButton_view_attribute_clicked()
         return;
     }
 
-    external_scene->clear();
+    graphicsScene_2->clear();
     QPixmap pixmap = QPixmap::fromImage(view_image);
-    external_scene->addPixmap(pixmap);
-    if(!external_view->isVisible())
-        external_view->show();
+    graphicsScene_2->addPixmap(pixmap);
 }
 
-void GUILibTIM::on_pushButton_view_node_clicked()
+void GUILibTIM::update_view_node()
 {
     if(componentTree == nullptr)
         return;
@@ -162,11 +171,9 @@ void GUILibTIM::on_pushButton_view_node_clicked()
         view_image.setPixelColor(p.x, p.y, QColor(255.0, 0.0, 0.0));
     }
 
-    external_scene->clear();
+    graphicsScene_2->clear();
     QPixmap pixmap = QPixmap::fromImage(view_image);
-    external_scene->addPixmap(pixmap);
-    if(!external_view->isVisible())
-        external_view->show();
+    graphicsScene_2->addPixmap(pixmap);
 }
 
 void GUILibTIM::update_views(QPoint p)
@@ -220,6 +227,11 @@ void GUILibTIM::update_views()
     }
     axis_YA->setRange(0, max_A);
     axis_YB->setRange(0, max_B);
+
+    if(ui->checkBox_view_node->isChecked())
+    {
+        update_view_node();
+    }
 }
 
 void GUILibTIM::update_image_view(QImage image)
@@ -234,8 +246,8 @@ Image<U8> GUILibTIM::ImageFromQImage(QImage &qimage)
 {
     Image<U8> image(qimage.width(), qimage.height(), 1);
 
-    for(int x = 1; x < qimage.width(); ++x)
-        for(int y = 1; y < qimage.height(); ++y)
+    for(int x = 0; x < qimage.width(); ++x)
+        for(int y = 0; y < qimage.height(); ++y)
             image(x, y, 0) = qimage.pixel(x, y);
 
     return image;
