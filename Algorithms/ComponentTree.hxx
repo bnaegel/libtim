@@ -354,8 +354,16 @@ TVal ComponentTree<T>::getAttribute(Node *n, ComponentTree::Attribute attribute_
     switch (attribute_id) {
     case AREA:
       return n->area;
+    case AREA_D_AREAN_H:
+      return n->area_derivative_areaN_h;
+    case AREA_D_H:
+      return n->area_derivative_h;
     case MSER:
       return n->mser;
+    case AREA_D_DELTA_H:
+      return n->area_derivative_delta_h;
+    case AREA_D_DELTA_AREAF:
+      return n->area_derivative_delta_areaF;
     case CONTRAST:
       return n->contrast;
     case VOLUME:
@@ -1486,40 +1494,64 @@ int64_t SalembierRecursiveImplementation<T>::computeArea(Node *tree)
 }
 
 template <class T>
-long double SalembierRecursiveImplementation<T>::computeMSER(Node *tree, unsigned int delta)
+void SalembierRecursiveImplementation<T>::computeAreaDerivative(Node *tree)
 {
     if(tree!=0)
-        {
+    {
         Node::ContainerChilds::iterator it;
         for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
-            {
-            tree->mser = computeMSER(*it, delta);
-            }
-        long double mser = std::numeric_limits<long double>::max();
+        {
+            computeAreaDerivative(*it);
+        }
+        tree->area_derivative_areaN_h = (((long double)(tree->father->area - tree->area)) / ((long double)(tree->area))) * ((long double)(tree->h - tree->father->h));
+        tree->area_derivative_h = ((long double)(tree->father->area - tree->area)) / ((long double)(tree->h - tree->father->h));
+    }
+}
+
+template <class T>
+void SalembierRecursiveImplementation<T>::computeMSER(Node *tree, unsigned int delta)
+{
+    if(tree!=0)
+    {
+        Node::ContainerChilds::iterator it;
+        for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
+        {
+            computeMSER(*it, delta);
+        }
+
+        tree->mser = std::numeric_limits<long double>::max();
+        tree->area_derivative_delta_h = std::numeric_limits<long double>::max();
+        tree->area_derivative_delta_areaF = std::numeric_limits<long double>::max();
+
+        Node node = *tree;
+
         int64_t area_node, area_father;
         int h_node, h_father;
 
-        area_node = tree->area;
-        h_node = tree->h;
+        area_node = node.area;
+        h_node = node.h;
 
-        while((h_node - tree->h < (int)delta) && (tree != tree->father))
+        area_father = node.father->area;
+        h_father = node.father->h;
+
+        while((h_node - node.h < (int)delta) && (node.father != node.father->father))
         {
-            tree = tree->father;
+            node = *node.father;
         }
 
-        if((h_node - tree->h) >= (int)delta)
+        if((h_node - node.h) >= (int)delta)
         {
-            area_father = tree->area;
-            h_father = tree->h;
+            area_father = node.area;
+            h_father = node.h;
 
-            mser = ((long double)(area_father - area_node)) / ((long double)(area_node));
-            // mser = ((long double)(area_father - area_node)) / ((long double)(h_node - h_father));
+            tree->mser =
+                    ((long double)(area_father - area_node)) / ((long double)(area_node));
+            tree->area_derivative_delta_h =
+                    ((long double)(area_father - area_node)) / ((long double)(h_node - h_father));
+            tree->area_derivative_delta_areaF =
+                    ((long double)(area_father - area_node)) / ((long double)(area_father));
         }
-
-        return mser;
-        }
-    // error
-    else return std::numeric_limits<long double>::max();
+    }
 }
 
 template <class T>
@@ -1846,7 +1878,8 @@ void SalembierRecursiveImplementation<T>::computeAttributes(Node *tree, unsigned
     if(tree!=0)
         {
         tree->area=computeArea(tree);
-        tree->mser=computeMSER(tree, delta);
+        computeAreaDerivative(tree);
+        computeMSER(tree, delta);
         }
 }
 
