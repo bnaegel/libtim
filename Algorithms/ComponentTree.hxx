@@ -358,6 +358,8 @@ TVal ComponentTree<T>::getAttribute(Node *n, ComponentTree::Attribute attribute_
       return n->area_derivative_areaN_h;
     case AREA_D_H:
       return n->area_derivative_h;
+    case AREA_D_AREAN:
+      return n->area_derivative_areaN;
     case MSER:
       return n->mser;
     case AREA_D_DELTA_H:
@@ -1505,6 +1507,7 @@ void SalembierRecursiveImplementation<T>::computeAreaDerivative(Node *tree)
         }
         tree->area_derivative_areaN_h = (((long double)(tree->father->area - tree->area)) / ((long double)(tree->area))) * ((long double)(tree->h - tree->father->h));
         tree->area_derivative_h = ((long double)(tree->father->area - tree->area)) / ((long double)(tree->h - tree->father->h));
+        tree->area_derivative_areaN = ((long double)(tree->father->area - tree->area)) / ((long double)(tree->area));
     }
 }
 

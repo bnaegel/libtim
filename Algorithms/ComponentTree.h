@@ -50,6 +50,7 @@ struct Node {
     xmax(localMin),ymax(localMin),area(0),
     area_derivative_areaN_h(std::numeric_limits<long double>::max()),
     area_derivative_h(std::numeric_limits<long double>::max()),
+    area_derivative_areaN(std::numeric_limits<long double>::max()),
     mser(std::numeric_limits<long double>::max()),
     area_derivative_delta_h(std::numeric_limits<long double>::max()),
     area_derivative_delta_areaF(std::numeric_limits<long double>::max()),
@@ -73,6 +74,8 @@ struct Node {
     long double area_derivative_areaN_h;
     // (aire(father) - aire(noeud) / (h(noeud) - h(father))
     long double area_derivative_h;
+    // (aire(father) - aire(noeud)) / aire(noeud)
+    long double area_derivative_areaN;
     // father_d correspond au noeud dans la branche parent tel que  (h(noeud) - h(father_d)) >= delta
     // (aire(father_d) - aire(noeud)) / aire(noeud)
     long double mser;
@@ -140,6 +143,7 @@ class ComponentTree {
           AREA,
           AREA_D_AREAN_H,
           AREA_D_H,
+          AREA_D_AREAN,
           MSER,
           AREA_D_DELTA_H,
           AREA_D_DELTA_AREAF,
