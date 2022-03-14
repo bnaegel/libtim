@@ -35,6 +35,8 @@ private slots:
 
     void on_actionInvert_Image_triggered();
 
+    void on_comboBox_criterion_currentIndexChanged(int);
+
     void on_spinBox_view_node_branch_valueChanged(int);
 
     void on_pushButton_view_attribute_clicked();

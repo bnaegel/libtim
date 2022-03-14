@@ -85,9 +85,15 @@ void GUILibTIM::on_actionInvert_Image_triggered()
     computeComponentTree(libtim_image);
 }
 
+void GUILibTIM::on_comboBox_criterion_currentIndexChanged(int)
+{
+    update_views();
+}
+
 void GUILibTIM::on_spinBox_view_node_branch_valueChanged(int)
 {
-    update_view_node();
+    if(ui->checkBox_view_node->isChecked())
+        update_view_node();
 }
 
 void GUILibTIM::on_pushButton_view_attribute_clicked()
@@ -109,6 +115,12 @@ void GUILibTIM::on_pushButton_view_attribute_clicked()
     {
         Image<int64_t> res = componentTree->constructImageAttribute<int64_t, long double>
                   (ComponentTree<U8>::AREA, ComponentTree<U8>::MSER, ComponentTree<U8>::MIN);
+        view_image = QImageFromImage(res, limit);
+    }
+    else if(choice == "value AREA max MSER")
+    {
+        Image<int64_t> res = componentTree->constructImageAttribute<int64_t, long double>
+                  (ComponentTree<U8>::AREA, ComponentTree<U8>::MSER, ComponentTree<U8>::MAX);
         view_image = QImageFromImage(res, limit);
     }
     else if(choice == "value MSER")
@@ -140,7 +152,8 @@ void GUILibTIM::update_view_node()
 
     QImage view_image;
     view_image = QImageFromImage(libtim_image);
-    view_image.convertTo(QImage::Format_RGB888);
+    // view_image.convertTo(QImage::Format_RGB888); // Qt 5.1X
+    view_image = view_image.convertToFormat(QImage::Format_RGB888);
 
     Node* n = componentTree->coordToNode(selection.x(), selection.y(), 0);
 
@@ -207,9 +220,41 @@ void GUILibTIM::update_views()
     limit_A = ui->doubleSpinBox_YA->value();
     limit_B = ui->doubleSpinBox_YB->value();
 
+    ComponentTree<U8>::Attribute criterion;
+    QString choice = ui->comboBox_criterion->currentText();
+    if(choice == "AREA_D_AREAN_H")
+    {
+        criterion = ComponentTree<U8>::AREA_D_AREAN_H;
+    }
+    else if(choice == "AREA_D_H")
+    {
+        criterion = ComponentTree<U8>::AREA_D_H;
+    }
+    else if(choice == "AREA_D_AREAN")
+    {
+        criterion = ComponentTree<U8>::AREA_D_AREAN;
+    }
+    else if(choice == "MSER")
+    {
+        criterion = ComponentTree<U8>::MSER;
+    }
+    else if(choice == "AREA_D_DELTA_H")
+    {
+        criterion = ComponentTree<U8>::AREA_D_DELTA_H;
+    }
+    else if(choice == "AREA_D_DELTA_AREAF")
+    {
+        criterion = ComponentTree<U8>::AREA_D_DELTA_AREAF;
+    }
+    else
+    {
+        criterion = ComponentTree<U8>::MSER;
+    }
+
     while(node != componentTree->m_root)
     {
-        A = node->mser;
+        A = componentTree->getAttribute<long double>(node, criterion);
+        // A = (node->father->area - node->area) / (node->area);
 
         if(limit_A > 0 && A > limit_A)
             A = limit_A;
@@ -225,8 +270,14 @@ void GUILibTIM::update_views()
 
         node = node->father;
     }
-    axis_YA->setRange(0, max_A);
-    axis_YB->setRange(0, max_B);
+    if(limit_A > 0)
+        axis_YA->setRange(0, limit_A);
+    else
+        axis_YA->setRange(0, max_A);
+    if(limit_B > 0)
+        axis_YB->setRange(0, limit_B);
+    else
+        axis_YB->setRange(0, max_B);
 
     if(ui->checkBox_view_node->isChecked())
     {
@@ -274,7 +325,7 @@ QImage GUILibTIM::QImageFromImage(Image<int64_t> &image, int64_t limit)
     QImage qimage(image.getSizeX(), image.getSizeY(), QImage::Format_Grayscale8);
 
     if(limit == 0)
-        limit = std::max(image.getMax(), 1LL);
+        limit = std::max(image.getMax(), (int64_t)1);
 
     for(int x = 0; x < qimage.width(); ++x)
     {
