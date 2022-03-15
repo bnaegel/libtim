@@ -141,6 +141,7 @@ class ComponentTree {
 		Image <T> &constructImageOptimized();
 
         enum Attribute {
+          H,
           AREA,
           AREA_D_AREAN_H,
           AREA_D_AREAN_H_D,

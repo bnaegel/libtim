@@ -352,6 +352,8 @@ template<class T> template<class TVal>
 TVal ComponentTree<T>::getAttribute(Node *n, ComponentTree::Attribute attribute_id)
 {
     switch (attribute_id) {
+    case H:
+      return n->h;
     case AREA:
       return n->area;
     case AREA_D_AREAN_H:
