@@ -7,8 +7,8 @@ GUILibTIM::GUILibTIM(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    graphicsScene = new QGraphicsScene();
-    ui->graphicsView->setScene(graphicsScene);
+    graphicsScene_1 = new QGraphicsScene();
+    ui->graphicsView_1->setScene(graphicsScene_1);
     selection = QPoint(0, 0);
 
     graphicsScene_2 = new QGraphicsScene();
@@ -16,33 +16,33 @@ GUILibTIM::GUILibTIM(QWidget *parent) :
 
     external_view = new QGraphicsView();
 
-    series_A = new QLineSeries();
+    series_criterion = new QLineSeries();
     // series_A->setColor(QColor(0.0, 0.0, 255.0));
-    series_B = new QLineSeries();
+    series_attribute = new QLineSeries();
     // series_B->setColor(QColor(0.0, 255.0, 0.0));
     series_nodes = new QScatterSeries();
     series_nodes->setMarkerSize(10.0);
     series_nodes->setColor(QColor(255.0, 0.0, 0.0));
     axis_X = new QValueAxis();
-    axis_YA = new QValueAxis();
-    axis_YB = new QValueAxis();
+    axis_Y_criterion = new QValueAxis();
+    axis_Y_attribute = new QValueAxis();
     axis_X->setRange(0, 255);
     ui->chartView->chart()->addAxis(axis_X, Qt::AlignBottom);
-    ui->chartView->chart()->addAxis(axis_YA, Qt::AlignLeft);
-    ui->chartView->chart()->addAxis(axis_YB, Qt::AlignRight);
-    ui->chartView->chart()->addSeries(series_A);
-    ui->chartView->chart()->addSeries(series_B);
+    ui->chartView->chart()->addAxis(axis_Y_criterion, Qt::AlignLeft);
+    ui->chartView->chart()->addAxis(axis_Y_attribute, Qt::AlignRight);
+    ui->chartView->chart()->addSeries(series_criterion);
+    ui->chartView->chart()->addSeries(series_attribute);
     ui->chartView->chart()->addSeries(series_nodes);
-    series_A->attachAxis(axis_X);
-    series_B->attachAxis(axis_X);
+    series_criterion->attachAxis(axis_X);
+    series_attribute->attachAxis(axis_X);
     series_nodes->attachAxis(axis_X);
-    series_A->attachAxis(axis_YA);
-    series_B->attachAxis(axis_YB);
+    series_criterion->attachAxis(axis_Y_criterion);
+    series_attribute->attachAxis(axis_Y_attribute);
 
-    connect(ui->graphicsView, SIGNAL(mousePressed(QPoint)), this, SLOT(update_views(QPoint)));
-    connect(ui->doubleSpinBox_YA, SIGNAL(valueChanged(double)), this, SLOT(update_views()));
-    connect(ui->doubleSpinBox_YB, SIGNAL(valueChanged(double)), this, SLOT(update_views()));
-    connect(ui->graphicsView_2, SIGNAL(mouseDoubleClicked()), this, SLOT(show_detached_graphicsView2()));
+    connect(ui->graphicsView_1, SIGNAL(mousePressed(QPoint)),
+            this, SLOT(update_selection(QPoint)));
+    connect(ui->graphicsView_2, SIGNAL(mouseDoubleClicked()),
+            this, SLOT(show_view_2_detached()));
 }
 
 GUILibTIM::~GUILibTIM()
@@ -60,7 +60,7 @@ void GUILibTIM::on_actionImport_TIFF_triggered()
     if (image.load(filename))
     {
         this->libtim_image = ImageFromQImage(image);
-        update_image_view(QImageFromImage(libtim_image));
+        update_view_image(QImageFromImage(libtim_image));
         computeComponentTree(libtim_image);
     }
 
@@ -78,7 +78,7 @@ void GUILibTIM::on_actionImport_PNG_triggered()
     if (image.load(filename))
     {
         libtim_image = ImageFromQImage(image);
-        update_image_view(QImageFromImage(libtim_image));
+        update_view_image(QImageFromImage(libtim_image));
         computeComponentTree(libtim_image);
     }
 }
@@ -91,73 +91,93 @@ void GUILibTIM::on_actionInvert_Image_triggered()
           libtim_image(i, j, k) = 255 - libtim_image(i, j, k);
         }
 
-    update_image_view(QImageFromImage(libtim_image));
+    update_view_image(QImageFromImage(libtim_image));
     computeComponentTree(libtim_image);
 }
 
 void GUILibTIM::on_comboBox_criterion_currentIndexChanged(int)
 {
-    update_views();
+    update_view_chart();
+}
+
+void GUILibTIM::on_comboBox_attribute_currentIndexChanged(int)
+{
+    update_view_chart();
+}
+
+void GUILibTIM::on_doubleSpinBox_min_criterion_valueChanged(double)
+{
+    update_view_chart();
+}
+
+void GUILibTIM::on_doubleSpinBox_min_attribute_valueChanged(double)
+{
+    update_view_chart();
+}
+
+void GUILibTIM::on_doubleSpinBox_max_criterion_valueChanged(double)
+{
+    update_view_chart();
+}
+
+void GUILibTIM::on_doubleSpinBox_max_attribute_valueChanged(double)
+{
+    update_view_chart();
+}
+
+void GUILibTIM::on_pushButton_view_attribute_image_clicked()
+{
+    update_view_2_attribute_image();
+}
+
+void GUILibTIM::on_checkBox_view_node_stateChanged(int)
+{
+    update_view_2_node_pixels();
 }
 
 void GUILibTIM::on_spinBox_view_node_branch_valueChanged(int)
 {
-    update_views();
-    if(ui->checkBox_view_node->isChecked())
-        update_view_node();
+    update_view_chart();
+    update_view_2_node_pixels();
+    update_statusBar();
 }
 
-void GUILibTIM::on_pushButton_view_attribute_clicked()
+void GUILibTIM::on_horizontalSlider_Z_valueChanged(int)
 {
-    if(componentTree == nullptr)
-        return;
-
-    QString choice = ui->comboBox_attribute->currentText();
-    int64_t limit = ui->doubleSpinBox_value_limit->value();
-
-    QImage view_image;
-    if(choice == "value AREA")
-    {
-        Image<int64_t> res = componentTree->constructImageAttribute<int64_t, long double>
-                  (ComponentTree<U8>::AREA, ComponentTree<U8>::AREA, ComponentTree<U8>::DIRECT);
-        view_image = QImageFromImage(res, limit);
-    }
-    else if(choice == "value AREA min MSER")
-    {
-        Image<int64_t> res = componentTree->constructImageAttribute<int64_t, long double>
-                  (ComponentTree<U8>::AREA, ComponentTree<U8>::MSER, ComponentTree<U8>::MIN);
-        view_image = QImageFromImage(res, limit);
-    }
-    else if(choice == "value AREA max MSER")
-    {
-        Image<int64_t> res = componentTree->constructImageAttribute<int64_t, long double>
-                  (ComponentTree<U8>::AREA, ComponentTree<U8>::MSER, ComponentTree<U8>::MAX);
-        view_image = QImageFromImage(res, limit);
-    }
-    else if(choice == "value MSER")
-    {
-        Image<long double> res = componentTree->constructImageAttribute<long double, long double>
-                  (ComponentTree<U8>::MSER, ComponentTree<U8>::MSER, ComponentTree<U8>::DIRECT);
-        view_image = QImageFromImage(res, limit);
-    }
-    else if(choice == "value MSER min MSER")
-    {
-        Image<long double> res = componentTree->constructImageAttribute<long double, long double>
-                  (ComponentTree<U8>::MSER, ComponentTree<U8>::MSER, ComponentTree<U8>::MIN);
-        view_image = QImageFromImage(res, limit);
-    }
-    else
-    {
-        return;
-    }
-
-    graphicsScene_2->clear();
-    QPixmap pixmap = QPixmap::fromImage(view_image);
-    graphicsScene_2->addPixmap(pixmap);
+    // todo, no 3D image for now.
 }
 
-void GUILibTIM::update_view_node()
+void GUILibTIM::update_view_image(QImage image)
 {
+    QPixmap pixmap = QPixmap::fromImage(image);
+    graphicsScene_1->clear();
+    rectClick = nullptr;
+    graphicsScene_1->addPixmap(pixmap);
+}
+
+void GUILibTIM::update_selection(QPoint p)
+{
+    selection = p;
+    update_view_1();
+    update_view_2_node_pixels();
+    update_view_chart();
+    update_statusBar();
+}
+
+void GUILibTIM::update_view_1()
+{
+    if(rectClick != nullptr)
+        delete rectClick;
+
+    rectClick = graphicsScene_1->addRect
+            (selection.x()-4, selection.y()-4, 8, 8,
+             QPen(QColor(255, 0, 0)), QBrush(QColor(255, 0, 0)));
+}
+
+void GUILibTIM::update_view_2_node_pixels()
+{
+    if(!ui->checkBox_view_node->isChecked())
+        return;
     if(componentTree == nullptr)
         return;
 
@@ -200,8 +220,139 @@ void GUILibTIM::update_view_node()
     graphicsScene_2->addPixmap(pixmap);
 }
 
+void GUILibTIM::update_view_2_attribute_image()
+{
+    if(componentTree == nullptr)
+        return;
+
+    QString choice_attribute = ui->comboBox_attribute->currentText();
+    QString choice_criterion = ui->comboBox_criterion->currentText();
+    QString choice_selection_rule = ui->comboBox_selection_rule->currentText();
+
+    int64_t limit = ui->doubleSpinBox_max_attribute->value();
+    ComponentTree<U8>::Attribute attribute = AttributeFromQString(choice_attribute);
+    ComponentTree<U8>::Attribute criterion = AttributeFromQString(choice_criterion);
+    ComponentTree<U8>::ConstructionDecision rule = ConstructionDecisionFromQString(choice_selection_rule);
+
+    QImage view_image;
+
+    if(choice_attribute == "H") // int
+    {
+        Image<int64_t> res = componentTree->constructImageAttribute<int, long double>
+                  (attribute, criterion, rule);
+        view_image = QImageFromImage(res, limit);
+    }
+    else if (choice_attribute == "AREA")// int64_t
+    {
+        Image<int64_t> res = componentTree->constructImageAttribute<int64_t, long double>
+                  (attribute, criterion, rule);
+        view_image = QImageFromImage(res, limit);
+    }
+    else if (choice_attribute == "MSER")// long double
+    {
+        Image<long double> res = componentTree->constructImageAttribute<long double, long double>
+                  (attribute, criterion, rule);
+        view_image = QImageFromImage(res, limit);
+    }
+    else
+    {
+        qDebug() << "ERROR : update_view_2_attribute_image";
+        exit(1);
+    }
+
+    graphicsScene_2->clear();
+    QPixmap pixmap = QPixmap::fromImage(view_image);
+    graphicsScene_2->addPixmap(pixmap);
+
+}
+
+void GUILibTIM::update_view_chart()
+{
+    if(componentTree == nullptr)
+        return;
+
+    series_criterion->clear();
+    series_attribute->clear();
+    series_nodes->clear();
+
+    Node* n = componentTree->coordToNode(selection.x(), selection.y(), 0);
+    series_nodes->append(n->h, 0);
+    for(int i = 0; i < ui->spinBox_view_node_branch->value(); ++i)
+        n = n->father;
+    series_nodes->append(n->h, 0);
+
+    Node* node = componentTree->coordToNode(selection.x(), selection.y(), 0);
+
+    long double min_crit, min_attr, max_crit, max_attr, crit, attr,
+            limit_min_crit, limit_min_attr, limit_max_crit, limit_max_attr;
+
+    min_crit = std::numeric_limits<long double>::max();
+    min_attr = std::numeric_limits<long double>::max();
+    max_crit = 0;
+    max_attr = 0;
+
+    limit_min_crit = ui->doubleSpinBox_min_criterion->value();
+    limit_min_attr = ui->doubleSpinBox_min_attribute->value();
+    limit_max_crit = ui->doubleSpinBox_max_criterion->value();
+    limit_max_attr = ui->doubleSpinBox_max_attribute->value();
+    QString choice_attribute = ui->comboBox_attribute->currentText();
+    QString choice_criterion = ui->comboBox_criterion->currentText();
+
+    ComponentTree<U8>::Attribute attribute = AttributeFromQString(choice_attribute);
+    ComponentTree<U8>::Attribute criterion = AttributeFromQString(choice_criterion);
+
+    while(node != componentTree->m_root)
+    {
+        crit = componentTree->getAttribute<long double>(node, criterion);
+        // A = (node->father->area - node->area) / (node->area);
+
+        if(limit_max_crit > 0 && crit > limit_max_crit)
+            crit = limit_max_crit;
+        if(limit_min_crit < 0 && crit < limit_min_crit)
+            crit = limit_min_crit;
+
+        series_criterion->append(node->h, crit);
+        max_crit = std::max(max_crit, crit);
+        min_crit = std::min(min_crit, crit);
+
+        attr = componentTree->getAttribute<long double>(node, attribute);
+        if(limit_max_attr > 0 && attr > limit_max_attr)
+            attr = limit_max_attr;
+        if(limit_min_attr < 0 && attr < limit_min_attr)
+            attr = limit_min_attr;
+
+        series_attribute->append(node->h, attr);
+        max_attr = std::max(max_attr, attr);
+        min_attr = std::min(min_attr, attr);
+
+        node = node->father;
+    }
+
+    if(limit_max_crit > 0)
+        axis_Y_criterion->setMax(limit_max_crit);
+    else
+        axis_Y_criterion->setMax(max_crit);
+
+    if(limit_min_crit < 0)
+        axis_Y_criterion->setMin(limit_min_crit);
+    else
+        axis_Y_criterion->setMin(min_crit);
+
+    if(limit_max_attr > 0)
+        axis_Y_attribute->setMax(limit_max_attr);
+    else
+        axis_Y_attribute->setMax(max_attr);
+    if(limit_min_attr < 0)
+        axis_Y_attribute->setMin(limit_min_attr);
+    else
+        axis_Y_attribute->setMin(min_attr);
+}
+
 void GUILibTIM::update_statusBar()
 {
+    if(componentTree == nullptr)
+        return;
+
     QString message;
 
     message += "x : ";
@@ -229,135 +380,85 @@ void GUILibTIM::update_statusBar()
     message += QString::number(n->area).rightJustified(10, '0');
     message += ", ";
 
-    ui->statusBar->showMessage(message);
+    ui->statusbar->showMessage(message);
 }
 
-void GUILibTIM::show_detached_graphicsView2()
+void GUILibTIM::show_view_2_detached()
 {
     external_view->setScene(graphicsScene_2);
     if(!external_view->isVisible())
-         external_view->show();
+        external_view->show();
 }
 
-void GUILibTIM::update_views(QPoint p)
+ComponentTree<U8>::Attribute GUILibTIM::AttributeFromQString(QString choice)
 {
-    selection = p;
+    ComponentTree<U8>::Attribute a;
 
-    if(rectClick != nullptr)
-        delete rectClick;
-
-    rectClick = graphicsScene->addRect(selection.x()-4, selection.y()-4, 8, 8, QPen(QColor(255, 0, 0)), QBrush(QColor(255, 0, 0)));
-
-    if(componentTree == nullptr)
-        return;
-
-    update_views();
-}
-
-void GUILibTIM::update_views()
-{
-    if(componentTree == nullptr)
-        return;
-
-    update_statusBar();
-
-    series_A->clear();
-    series_B->clear();
-    series_nodes->clear();
-
-    Node* n = componentTree->coordToNode(selection.x(), selection.y(), 0);
-    series_nodes->append(n->h, 0);
-    for(int i = 0; i < ui->spinBox_view_node_branch->value(); ++i)
-        n = n->father;
-    series_nodes->append(n->h, 0);
-
-    Node* node = componentTree->coordToNode(selection.x(), selection.y(), 0);
-
-    long double min_A, min_B, max_A, max_B, A, B, limit_A, limit_B;
-    min_A = std::numeric_limits<long double>::max();
-    min_B = std::numeric_limits<long double>::max();
-    max_A = 0;
-    max_B = 0;
-    limit_A = ui->doubleSpinBox_YA->value();
-    limit_B = ui->doubleSpinBox_YB->value();
-
-    ComponentTree<U8>::Attribute criterion;
-    QString choice = ui->comboBox_criterion->currentText();
-    if(choice == "AREA_D_AREAN_H")
+    if(choice == "H")
     {
-        criterion = ComponentTree<U8>::AREA_D_AREAN_H;
+        a = ComponentTree<U8>::H;
+    }
+    else if(choice == "AREA")
+    {
+        a = ComponentTree<U8>::AREA;
+    }
+    else if(choice == "AREA_D_AREAN_H")
+    {
+        a = ComponentTree<U8>::AREA_D_AREAN_H;
     }
     else if(choice == "AREA_D_AREAN_H_D")
     {
-        criterion = ComponentTree<U8>::AREA_D_AREAN_H_D;
+        a = ComponentTree<U8>::AREA_D_AREAN_H_D;
     }
     else if(choice == "AREA_D_H")
     {
-        criterion = ComponentTree<U8>::AREA_D_H;
+        a = ComponentTree<U8>::AREA_D_H;
     }
     else if(choice == "AREA_D_AREAN")
     {
-        criterion = ComponentTree<U8>::AREA_D_AREAN;
+        a = ComponentTree<U8>::AREA_D_AREAN;
     }
     else if(choice == "MSER")
     {
-        criterion = ComponentTree<U8>::MSER;
+        a = ComponentTree<U8>::MSER;
     }
     else if(choice == "AREA_D_DELTA_H")
     {
-        criterion = ComponentTree<U8>::AREA_D_DELTA_H;
+        a = ComponentTree<U8>::AREA_D_DELTA_H;
     }
     else if(choice == "AREA_D_DELTA_AREAF")
     {
-        criterion = ComponentTree<U8>::AREA_D_DELTA_AREAF;
+        a = ComponentTree<U8>::AREA_D_DELTA_AREAF;
     }
     else
     {
-        criterion = ComponentTree<U8>::MSER;
+        qDebug() << "ERROR : AttributeFromQString";
+        exit(1);
     }
-
-    while(node != componentTree->m_root)
-    {
-        A = componentTree->getAttribute<long double>(node, criterion);
-        // A = (node->father->area - node->area) / (node->area);
-
-        if(limit_A > 0 && A > limit_A)
-            A = limit_A;
-        series_A->append(node->h, A);
-        max_A = std::max(max_A, A);
-        min_A = std::min(min_A, A);
-
-        B = node->area;
-
-        if(limit_B > 0 && B > limit_B)
-            B = limit_B;
-        series_B->append(node->h, B);
-        max_B = std::max(max_B, B);
-        min_B = std::min(min_B, B);
-
-        node = node->father;
-    }
-    if(limit_A > 0)
-        axis_YA->setRange(min_A, limit_A);
-    else
-        axis_YA->setRange(min_A, max_A);
-    if(limit_B > 0)
-        axis_YB->setRange(min_B, limit_B);
-    else
-        axis_YB->setRange(min_B, max_B);
-
-    if(ui->checkBox_view_node->isChecked())
-    {
-        update_view_node();
-    }
+    return a;
 }
 
-void GUILibTIM::update_image_view(QImage image)
+ComponentTree<U8>::ConstructionDecision GUILibTIM::ConstructionDecisionFromQString(QString choice)
 {
-    QPixmap pixmap = QPixmap::fromImage(image);
-    graphicsScene->clear();
-    rectClick = nullptr;
-    graphicsScene->addPixmap(pixmap);
+    ComponentTree<U8>::ConstructionDecision rule;
+    if(choice == "MIN")
+    {
+        rule = ComponentTree<U8>::MIN;
+    }
+    else if(choice == "MAX")
+    {
+        rule= ComponentTree<U8>::MAX;
+    }
+    else if(choice == "DIRECT")
+    {
+        rule = ComponentTree<U8>::DIRECT;
+    }
+    else
+    {
+        qDebug() << "ERROR : ConstructionDecisionFromQString";
+        exit(1);
+    }
+    return rule;
 }
 
 Image<U8> GUILibTIM::ImageFromQImage(QImage &qimage)
@@ -383,6 +484,27 @@ QImage GUILibTIM::QImageFromImage(Image<U8> &image)
             QColor color(image(x, y, 0), image(x, y, 0), image(x, y, 0));
             qimage.setPixelColor(x, y, color);
         }
+
+    return qimage;
+}
+
+QImage GUILibTIM::QImageFromImage(Image<int> &image, int limit)
+{
+    QImage qimage(image.getSizeX(), image.getSizeY(), QImage::Format_Grayscale8);
+
+    if(limit == 0)
+        limit = std::max(image.getMax(), 1);
+
+    for(int x = 0; x < qimage.width(); ++x)
+    {
+        for(int y = 0; y < qimage.height(); ++y)
+        {
+            double normalized_val = ((double)std::min(image(x, y, 0), limit) / (double)limit);
+            int c = ((double)normalized_val*255.0);
+            QColor color(c, c, c);
+            qimage.setPixelColor(x, y, color);
+        }
+    }
 
     return qimage;
 }

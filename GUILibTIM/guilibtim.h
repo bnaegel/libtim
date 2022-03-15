@@ -30,40 +30,47 @@ public:
 
 private slots:
     void on_actionImport_TIFF_triggered();
-
     void on_actionImport_PNG_triggered();
-
     void on_actionInvert_Image_triggered();
 
     void on_comboBox_criterion_currentIndexChanged(int);
-
+    void on_comboBox_attribute_currentIndexChanged(int);
+    void on_doubleSpinBox_min_criterion_valueChanged(double);
+    void on_doubleSpinBox_min_attribute_valueChanged(double);
+    void on_doubleSpinBox_max_criterion_valueChanged(double);
+    void on_doubleSpinBox_max_attribute_valueChanged(double);
+    void on_pushButton_view_attribute_image_clicked();
+    void on_checkBox_view_node_stateChanged(int);
     void on_spinBox_view_node_branch_valueChanged(int);
+    void on_horizontalSlider_Z_valueChanged(int);
 
-    void on_pushButton_view_attribute_clicked();
-
-    void show_detached_graphicsView2();
-
-    void update_views(QPoint p);
-    void update_views();
-    void update_view_node();
+    void update_view_image(QImage image);
+    void update_selection(QPoint p);
+    void update_view_1();
+    void update_view_2_node_pixels();
+    void update_view_2_attribute_image();
+    void update_view_chart();
     void update_statusBar();
+    void show_view_2_detached();
 
 private:
+    // libtim <-> QString
+    ComponentTree<U8>::Attribute AttributeFromQString(QString choice);
+    ComponentTree<U8>::ConstructionDecision ConstructionDecisionFromQString(QString choice);
     // UI
     Ui::GUILibTIM *ui;
     // graphic view (image)
-    QGraphicsScene *graphicsScene;
+    QGraphicsScene *graphicsScene_1;
     QGraphicsRectItem *rectClick = nullptr;
     QPoint selection;
-    void update_image_view(QImage image);
     // chart view (values)
-    QLineSeries* series_A;
-    QLineSeries* series_B;
+    QLineSeries* series_criterion;
+    QLineSeries* series_attribute;
     QScatterSeries* series_nodes;
     QValueAxis* axis_X;
-    QValueAxis* axis_YA;
-    QValueAxis* axis_YB;
-    // grahic view (secondary)
+    QValueAxis* axis_Y_criterion;
+    QValueAxis* axis_Y_attribute;
+    // grahic view (nodes pixel or attribute image)
     QGraphicsScene *graphicsScene_2;
     // grahic view (external)
     QGraphicsView *external_view;
@@ -75,6 +82,7 @@ private:
     ComponentTree<U8> *componentTree = nullptr;
     static Image<U8> ImageFromQImage(QImage &qimage);
     static QImage    QImageFromImage(Image<U8> &image);
+    static QImage    QImageFromImage(Image<int> &image, int limit);
     static QImage    QImageFromImage(Image<int64_t> &image, int64_t limit);
     static QImage    QImageFromImage(Image<long double> &image, long double limit);
     void computeComponentTree(Image<U8> &image);

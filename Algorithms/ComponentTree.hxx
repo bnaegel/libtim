@@ -412,11 +412,13 @@ void ComponentTree<T>::constructImageAttributeMin(Image<TVal> &res, ComponentTre
                         attr = attr_father;
                     }
                 }
+                /*
                 if(attr < 0)
                 {
                     std::cout << "ERROR: NEGATIVE SELECTION ATTRIBUTE" << attr << std::endl;
                     exit(1);
                 }
+                */
 
                 res(i, j, k) = getAttribute<TVal>(n_s, value_attribute);
             }
@@ -450,11 +452,13 @@ void ComponentTree<T>::constructImageAttributeMax(Image<TVal> &res, ComponentTre
                         attr = attr_father;
                     }
                 }
+                /*
                 if(attr < 0)
                 {
                     std::cout << "ERROR: NEGATIVE SELECTION ATTRIBUTE" << attr << std::endl;
                     exit(1);
                 }
+                */
 
                 res(i, j, k) = getAttribute<TVal>(n_s, value_attribute);
             }
