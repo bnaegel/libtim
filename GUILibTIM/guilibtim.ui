@@ -153,11 +153,16 @@
         <item row="0" column="1">
          <widget class="QComboBox" name="comboBox_criterion">
           <property name="currentIndex">
-           <number>3</number>
+           <number>4</number>
           </property>
           <item>
            <property name="text">
             <string>AREA_D_AREAN_H</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>AREA_D_AREAN_H_D</string>
            </property>
           </item>
           <item>

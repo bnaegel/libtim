@@ -17,9 +17,12 @@ GUILibTIM::GUILibTIM(QWidget *parent) :
     external_view = new QGraphicsView();
 
     series_A = new QLineSeries();
+    // series_A->setColor(QColor(0.0, 0.0, 255.0));
     series_B = new QLineSeries();
+    // series_B->setColor(QColor(0.0, 255.0, 0.0));
     series_nodes = new QScatterSeries();
     series_nodes->setMarkerSize(10.0);
+    series_nodes->setColor(QColor(255.0, 0.0, 0.0));
     axis_X = new QValueAxis();
     axis_YA = new QValueAxis();
     axis_YB = new QValueAxis();
@@ -270,7 +273,9 @@ void GUILibTIM::update_views()
 
     Node* node = componentTree->coordToNode(selection.x(), selection.y(), 0);
 
-    long double max_A, max_B, A, B, limit_A, limit_B;
+    long double min_A, min_B, max_A, max_B, A, B, limit_A, limit_B;
+    min_A = std::numeric_limits<long double>::max();
+    min_B = std::numeric_limits<long double>::max();
     max_A = 0;
     max_B = 0;
     limit_A = ui->doubleSpinBox_YA->value();
@@ -281,6 +286,10 @@ void GUILibTIM::update_views()
     if(choice == "AREA_D_AREAN_H")
     {
         criterion = ComponentTree<U8>::AREA_D_AREAN_H;
+    }
+    else if(choice == "AREA_D_AREAN_H_D")
+    {
+        criterion = ComponentTree<U8>::AREA_D_AREAN_H_D;
     }
     else if(choice == "AREA_D_H")
     {
@@ -316,6 +325,7 @@ void GUILibTIM::update_views()
             A = limit_A;
         series_A->append(node->h, A);
         max_A = std::max(max_A, A);
+        min_A = std::min(min_A, A);
 
         B = node->area;
 
@@ -323,17 +333,18 @@ void GUILibTIM::update_views()
             B = limit_B;
         series_B->append(node->h, B);
         max_B = std::max(max_B, B);
+        min_B = std::min(min_B, B);
 
         node = node->father;
     }
     if(limit_A > 0)
-        axis_YA->setRange(0, limit_A);
+        axis_YA->setRange(min_A, limit_A);
     else
-        axis_YA->setRange(0, max_A);
+        axis_YA->setRange(min_A, max_A);
     if(limit_B > 0)
-        axis_YB->setRange(0, limit_B);
+        axis_YB->setRange(min_B, limit_B);
     else
-        axis_YB->setRange(0, max_B);
+        axis_YB->setRange(min_B, max_B);
 
     if(ui->checkBox_view_node->isChecked())
     {

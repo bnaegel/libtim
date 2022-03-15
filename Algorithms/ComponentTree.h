@@ -49,6 +49,7 @@ struct Node {
     : label(-1),xmin(localMax),ymin(localMax),
     xmax(localMin),ymax(localMin),area(0),
     area_derivative_areaN_h(std::numeric_limits<long double>::max()),
+    area_derivative_areaN_h_derivative(std::numeric_limits<long double>::max()),
     area_derivative_h(std::numeric_limits<long double>::max()),
     area_derivative_areaN(std::numeric_limits<long double>::max()),
     mser(std::numeric_limits<long double>::max()),
@@ -71,6 +72,7 @@ struct Node {
     int64_t area;
     // father correspond au noeud père
     long double area_derivative_areaN_h;
+    long double area_derivative_areaN_h_derivative;
     // (aire(father) - aire(noeud) / (h(noeud) - h(father))
     long double area_derivative_h;
     // (aire(father) - aire(noeud)) / aire(noeud)
@@ -141,6 +143,7 @@ class ComponentTree {
         enum Attribute {
           AREA,
           AREA_D_AREAN_H,
+          AREA_D_AREAN_H_D,
           AREA_D_H,
           AREA_D_AREAN,
           MSER,
@@ -344,6 +347,7 @@ class SalembierRecursiveImplementation: public ComponentTreeStrategy <T> {
 
     int64_t computeArea(Node *tree);
     void computeAreaDerivative(Node *tree);
+    void computeAreaDerivative2(Node *tree);
     void computeMSER(Node *tree, unsigned int delta);
 	int computeContrast(Node *tree);
 	int computeVolume(Node *tree);
