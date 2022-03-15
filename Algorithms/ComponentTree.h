@@ -70,7 +70,6 @@ struct Node {
     int ymax;
     int64_t area;
     // father correspond au noeud père
-    // ((aire(father) - aire(noeud)) / aire(noeud)) * (h(noeud) - h(father))
     long double area_derivative_areaN_h;
     // (aire(father) - aire(noeud) / (h(noeud) - h(father))
     long double area_derivative_h;

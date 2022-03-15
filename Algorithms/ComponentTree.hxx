@@ -1505,7 +1505,7 @@ void SalembierRecursiveImplementation<T>::computeAreaDerivative(Node *tree)
         {
             computeAreaDerivative(*it);
         }
-        tree->area_derivative_areaN_h = (((long double)(tree->father->area - tree->area)) / ((long double)(tree->area))) * ((long double)(tree->h - tree->father->h));
+        tree->area_derivative_areaN_h = (((long double)(tree->father->area - tree->area)) / ((long double)(tree->h - tree->father->h))) / ((long double)(tree->area));
         tree->area_derivative_h = ((long double)(tree->father->area - tree->area)) / ((long double)(tree->h - tree->father->h));
         tree->area_derivative_areaN = ((long double)(tree->father->area - tree->area)) / ((long double)(tree->area));
     }
