@@ -41,9 +41,12 @@ private slots:
 
     void on_pushButton_view_attribute_clicked();
 
+    void show_detached_graphicsView2();
+
     void update_views(QPoint p);
     void update_views();
     void update_view_node();
+    void update_statusBar();
 
 private:
     // UI
@@ -56,11 +59,14 @@ private:
     // chart view (values)
     QLineSeries* series_A;
     QLineSeries* series_B;
+    QScatterSeries* series_nodes;
     QValueAxis* axis_X;
     QValueAxis* axis_YA;
     QValueAxis* axis_YB;
     // grahic view (secondary)
     QGraphicsScene *graphicsScene_2;
+    // grahic view (external)
+    QGraphicsView *external_view;
 
     // DATA
     // image

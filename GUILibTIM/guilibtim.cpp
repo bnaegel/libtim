@@ -14,8 +14,12 @@ GUILibTIM::GUILibTIM(QWidget *parent) :
     graphicsScene_2 = new QGraphicsScene();
     ui->graphicsView_2->setScene(graphicsScene_2);
 
+    external_view = new QGraphicsView();
+
     series_A = new QLineSeries();
     series_B = new QLineSeries();
+    series_nodes = new QScatterSeries();
+    series_nodes->setMarkerSize(10.0);
     axis_X = new QValueAxis();
     axis_YA = new QValueAxis();
     axis_YB = new QValueAxis();
@@ -25,14 +29,17 @@ GUILibTIM::GUILibTIM(QWidget *parent) :
     ui->chartView->chart()->addAxis(axis_YB, Qt::AlignRight);
     ui->chartView->chart()->addSeries(series_A);
     ui->chartView->chart()->addSeries(series_B);
+    ui->chartView->chart()->addSeries(series_nodes);
     series_A->attachAxis(axis_X);
     series_B->attachAxis(axis_X);
+    series_nodes->attachAxis(axis_X);
     series_A->attachAxis(axis_YA);
     series_B->attachAxis(axis_YB);
 
     connect(ui->graphicsView, SIGNAL(mousePressed(QPoint)), this, SLOT(update_views(QPoint)));
     connect(ui->doubleSpinBox_YA, SIGNAL(valueChanged(double)), this, SLOT(update_views()));
     connect(ui->doubleSpinBox_YB, SIGNAL(valueChanged(double)), this, SLOT(update_views()));
+    connect(ui->graphicsView_2, SIGNAL(mouseDoubleClicked()), this, SLOT(show_detached_graphicsView2()));
 }
 
 GUILibTIM::~GUILibTIM()
@@ -92,6 +99,7 @@ void GUILibTIM::on_comboBox_criterion_currentIndexChanged(int)
 
 void GUILibTIM::on_spinBox_view_node_branch_valueChanged(int)
 {
+    update_views();
     if(ui->checkBox_view_node->isChecked())
         update_view_node();
 }
@@ -189,6 +197,45 @@ void GUILibTIM::update_view_node()
     graphicsScene_2->addPixmap(pixmap);
 }
 
+void GUILibTIM::update_statusBar()
+{
+    QString message;
+
+    message += "x : ";
+    message += QString::number(selection.x()).rightJustified(4, '0');
+    message += ", ";
+
+    message += "y : ";
+    message += QString::number(selection.y()).rightJustified(4, '0');
+    message += ", ";
+
+    Node* n = componentTree->coordToNode(selection.x(), selection.y(), 0);
+    message += "node h : ";
+    message += QString::number(n->h).rightJustified(3, '0');
+    message += ", ";
+    message += "node area : ";
+    message += QString::number(n->area).rightJustified(10, '0');
+    message += ", ";
+
+    for(int i = 0; i < ui->spinBox_view_node_branch->value(); ++i)
+        n = n->father;
+    message += "father h : ";
+    message += QString::number(n->h).rightJustified(3, '0');
+    message += ", ";
+    message += "father area : ";
+    message += QString::number(n->area).rightJustified(10, '0');
+    message += ", ";
+
+    ui->statusBar->showMessage(message);
+}
+
+void GUILibTIM::show_detached_graphicsView2()
+{
+    external_view->setScene(graphicsScene_2);
+    if(!external_view->isVisible())
+         external_view->show();
+}
+
 void GUILibTIM::update_views(QPoint p)
 {
     selection = p;
@@ -209,8 +256,17 @@ void GUILibTIM::update_views()
     if(componentTree == nullptr)
         return;
 
+    update_statusBar();
+
     series_A->clear();
     series_B->clear();
+    series_nodes->clear();
+
+    Node* n = componentTree->coordToNode(selection.x(), selection.y(), 0);
+    series_nodes->append(n->h, 0);
+    for(int i = 0; i < ui->spinBox_view_node_branch->value(); ++i)
+        n = n->father;
+    series_nodes->append(n->h, 0);
 
     Node* node = componentTree->coordToNode(selection.x(), selection.y(), 0);
 

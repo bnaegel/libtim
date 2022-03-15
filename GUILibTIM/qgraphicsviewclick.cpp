@@ -27,3 +27,11 @@ void QGraphicsViewClick::mouseReleaseEvent(QMouseEvent *event)
         leftClickPressed = false;
     }
 }
+
+void QGraphicsViewClick::mouseDoubleClickEvent(QMouseEvent *event)
+{
+    if(event->button() == Qt::LeftButton)
+    {
+        emit mouseDoubleClicked();
+    }
+}

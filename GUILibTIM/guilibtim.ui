@@ -112,7 +112,7 @@
        </widget>
       </item>
       <item row="0" column="0">
-       <widget class="QGraphicsView" name="graphicsView_2"/>
+       <widget class="QGraphicsViewClick" name="graphicsView_2"/>
       </item>
       <item row="2" column="0">
        <layout class="QGridLayout" name="gridLayout">
@@ -206,7 +206,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -225,6 +225,7 @@
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionImport_TIFF">
    <property name="text">
     <string>Import TIFF</string>
