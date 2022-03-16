@@ -52,34 +52,45 @@ GUILibTIM::~GUILibTIM()
 
 void GUILibTIM::on_actionImport_TIFF_triggered()
 {
-    // todo : replace with QFileDialog
-    QString filename = "i3_2_slices.tif";
-    qDebug() << filename;
+    QString filename = QFileDialog::getOpenFileName(this, "Import TIFF", QDir::currentPath(), "TIFF (*.tif *.tiff)");
 
-    QImage image;
-    if (image.load(filename))
+    if(QFile::exists(filename))
     {
-        this->libtim_image = ImageFromQImage(image);
-        update_view_image(QImageFromImage(libtim_image));
-        computeComponentTree(libtim_image);
+        QImage image;
+        if (image.load(filename))
+        {
+            this->libtim_image = ImageFromQImage(image);
+            update_view_image(QImageFromImage(libtim_image));
+            computeComponentTree(libtim_image);
+        }
+
+        // todo : 3D TIFF read implementation
+        qDebug() << "3D NotImplemented";
+    }
+    else
+    {
+        QMessageBox::critical(this, "Import TIFF", "invalid filename");
     }
 
-    // todo : 3D TIFF read implementation
-    qDebug() << "NotImplemented";
 }
 
 void GUILibTIM::on_actionImport_PNG_triggered()
 {
-    // todo : replace with QFileDialog
-    QString filename = "i3_1_slices.png";
-    qDebug() << filename;
+    QString filename = QFileDialog::getOpenFileName(this, "Import PNG", QDir::currentPath(), "PNG (*.png)");
 
-    QImage image;
-    if (image.load(filename))
+    if(QFile::exists(filename))
     {
-        libtim_image = ImageFromQImage(image);
-        update_view_image(QImageFromImage(libtim_image));
-        computeComponentTree(libtim_image);
+        QImage image;
+        if (image.load(filename))
+        {
+            libtim_image = ImageFromQImage(image);
+            update_view_image(QImageFromImage(libtim_image));
+            computeComponentTree(libtim_image);
+        }
+    }
+    else
+    {
+        QMessageBox::critical(this, "Import TIFF", "invalid filename");
     }
 }
 
@@ -93,6 +104,70 @@ void GUILibTIM::on_actionInvert_Image_triggered()
 
     update_view_image(QImageFromImage(libtim_image));
     computeComponentTree(libtim_image);
+}
+
+void GUILibTIM::on_actionFilterArea_triggered()
+{
+    if(componentTree == nullptr)
+        return;
+
+    FlatSE connexity;
+    connexity.make3DN26();
+    ComponentTree<U8> filter_tree = ComponentTree<U8>(libtim_image, connexity, 1);
+
+    QString choice_selection_rule = ui->comboBox_selection_rule->currentText();
+    int min = (int)ui->doubleSpinBox_filter_min->value();
+    int max = (int)ui->doubleSpinBox_filter_max->value();
+
+    ComponentTree<U8>::ConstructionDecision construct_rule =
+            ConstructionDecisionFromQString(choice_selection_rule);
+
+    if(max == 0)
+    {
+        filter_tree.areaFiltering(min);
+    }
+    else
+    {
+        filter_tree.areaFiltering(min, max);
+    }
+
+    Image<U8> res = filter_tree.constructImage(construct_rule);
+
+    graphicsScene_2->clear();
+    QPixmap pixmap = QPixmap::fromImage(QImageFromImage(res));
+    graphicsScene_2->addPixmap(pixmap);
+}
+
+void GUILibTIM::on_actionFilterContrast_triggered()
+{
+    if(componentTree == nullptr)
+        return;
+
+    FlatSE connexity;
+    connexity.make3DN26();
+    ComponentTree<U8> filter_tree = ComponentTree<U8>(libtim_image, connexity, 1);
+
+    QString choice_selection_rule = ui->comboBox_selection_rule->currentText();
+    int min = (int)ui->doubleSpinBox_filter_min->value();
+    int max = (int)ui->doubleSpinBox_filter_max->value();
+
+    ComponentTree<U8>::ConstructionDecision construct_rule =
+            ConstructionDecisionFromQString(choice_selection_rule);
+
+    if(max == 0)
+    {
+        filter_tree.contrastFiltering(min);
+    }
+    else
+    {
+        filter_tree.contrastFiltering(min, max);
+    }
+
+    Image<U8> res = filter_tree.constructImage(construct_rule);
+
+    graphicsScene_2->clear();
+    QPixmap pixmap = QPixmap::fromImage(QImageFromImage(res));
+    graphicsScene_2->addPixmap(pixmap);
 }
 
 void GUILibTIM::on_comboBox_criterion_currentIndexChanged(int)
@@ -236,7 +311,9 @@ void GUILibTIM::update_view_2_attribute_image()
 
     QImage view_image;
 
-    if(choice_attribute == "H") // int
+    if(choice_attribute == "H"
+            || choice_attribute == "CONTRAST"
+            || choice_attribute == "VOLUME") // int
     {
         Image<int64_t> res = componentTree->constructImageAttribute<int, long double>
                   (attribute, criterion, rule);
@@ -429,6 +506,14 @@ ComponentTree<U8>::Attribute GUILibTIM::AttributeFromQString(QString choice)
     else if(choice == "AREA_D_DELTA_AREAF")
     {
         a = ComponentTree<U8>::AREA_D_DELTA_AREAF;
+    }
+    else if(choice == "CONTRAST")
+    {
+        a = ComponentTree<U8>::CONTRAST;
+    }
+    else if(choice == "VOLUME")
+    {
+        a = ComponentTree<U8>::VOLUME;
     }
     else
     {

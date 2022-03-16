@@ -1906,6 +1906,9 @@ void SalembierRecursiveImplementation<T>::computeAttributes(Node *tree, unsigned
         computeAreaDerivative(tree);
         computeAreaDerivative2(tree);
         computeMSER(tree, delta);
+
+        tree->contrast=computeContrast(tree);
+        tree->volume=computeVolume(tree);
         }
 }
 

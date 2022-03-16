@@ -32,6 +32,8 @@ private slots:
     void on_actionImport_TIFF_triggered();
     void on_actionImport_PNG_triggered();
     void on_actionInvert_Image_triggered();
+    void on_actionFilterArea_triggered();
+    void on_actionFilterContrast_triggered();
 
     void on_comboBox_criterion_currentIndexChanged(int);
     void on_comboBox_attribute_currentIndexChanged(int);
