@@ -50,33 +50,10 @@ GUILibTIM::~GUILibTIM()
     delete ui;
 }
 
-void GUILibTIM::on_actionImport_TIFF_triggered()
+void GUILibTIM::on_actionImport_Image_triggered()
 {
-    QString filename = QFileDialog::getOpenFileName(this, "Import TIFF", QDir::currentPath(), "TIFF (*.tif *.tiff)");
-
-    if(QFile::exists(filename))
-    {
-        QImage image;
-        if (image.load(filename))
-        {
-            this->libtim_image = ImageFromQImage(image);
-            update_view_image(QImageFromImage(libtim_image));
-            computeComponentTree(libtim_image);
-        }
-
-        // todo : 3D TIFF read implementation
-        qDebug() << "3D NotImplemented";
-    }
-    else
-    {
-        QMessageBox::critical(this, "Import TIFF", "invalid filename");
-    }
-
-}
-
-void GUILibTIM::on_actionImport_PNG_triggered()
-{
-    QString filename = QFileDialog::getOpenFileName(this, "Import PNG", QDir::currentPath(), "PNG (*.png)");
+    QString filename = QFileDialog::getOpenFileName(
+                this, "Import Image", QDir::currentPath(), "Image (*.png *.tif *.tiff)");
 
     if(QFile::exists(filename))
     {
@@ -90,7 +67,46 @@ void GUILibTIM::on_actionImport_PNG_triggered()
     }
     else
     {
-        QMessageBox::critical(this, "Import TIFF", "invalid filename");
+        QMessageBox::critical(this, "Import Image", "invalid image");
+    }
+}
+
+void GUILibTIM::on_actionImport_ImageSequence_triggered()
+{
+    QString foldername = QFileDialog::getExistingDirectory(
+                this, "Import Image Sequence", QDir::currentPath(), QFileDialog::ShowDirsOnly);
+
+    QDir dir(foldername);
+    if(dir.exists())
+    {
+        QList<QImage> images;
+        QStringList filenames = dir.entryList(QStringList() << "*.tif" << "*.tiff", QDir::Files);
+        foreach(QString filename, filenames)
+        {
+            QImage image;
+            if (image.load(dir.filePath(filename)))
+            {
+                images.append(image);
+            }
+        }
+
+        if(images.size() > 0)
+        {
+            ui->horizontalSlider_Z->setEnabled(true);
+            ui->horizontalSlider_Z->setRange(0, images.size()-1);
+            ui->horizontalSlider_Z->setValue(0);
+            libtim_image = ImageFromQImageList(images);
+            update_view_image(QImageFromImage(libtim_image));
+            computeComponentTree(libtim_image);
+        }
+        else
+        {
+            QMessageBox::critical(this, "Import Image Sequence", "invalid image sequence");
+        }
+    }
+    else
+    {
+        QMessageBox::critical(this, "Import Image Sequence", "invalid image sequence");
     }
 }
 
@@ -102,7 +118,7 @@ void GUILibTIM::on_actionInvert_Image_triggered()
           libtim_image(i, j, k) = 255 - libtim_image(i, j, k);
         }
 
-    update_view_image(QImageFromImage(libtim_image));
+    update_view_image(QImageFromImage(libtim_image, selection_z));
     computeComponentTree(libtim_image);
 }
 
@@ -134,7 +150,7 @@ void GUILibTIM::on_actionFilterArea_triggered()
     Image<U8> res = filter_tree.constructImage(construct_rule);
 
     graphicsScene_2->clear();
-    QPixmap pixmap = QPixmap::fromImage(QImageFromImage(res));
+    QPixmap pixmap = QPixmap::fromImage(QImageFromImage(res, selection_z));
     graphicsScene_2->addPixmap(pixmap);
 }
 
@@ -166,7 +182,7 @@ void GUILibTIM::on_actionFilterContrast_triggered()
     Image<U8> res = filter_tree.constructImage(construct_rule);
 
     graphicsScene_2->clear();
-    QPixmap pixmap = QPixmap::fromImage(QImageFromImage(res));
+    QPixmap pixmap = QPixmap::fromImage(QImageFromImage(res, selection_z));
     graphicsScene_2->addPixmap(pixmap);
 }
 
@@ -219,7 +235,12 @@ void GUILibTIM::on_spinBox_view_node_branch_valueChanged(int)
 
 void GUILibTIM::on_horizontalSlider_Z_valueChanged(int)
 {
-    // todo, no 3D image for now.
+    selection_z = ui->horizontalSlider_Z->value();
+    update_view_image(QImageFromImage(libtim_image, selection_z));
+    update_view_1();
+    update_view_2_node_pixels();
+    update_view_chart();
+    update_statusBar();
 }
 
 void GUILibTIM::update_view_image(QImage image)
@@ -257,11 +278,11 @@ void GUILibTIM::update_view_2_node_pixels()
         return;
 
     QImage view_image;
-    view_image = QImageFromImage(libtim_image);
+    view_image = QImageFromImage(libtim_image, selection_z);
     // view_image.convertTo(QImage::Format_RGB888); // Qt 5.1X
     view_image = view_image.convertToFormat(QImage::Format_RGB888);
 
-    Node* n = componentTree->coordToNode(selection.x(), selection.y(), 0);
+    Node* n = componentTree->coordToNode(selection.x(), selection.y(), selection_z);
 
     for(int i = 0; i < ui->spinBox_view_node_branch->value(); ++i)
         n = n->father;
@@ -317,19 +338,19 @@ void GUILibTIM::update_view_2_attribute_image()
     {
         Image<int64_t> res = componentTree->constructImageAttribute<int, long double>
                   (attribute, criterion, rule);
-        view_image = QImageFromImage(res, limit);
+        view_image = QImageFromImage(res, limit, selection_z);
     }
     else if (choice_attribute == "AREA")// int64_t
     {
         Image<int64_t> res = componentTree->constructImageAttribute<int64_t, long double>
                   (attribute, criterion, rule);
-        view_image = QImageFromImage(res, limit);
+        view_image = QImageFromImage(res, limit, selection_z);
     }
     else if (choice_attribute == "MSER")// long double
     {
         Image<long double> res = componentTree->constructImageAttribute<long double, long double>
                   (attribute, criterion, rule);
-        view_image = QImageFromImage(res, limit);
+        view_image = QImageFromImage(res, limit, selection_z);
     }
     else
     {
@@ -352,13 +373,13 @@ void GUILibTIM::update_view_chart()
     series_attribute->clear();
     series_nodes->clear();
 
-    Node* n = componentTree->coordToNode(selection.x(), selection.y(), 0);
+    Node* n = componentTree->coordToNode(selection.x(), selection.y(), selection_z);
     series_nodes->append(n->h, 0);
     for(int i = 0; i < ui->spinBox_view_node_branch->value(); ++i)
         n = n->father;
     series_nodes->append(n->h, 0);
 
-    Node* node = componentTree->coordToNode(selection.x(), selection.y(), 0);
+    Node* node = componentTree->coordToNode(selection.x(), selection.y(), selection_z);
 
     long double min_crit, min_attr, max_crit, max_attr, crit, attr,
             limit_min_crit, limit_min_attr, limit_max_crit, limit_max_attr;
@@ -440,7 +461,11 @@ void GUILibTIM::update_statusBar()
     message += QString::number(selection.y()).rightJustified(4, '0');
     message += ", ";
 
-    Node* n = componentTree->coordToNode(selection.x(), selection.y(), 0);
+    message += "z : ";
+    message += QString::number(selection_z).rightJustified(4, '0');
+    message += ", ";
+
+    Node* n = componentTree->coordToNode(selection.x(), selection.y(), selection_z);
     message += "node h : ";
     message += QString::number(n->h).rightJustified(3, '0');
     message += ", ";
@@ -557,7 +582,20 @@ Image<U8> GUILibTIM::ImageFromQImage(QImage &qimage)
     return image;
 }
 
-QImage GUILibTIM::QImageFromImage(Image<U8> &image)
+Image<U8> GUILibTIM::ImageFromQImageList(QList<QImage> &qimages)
+{
+    qDebug() << qimages.size();
+    Image<U8> image(qimages[0].width(), qimages[0].height(), qimages.size());
+
+    for(int z = 0; z < qimages.size(); ++z)
+        for(int y = 0; y < qimages[z].height(); ++y)
+            for(int x = 0; x < qimages[z].width(); ++x)
+                image(x, y, z) = qimages[z].pixel(x, y);
+
+    return image;
+}
+
+QImage GUILibTIM::QImageFromImage(Image<U8> &image, unsigned int z)
 {
     // return QImage(image.getData(), image.getSizeX(), image.getSizeY(), QImage::Format_Grayscale8);
 
@@ -566,14 +604,14 @@ QImage GUILibTIM::QImageFromImage(Image<U8> &image)
     for(int x = 0; x < qimage.width(); ++x)
         for(int y = 0; y < qimage.height(); ++y)
         {
-            QColor color(image(x, y, 0), image(x, y, 0), image(x, y, 0));
+            QColor color(image(x, y, z), image(x, y, z), image(x, y, z));
             qimage.setPixelColor(x, y, color);
         }
 
     return qimage;
 }
 
-QImage GUILibTIM::QImageFromImage(Image<int> &image, int limit)
+QImage GUILibTIM::QImageFromImage(Image<int> &image, int limit, unsigned int z)
 {
     QImage qimage(image.getSizeX(), image.getSizeY(), QImage::Format_Grayscale8);
 
@@ -584,7 +622,7 @@ QImage GUILibTIM::QImageFromImage(Image<int> &image, int limit)
     {
         for(int y = 0; y < qimage.height(); ++y)
         {
-            double normalized_val = ((double)std::min(image(x, y, 0), limit) / (double)limit);
+            double normalized_val = ((double)std::min(image(x, y, z), limit) / (double)limit);
             int c = ((double)normalized_val*255.0);
             QColor color(c, c, c);
             qimage.setPixelColor(x, y, color);
@@ -594,7 +632,7 @@ QImage GUILibTIM::QImageFromImage(Image<int> &image, int limit)
     return qimage;
 }
 
-QImage GUILibTIM::QImageFromImage(Image<int64_t> &image, int64_t limit)
+QImage GUILibTIM::QImageFromImage(Image<int64_t> &image, int64_t limit, unsigned int z)
 {
     QImage qimage(image.getSizeX(), image.getSizeY(), QImage::Format_Grayscale8);
 
@@ -605,7 +643,7 @@ QImage GUILibTIM::QImageFromImage(Image<int64_t> &image, int64_t limit)
     {
         for(int y = 0; y < qimage.height(); ++y)
         {
-            double normalized_val = ((double)std::min(image(x, y, 0), limit) / (double)limit);
+            double normalized_val = ((double)std::min(image(x, y, z), limit) / (double)limit);
             int c = ((double)normalized_val*255.0);
             QColor color(c, c, c);
             qimage.setPixelColor(x, y, color);
@@ -615,7 +653,7 @@ QImage GUILibTIM::QImageFromImage(Image<int64_t> &image, int64_t limit)
     return qimage;
 }
 
-QImage GUILibTIM::QImageFromImage(Image<long double> &image, long double limit)
+QImage GUILibTIM::QImageFromImage(Image<long double> &image, long double limit, unsigned int z)
 {
     QImage qimage(image.getSizeX(), image.getSizeY(), QImage::Format_Grayscale8);
 
@@ -629,7 +667,7 @@ QImage GUILibTIM::QImageFromImage(Image<long double> &image, long double limit)
     {
         for(int y = 0; y < qimage.height(); ++y)
         {
-            normalized_val = ((long double)std::min(image(x, y, 0), limit) / (long double)limit);
+            normalized_val = ((long double)std::min(image(x, y, z), limit) / (long double)limit);
             c = ((long double)normalized_val*255.0);
             QColor color(c, c, c);
             qimage.setPixelColor(x, y, color);

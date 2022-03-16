@@ -29,8 +29,8 @@ public:
     ~GUILibTIM();
 
 private slots:
-    void on_actionImport_TIFF_triggered();
-    void on_actionImport_PNG_triggered();
+    void on_actionImport_Image_triggered();
+    void on_actionImport_ImageSequence_triggered();
     void on_actionInvert_Image_triggered();
     void on_actionFilterArea_triggered();
     void on_actionFilterContrast_triggered();
@@ -65,6 +65,7 @@ private:
     QGraphicsScene *graphicsScene_1;
     QGraphicsRectItem *rectClick = nullptr;
     QPoint selection;
+    unsigned int selection_z = 0;
     // chart view (values)
     QLineSeries* series_criterion;
     QLineSeries* series_attribute;
@@ -83,10 +84,11 @@ private:
     // component tree
     ComponentTree<U8> *componentTree = nullptr;
     static Image<U8> ImageFromQImage(QImage &qimage);
-    static QImage    QImageFromImage(Image<U8> &image);
-    static QImage    QImageFromImage(Image<int> &image, int limit);
-    static QImage    QImageFromImage(Image<int64_t> &image, int64_t limit);
-    static QImage    QImageFromImage(Image<long double> &image, long double limit);
+    static Image<U8> ImageFromQImageList(QList<QImage> &qimages);
+    static QImage    QImageFromImage(Image<U8> &image, unsigned int z=0);
+    static QImage    QImageFromImage(Image<int> &image, int limit, unsigned int z=0);
+    static QImage    QImageFromImage(Image<int64_t> &image, int64_t limit, unsigned int z=0);
+    static QImage    QImageFromImage(Image<long double> &image, long double limit, unsigned int z=0);
     void computeComponentTree(Image<U8> &image);
 };
 

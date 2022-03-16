@@ -301,8 +301,8 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionImport_TIFF"/>
-    <addaction name="actionImport_PNG"/>
+    <addaction name="actionImport_Image"/>
+    <addaction name="actionImport_ImageSequence"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -328,14 +328,14 @@
    <addaction name="menuTools"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionImport_TIFF">
+  <action name="actionImport_Image">
    <property name="text">
-    <string>Import TIFF</string>
+    <string>Import Image</string>
    </property>
   </action>
-  <action name="actionImport_PNG">
+  <action name="actionImport_ImageSequence">
    <property name="text">
-    <string>Import PNG</string>
+    <string>Import Image Sequence</string>
    </property>
   </action>
   <action name="actionInvert_Image">
