@@ -70,6 +70,16 @@ ComponentTree<T>::ComponentTree( Image< T > & img , FlatSE &connexity, unsigned 
 }
 
 template <class T>
+ComponentTree<T>::ComponentTree( Image< T > & img , FlatSE &connexity, ComputedAttributes ca, unsigned int delta)
+:m_root(0),m_img(img)
+{
+    SalembierRecursiveImplementation<T> strategy(this,connexity);
+
+    m_root=strategy.computeTree();
+    strategy.computeAttributes(m_root, ca, delta);
+}
+
+template <class T>
 ComponentTree<T>::~ComponentTree()
 {
 	erase_tree();
@@ -1910,6 +1920,53 @@ void SalembierRecursiveImplementation<T>::computeAttributes(Node *tree, unsigned
         tree->contrast=computeContrast(tree);
         tree->volume=computeVolume(tree);
         }
+}
+
+template <class T>
+void SalembierRecursiveImplementation<T>::computeAttributes(Node *tree, ComputedAttributes ca, unsigned int delta)
+{
+    if(tree!=0)
+    {
+        if(ca & ComputedAttributes::AREA)
+            tree->area=computeArea(tree);
+        if(ca & ComputedAttributes::AREA_DERIVATIVES)
+        {
+            computeAreaDerivative(tree);
+            computeAreaDerivative2(tree);
+            computeMSER(tree, delta);
+        }
+        if(ca & ComputedAttributes::CONTRAST)
+        {
+            tree->contrast=computeContrast(tree);
+        }
+        if(ca & ComputedAttributes::VOLUME)
+        {
+            tree->volume=computeVolume(tree);
+        }
+        if(ca & ComputedAttributes::BORDER_GRADIENT)
+        {
+        }
+        if(ca & ComputedAttributes::COMP_LEXITY_ACITY)
+        {
+            computeComplexityAndCompacity(tree);
+        }
+        if(ca & ComputedAttributes::BOUNDING_BOX)
+        {
+            computeBoundingBox(tree);
+        }
+        if(ca & ComputedAttributes::SUB_NODES)
+        {
+            tree->subNodes=computeSubNodes(tree);
+        }
+        if(ca & ComputedAttributes::INERTIA_MOMENT)
+        {
+            tree->m01=computeM01(tree);
+            tree->m10=computeM10(tree);
+            tree->m20=computeM20(tree);
+            tree->m02=computeM02(tree);
+            computeInertiaMoment(tree);
+        }
+    }
 }
 
 //////////////////////////////////////////////////////////////

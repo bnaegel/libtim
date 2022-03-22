@@ -120,6 +120,17 @@ struct Node {
 
 typedef std::vector<std::vector<Node *> > IndexType;
 
+enum ComputedAttributes {
+    AREA                = 0b00000001,
+    AREA_DERIVATIVES    = 0b00000010,
+    CONTRAST            = 0b00000100,
+    VOLUME              = 0b00001000,
+    BORDER_GRADIENT     = 0b00010000,
+    COMP_LEXITY_ACITY   = 0b00100000,
+    BOUNDING_BOX        = 0b01000000,
+    SUB_NODES           = 0b10000000,
+    INERTIA_MOMENT      = 0b0100000000,
+};
 
 template <class T>
 class ComponentTreeStrategy;
@@ -134,11 +145,12 @@ class ComponentTree {
         ComponentTree(Image <T> &img);
         ComponentTree(Image <T> &img, FlatSE &connexity);
         ComponentTree(Image <T> &img, FlatSE &connexity, unsigned int delta);
+        ComponentTree(Image <T> &img, FlatSE &connexity, ComputedAttributes ca, unsigned int delta);
 		~ComponentTree();
 
 		enum ConstructionDecision {MIN,MAX,DIRECT};
 		Image <T> constructImage(ConstructionDecision decision=MIN);
-		Image <T> &constructImageOptimized();
+        Image <T> &constructImageOptimized();
 
         enum Attribute {
           H,
@@ -345,6 +357,7 @@ class SalembierRecursiveImplementation: public ComponentTreeStrategy <T> {
     Node *computeTree();
     void computeAttributes(Node *tree);
     void computeAttributes(Node *tree, unsigned int delta);
+    void computeAttributes(Node *tree, ComputedAttributes ca, unsigned int delta);
 
     int64_t computeArea(Node *tree);
     void computeAreaDerivative(Node *tree);

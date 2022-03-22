@@ -685,5 +685,11 @@ void GUILibTIM::computeComponentTree(Image<U8> &image)
     unsigned int delta = 5;
     FlatSE connexity;
     connexity.make3DN26();
-    componentTree = new ComponentTree<U8>(image, connexity, delta);
+    // componentTree = new ComponentTree<U8>(image, connexity, delta);
+    ComputedAttributes ca = ComputedAttributes::AREA;
+    ca = (ComputedAttributes)(ca | ComputedAttributes::AREA_DERIVATIVES);
+    ca = (ComputedAttributes)(ca | ComputedAttributes::CONTRAST);
+    ca = (ComputedAttributes)(ca | ComputedAttributes::VOLUME);
+    ca = (ComputedAttributes)(ca | ComputedAttributes::BORDER_GRADIENT);
+    componentTree = new ComponentTree<U8>(image, connexity, ca, delta);
 }
