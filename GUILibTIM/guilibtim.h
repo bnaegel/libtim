@@ -9,6 +9,8 @@
 
 using namespace QtCharts;
 
+#include "qgraphicsviewclick.h"
+
 #include "Algorithms/ComponentTree.h"
 #include "Algorithms/ConnectedComponents.h"
 #include "Common/FlatSE.h"
@@ -76,7 +78,7 @@ private:
     // grahic view (nodes pixel or attribute image)
     QGraphicsScene *graphicsScene_2;
     // grahic view (external)
-    QGraphicsView *external_view;
+    QGraphicsViewClick *external_view;
 
     // DATA
     // image

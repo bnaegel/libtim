@@ -21,7 +21,9 @@ public:
 
 signals:
     void mousePressed(QPoint p);
-    void mouseDoubleClicked();
+    void mouseDoubleClicked(QPoint p);
+    void mouseRightClick(QPoint p);
+    void mouseMiddleClick(QPoint p);
 
 private:
     bool leftClickPressed = false;

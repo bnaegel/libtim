@@ -12,6 +12,16 @@ void QGraphicsViewClick::mousePressEvent(QMouseEvent *event)
         leftClickPressed = true;
         emit mousePressed(this->mapToScene(event->pos()).toPoint());
     }
+    if (event->button() == Qt::RightButton)
+    {
+        this->scale(2, 2);
+        emit mouseRightClick(this->mapToScene(event->pos()).toPoint());
+    }
+    if (event->button() == Qt::MiddleButton)
+    {
+        this->resetTransform();
+        emit mouseMiddleClick(this->mapToScene(event->pos()).toPoint());
+    }
 }
 
 void QGraphicsViewClick::mouseMoveEvent(QMouseEvent *event)
@@ -32,6 +42,6 @@ void QGraphicsViewClick::mouseDoubleClickEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
     {
-        emit mouseDoubleClicked();
+        emit mouseDoubleClicked(this->mapToScene(event->pos()).toPoint());
     }
 }

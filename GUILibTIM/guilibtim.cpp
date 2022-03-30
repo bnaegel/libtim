@@ -14,7 +14,7 @@ GUILibTIM::GUILibTIM(QWidget *parent) :
     graphicsScene_2 = new QGraphicsScene();
     ui->graphicsView_2->setScene(graphicsScene_2);
 
-    external_view = new QGraphicsView();
+    external_view = new QGraphicsViewClick();
 
     series_criterion = new QLineSeries();
     // series_A->setColor(QColor(0.0, 0.0, 255.0));
@@ -41,7 +41,7 @@ GUILibTIM::GUILibTIM(QWidget *parent) :
 
     connect(ui->graphicsView_1, SIGNAL(mousePressed(QPoint)),
             this, SLOT(update_selection(QPoint)));
-    connect(ui->graphicsView_2, SIGNAL(mouseDoubleClicked()),
+    connect(ui->graphicsView_2, SIGNAL(mouseDoubleClicked(QPoint)),
             this, SLOT(show_view_2_detached()));
 }
 
