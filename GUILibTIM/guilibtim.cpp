@@ -186,6 +186,25 @@ void GUILibTIM::on_actionFilterContrast_triggered()
     graphicsScene_2->addPixmap(pixmap);
 }
 
+void GUILibTIM::on_actionMorphological_Gradient_triggered()
+{
+    FlatSE connexity;
+    if(libtim_image.getSizeZ() > 1)
+    {
+        connexity.make3DN27();
+    }
+    else
+    {
+        connexity.make2DN9();
+    }
+
+    Image<U8> res = morphologicalGradient(libtim_image, connexity);
+
+    graphicsScene_2->clear();
+    QPixmap pixmap = QPixmap::fromImage(QImageFromImage(res, selection_z));
+    graphicsScene_2->addPixmap(pixmap);
+}
+
 void GUILibTIM::on_comboBox_criterion_currentIndexChanged(int)
 {
     update_view_chart();
@@ -354,7 +373,8 @@ void GUILibTIM::update_view_2_attribute_image()
                   (attribute, criterion, rule);
         view_image = QImageFromImage(res, limit, selection_z);
     }
-    else if (choice_attribute == "MSER")// long double
+    else if (choice_attribute == "MSER"
+             || choice_attribute == "MGB") // long double
     {
         Image<long double> res = componentTree->constructImageAttribute<long double, long double>
                   (attribute, criterion, rule);
@@ -548,6 +568,10 @@ ComponentTree<U8>::Attribute GUILibTIM::AttributeFromQString(QString choice)
     {
         a = ComponentTree<U8>::VOLUME;
     }
+    else if(choice == "MGB")
+    {
+        a = ComponentTree<U8>::MGB;
+    }
     else
     {
         qDebug() << "ERROR : AttributeFromQString";
@@ -701,11 +725,11 @@ void GUILibTIM::computeComponentTree(Image<U8> &image)
 
     if(image.getSizeZ() > 1)
     {
-        connexity.make3DN26();
+        connexity.make3DN27();
     }
     else
     {
-        connexity.make2DN8();
+        connexity.make2DN9();
         ca = (ComputedAttributes)(ca | ComputedAttributes::BORDER_GRADIENT);
     }
 

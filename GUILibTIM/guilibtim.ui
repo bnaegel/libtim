@@ -85,6 +85,11 @@
           <string>VOLUME</string>
          </property>
         </item>
+        <item>
+         <property name="text">
+          <string>MGB</string>
+         </property>
+        </item>
        </widget>
       </item>
       <item row="1" column="5">
@@ -218,6 +223,11 @@
           <string>AREA_D_DELTA_AREAF</string>
          </property>
         </item>
+        <item>
+         <property name="text">
+          <string>MGB</string>
+         </property>
+        </item>
        </widget>
       </item>
       <item row="0" column="2">
@@ -322,6 +332,7 @@
      <addaction name="actionFilterContrast"/>
     </widget>
     <addaction name="menuFiltering"/>
+    <addaction name="actionMorphological_Gradient"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -357,6 +368,11 @@
    </property>
    <property name="shortcut">
     <string>Shift+C</string>
+   </property>
+  </action>
+  <action name="actionMorphological_Gradient">
+   <property name="text">
+    <string>Morphological Gradient</string>
    </property>
   </action>
  </widget>

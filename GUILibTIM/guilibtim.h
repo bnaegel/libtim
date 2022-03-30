@@ -13,6 +13,7 @@ using namespace QtCharts;
 
 #include "Algorithms/ComponentTree.h"
 #include "Algorithms/ConnectedComponents.h"
+#include "Algorithms/Morphology.h"
 #include "Common/FlatSE.h"
 #include "Common/Image.h"
 
@@ -36,6 +37,7 @@ private slots:
     void on_actionInvert_Image_triggered();
     void on_actionFilterArea_triggered();
     void on_actionFilterContrast_triggered();
+    void on_actionMorphological_Gradient_triggered();
 
     void on_comboBox_criterion_currentIndexChanged(int);
     void on_comboBox_attribute_currentIndexChanged(int);

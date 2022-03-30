@@ -88,6 +88,7 @@ struct Node {
     long double area_derivative_delta_areaF;
     int contrast;
     int volume;
+    long double mean_gradient_border;
     int contourLength;
     int complexity;
     int compacity;
@@ -167,6 +168,7 @@ class ComponentTree {
           AREA_D_DELTA_AREAF,
           CONTRAST,
           VOLUME,
+          MGB,
           CONTOUR_LENGTH,
           COMPLEXITY,
           COMPACITY
@@ -313,7 +315,7 @@ class ComponentTree {
 		Image <int> STATUS;
 
 		//max-tree index
-		IndexType index;
+        IndexType index;
     
         //hmin
         int hMin;
@@ -367,7 +369,8 @@ class SalembierRecursiveImplementation: public ComponentTreeStrategy <T> {
     void computeAreaDerivative2(Node *tree);
     void computeMSER(Node *tree, unsigned int delta);
 	int computeContrast(Node *tree);
-	int computeVolume(Node *tree);
+    int computeVolume(Node *tree);
+    void computeBorderGradient(Node *tree);
     int64_t computeSubNodes(Node *tree);
 
 	long double computeM01(Node *tree);
@@ -396,8 +399,9 @@ class SalembierRecursiveImplementation: public ComponentTreeStrategy <T> {
 
 		
 
-		//members
-		Image <T> imBorder;
+        //members
+        Image <T> imBorder;
+        Image <T> imGradient;
 		FlatSE se;
 		TSize oriSize[3];
 

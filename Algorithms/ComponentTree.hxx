@@ -384,6 +384,8 @@ TVal ComponentTree<T>::getAttribute(Node *n, ComponentTree::Attribute attribute_
       return n->contrast;
     case VOLUME:
       return n->volume;
+    case MGB:
+        return n->mean_gradient_border;
     case CONTOUR_LENGTH:
       return n->contourLength;
     case COMPLEXITY:
@@ -1734,6 +1736,28 @@ int SalembierRecursiveImplementation<T>::computeVolume(Node *tree)
 	else return -1;
 }
 
+template <class T>
+void SalembierRecursiveImplementation<T>::computeBorderGradient(Node *tree)
+{
+    if(tree!=0)
+    {
+        Node::ContainerChilds::iterator it;
+        for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
+        {
+            computeBorderGradient(*it);
+        }
+
+        long double sum = 0;
+
+        Node::ContainerPixels::iterator itpix;
+        for(itpix=tree->pixels_border.begin(); itpix!=tree->pixels_border.end(); ++itpix)
+        {
+            sum += imGradient(*itpix);
+        }
+
+        tree->mean_gradient_border = sum / tree->pixels_border.size();
+    }
+}
 
 /** @brief Compute contour length
   *
@@ -1974,6 +1998,7 @@ void SalembierRecursiveImplementation<T>::computeAttributes(Node *tree, Computed
         if(ca & ComputedAttributes::BORDER_GRADIENT)
         {
             computeContour(true);
+            computeBorderGradient(tree);
         }
         if(ca & ComputedAttributes::COMP_LEXITY_ACITY)
         {
@@ -2165,7 +2190,8 @@ void SalembierRecursiveImplementation<T>::init(Image <T> &img, FlatSE &connexity
 		front[i]=tmpFront[i];
 		}
 
-	imBorder=img;
+    imBorder=img;
+    imGradient=morphologicalGradient(img, connexity);
 	STATUS.setSize(img.getSize());
 	STATUS.fill(ACTIVE);
 
