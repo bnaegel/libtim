@@ -14,7 +14,14 @@ void QGraphicsViewClick::mousePressEvent(QMouseEvent *event)
     }
     if (event->button() == Qt::RightButton)
     {
-        this->scale(2, 2);
+        if(QGuiApplication::keyboardModifiers().testFlag(Qt::ControlModifier))
+        {
+            this->scale(0.5, 0.5);
+        }
+        else
+        {
+            this->scale(2, 2);
+        }
         emit mouseRightClick(this->mapToScene(event->pos()).toPoint());
     }
     if (event->button() == Qt::MiddleButton)

@@ -3,6 +3,7 @@
 
 #include <QDebug>
 
+#include <QGuiApplication>
 #include <QWidget>
 #include <QGraphicsView>
 #include <QMouseEvent>
