@@ -331,8 +331,16 @@
      <addaction name="actionFilterArea"/>
      <addaction name="actionFilterContrast"/>
     </widget>
+    <widget class="QMenu" name="menuMorphology">
+     <property name="title">
+      <string>Morphology</string>
+     </property>
+     <addaction name="actionMorphological_Gradient"/>
+     <addaction name="actionInternal_Morphological_Gradient"/>
+     <addaction name="actionExternal_Morphological_Gradient"/>
+    </widget>
+    <addaction name="menuMorphology"/>
     <addaction name="menuFiltering"/>
-    <addaction name="actionMorphological_Gradient"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -373,6 +381,16 @@
   <action name="actionMorphological_Gradient">
    <property name="text">
     <string>Morphological Gradient</string>
+   </property>
+  </action>
+  <action name="actionInternal_Morphological_Gradient">
+   <property name="text">
+    <string>Internal Morphological Gradient</string>
+   </property>
+  </action>
+  <action name="actionExternal_Morphological_Gradient">
+   <property name="text">
+    <string>External Morphological Gradient</string>
    </property>
   </action>
  </widget>

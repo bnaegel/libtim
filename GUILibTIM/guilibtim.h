@@ -38,6 +38,8 @@ private slots:
     void on_actionFilterArea_triggered();
     void on_actionFilterContrast_triggered();
     void on_actionMorphological_Gradient_triggered();
+    void on_actionInternal_Morphological_Gradient_triggered();
+    void on_actionExternal_Morphological_Gradient_triggered();
 
     void on_comboBox_criterion_currentIndexChanged(int);
     void on_comboBox_attribute_currentIndexChanged(int);
@@ -93,6 +95,7 @@ private:
     static QImage    QImageFromImage(Image<int> &image, int limit, unsigned int z=0);
     static QImage    QImageFromImage(Image<int64_t> &image, int64_t limit, unsigned int z=0);
     static QImage    QImageFromImage(Image<long double> &image, long double limit, unsigned int z=0);
+    FlatSE getConnexity();
     void computeComponentTree(Image<U8> &image);
 };
 

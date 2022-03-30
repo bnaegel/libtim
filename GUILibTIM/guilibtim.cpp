@@ -188,17 +188,28 @@ void GUILibTIM::on_actionFilterContrast_triggered()
 
 void GUILibTIM::on_actionMorphological_Gradient_triggered()
 {
-    FlatSE connexity;
-    if(libtim_image.getSizeZ() > 1)
-    {
-        connexity.make3DN27();
-    }
-    else
-    {
-        connexity.make2DN9();
-    }
-
+    FlatSE connexity = getConnexity();
     Image<U8> res = morphologicalGradient(libtim_image, connexity);
+
+    graphicsScene_2->clear();
+    QPixmap pixmap = QPixmap::fromImage(QImageFromImage(res, selection_z));
+    graphicsScene_2->addPixmap(pixmap);
+}
+
+void GUILibTIM::on_actionInternal_Morphological_Gradient_triggered()
+{
+    FlatSE connexity = getConnexity();
+    Image<U8> res = internalMorphologicalGradient(libtim_image, connexity);
+
+    graphicsScene_2->clear();
+    QPixmap pixmap = QPixmap::fromImage(QImageFromImage(res, selection_z));
+    graphicsScene_2->addPixmap(pixmap);
+}
+
+void GUILibTIM::on_actionExternal_Morphological_Gradient_triggered()
+{
+    FlatSE connexity = getConnexity();
+    Image<U8> res = externalMorphologicalGradient(libtim_image, connexity);
 
     graphicsScene_2->clear();
     QPixmap pixmap = QPixmap::fromImage(QImageFromImage(res, selection_z));
@@ -707,6 +718,20 @@ QImage GUILibTIM::QImageFromImage(Image<long double> &image, long double limit, 
     }
 
     return qimage;
+}
+
+FlatSE GUILibTIM::getConnexity()
+{
+    FlatSE connexity;
+    if(libtim_image.getSizeZ() > 1)
+    {
+        connexity.make3DN27();
+    }
+    else
+    {
+        connexity.make2DN9();
+    }
+    return connexity;
 }
 
 void GUILibTIM::computeComponentTree(Image<U8> &image)
