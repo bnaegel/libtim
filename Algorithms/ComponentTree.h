@@ -69,6 +69,8 @@ struct Node {
     int xmax;
     int ymin;
     int ymax;
+    int zmin;
+    int zmax;
     int64_t area;
     // father correspond au noeud père
     long double area_derivative_areaN_h;
@@ -112,6 +114,7 @@ struct Node {
     Node *father;
     typedef std::vector<TOffset> ContainerPixels;
     ContainerPixels pixels;
+    ContainerPixels pixels_border;
     typedef  std::vector<Node *> ContainerChilds;
     ContainerChilds childs;
     ContainerPixels contour;
@@ -233,7 +236,7 @@ class ComponentTree {
 
 
 		int complexityFiltering(int tMin, int tMax);
-		int compacityFiltering(int tMin, int tMax);
+        int compacityFiltering(int tMin, int tMax);
 		int intensityFiltering(int tMin, int tMax);
 
 		int boundingBoxFiltering(int min, int max);
@@ -374,7 +377,7 @@ class SalembierRecursiveImplementation: public ComponentTreeStrategy <T> {
 	void computeInertiaMoment(Node *tree);
 
 	//Shape-based attributes
-	int computeContourLength();
+    int computeContour(bool save_pixels=false);
 	int computeComplexityAndCompacity(Node *tree);
 
 	int computeBoundingBox(Node *tree);

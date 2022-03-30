@@ -1205,8 +1205,12 @@ int ComponentTree<T>::boundingBoxFiltering(int min, int max)
 
 			if(tmp->father!=tmp)
 
-			if( ((tmp->xmax-tmp->xmin) <min && (tmp->ymax-tmp->ymin)<min )
-				|| ( (tmp->xmax-tmp->xmin) >max && (tmp->ymax-tmp->ymin)>max) )
+            if(((tmp->xmax - tmp->xmin) < min &&
+                (tmp->ymax - tmp->ymin) < min &&
+                (tmp->zmax - tmp->zmin) < min )
+            ||( (tmp->xmax - tmp->xmin) > max &&
+                (tmp->ymax - tmp->ymin) > max &&
+                (tmp->zmax - tmp->zmin) > max))
 				tmp->active=false;
 
 			std::vector<Node *>::iterator it;
@@ -1459,8 +1463,9 @@ int ComponentTree<T>::writeSignature(SignatureType &signature, const char *file)
  		outputFile << (int)it->first << " "
  		<< it->second->area << " "
   		<< it->second->contrast << " "
-  		<< it->second->xmax-it->second->xmin << " "
-  		<< it->second->ymax-it->second->ymin << " "
+        << it->second->xmax-it->second->xmin << " "
+        << it->second->ymax-it->second->ymin << " "
+        << it->second->zmax-it->second->zmin << " "
   		<< it->second->complexity << " "
  		<< it->second->compacity << "\n";
  	outputFile.close();
@@ -1741,7 +1746,7 @@ int SalembierRecursiveImplementation<T>::computeVolume(Node *tree)
 //      (if p is not a pixel contour in n, it is not a pixel contour in the ancestors of n)
 
 template <class T>
-int SalembierRecursiveImplementation<T>::computeContourLength()
+int SalembierRecursiveImplementation<T>::computeContour(bool save_pixels)
 {
 	// we compute the contour length with STATUS image and m_img
 	typename Image<T>::iterator it;
@@ -1794,15 +1799,37 @@ int SalembierRecursiveImplementation<T>::computeContourLength()
 			if(hitsBorder==false)
 				while(tmp->h > minValue)
 					{
-					tmp->contourLength++;
+                    tmp->contourLength++;
+                    if(save_pixels)
+                    {
+                        //conversion offset imBorder->im
+                        Point <TCoord> imCoord=imBorder.getCoord(offset);
+                        imCoord.x-=back[0];
+                        imCoord.y-=back[1];
+                        imCoord.z-=back[2];
+                        TOffset imOffset=imCoord.x+imCoord.y*oriSize[0]+imCoord.z*oriSize[0]*oriSize[1];
+
+                        tmp->pixels_border.push_back(imOffset);
+                    }
 					tmp=tmp->father;
 					}
 			else
-				{
+                {
 				bool stop=false;
 				while(!stop)
 					{
-					tmp->contourLength++;
+                    tmp->contourLength++;
+                    if(save_pixels)
+                    {
+                        //conversion offset imBorder->im
+                        Point <TCoord> imCoord=imBorder.getCoord(offset);
+                        imCoord.x-=back[0];
+                        imCoord.y-=back[1];
+                        imCoord.z-=back[2];
+                        TOffset imOffset=imCoord.x+imCoord.y*oriSize[0]+imCoord.z*oriSize[0]*oriSize[1];
+
+                        tmp->pixels_border.push_back(imOffset);
+                    }
 					if(tmp!=tmp->father)
 						tmp=tmp->father;
 					else stop=true;
@@ -1816,8 +1843,6 @@ int SalembierRecursiveImplementation<T>::computeContourLength()
 template <class T>
 int SalembierRecursiveImplementation<T>::computeComplexityAndCompacity(Node *tree)
 {
-	computeContourLength();
-
 	if(tree!=0)
 		{
 		std::queue<Node *> fifo;
@@ -1878,9 +1903,11 @@ int SalembierRecursiveImplementation<T>::computeBoundingBox(Node *tree)
 		if(tmp->father!=tmp)
 			{
 			tmp->father->xmin=std::min(tmp->father->xmin, tmp->xmin);
-			tmp->father->xmax=std::max(tmp->father->xmax, tmp->xmax);
-			tmp->father->ymin=std::min(tmp->father->ymin, tmp->ymin);
-			tmp->father->ymax=std::max(tmp->father->ymax, tmp->ymax);
+            tmp->father->xmax=std::max(tmp->father->xmax, tmp->xmax);
+            tmp->father->ymin=std::min(tmp->father->ymin, tmp->ymin);
+            tmp->father->ymax=std::max(tmp->father->ymax, tmp->ymax);
+            tmp->father->zmin=std::min(tmp->father->zmin, tmp->zmin);
+            tmp->father->zmax=std::max(tmp->father->zmax, tmp->zmax);
 			}
 		}
     return 1;
@@ -1895,6 +1922,7 @@ void SalembierRecursiveImplementation<T>::computeAttributes(Node *tree)
         tree->contrast=computeContrast(tree);
         tree->volume=computeVolume(tree);
 
+        computeContour();
         computeComplexityAndCompacity(tree);
         computeBoundingBox(tree);
         tree->subNodes=computeSubNodes(tree);
@@ -1945,10 +1973,19 @@ void SalembierRecursiveImplementation<T>::computeAttributes(Node *tree, Computed
         }
         if(ca & ComputedAttributes::BORDER_GRADIENT)
         {
+            computeContour(true);
         }
         if(ca & ComputedAttributes::COMP_LEXITY_ACITY)
         {
-            computeComplexityAndCompacity(tree);
+            if(ca & ComputedAttributes::BORDER_GRADIENT)
+            {
+                computeComplexityAndCompacity(tree);
+            }
+            else
+            {
+                computeContour();
+                computeComplexityAndCompacity(tree);
+            }
         }
         if(ca & ComputedAttributes::BOUNDING_BOX)
         {
@@ -1991,10 +2028,13 @@ inline void SalembierRecursiveImplementation<T>::update_attributes(Node *n, TOff
 	n->m02+=imCoord.y*imCoord.y;
 
 	if(imCoord.x < n->xmin) n->xmin=imCoord.x;
-	if(imCoord.x > n->xmax) n->xmax=imCoord.x;
+    if(imCoord.x > n->xmax) n->xmax=imCoord.x;
 
-	if(imCoord.y < n->ymin) n->ymin=imCoord.y;
-	if(imCoord.y > n->ymax) n->ymax=imCoord.y;
+    if(imCoord.y < n->ymin) n->ymin=imCoord.y;
+    if(imCoord.y > n->ymax) n->ymax=imCoord.y;
+
+    if(imCoord.z < n->zmin) n->zmin=imCoord.z;
+    if(imCoord.z > n->zmax) n->zmax=imCoord.z;
     
 }
 

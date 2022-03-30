@@ -80,7 +80,7 @@ void GUILibTIM::on_actionImport_ImageSequence_triggered()
     if(dir.exists())
     {
         QList<QImage> images;
-        QStringList filenames = dir.entryList(QStringList() << "*.tif" << "*.tiff", QDir::Files);
+        QStringList filenames = dir.entryList(QStringList() << "*.tif" << "*.tiff" << "*.png", QDir::Files);
         foreach(QString filename, filenames)
         {
             QImage image;
@@ -309,6 +309,14 @@ void GUILibTIM::update_view_2_node_pixels()
         Point<TCoord> p = libtim_image.getCoord((*it));
 
         view_image.setPixelColor(p.x, p.y, QColor(255.0, 0.0, 0.0));
+    }
+
+    std::vector<TOffset> pixels_border = n->pixels_border;
+
+    for(std::vector<TOffset>::iterator it = std::begin(pixels_border); it != std::end(pixels_border); ++it) {
+        Point<TCoord> p = libtim_image.getCoord((*it));
+
+        view_image.setPixelColor(p.x, p.y, QColor(0.0, 0.0, 255.0));
     }
 
     graphicsScene_2->clear();
@@ -683,13 +691,24 @@ void GUILibTIM::computeComponentTree(Image<U8> &image)
         delete componentTree;
 
     unsigned int delta = 5;
+
     FlatSE connexity;
-    connexity.make3DN26();
-    // componentTree = new ComponentTree<U8>(image, connexity, delta);
+
     ComputedAttributes ca = ComputedAttributes::AREA;
     ca = (ComputedAttributes)(ca | ComputedAttributes::AREA_DERIVATIVES);
     ca = (ComputedAttributes)(ca | ComputedAttributes::CONTRAST);
     ca = (ComputedAttributes)(ca | ComputedAttributes::VOLUME);
-    ca = (ComputedAttributes)(ca | ComputedAttributes::BORDER_GRADIENT);
+
+    if(image.getSizeZ() > 1)
+    {
+        connexity.make3DN26();
+    }
+    else
+    {
+        connexity.make2DN8();
+        ca = (ComputedAttributes)(ca | ComputedAttributes::BORDER_GRADIENT);
+    }
+
+    // componentTree = new ComponentTree<U8>(image, connexity, delta);
     componentTree = new ComponentTree<U8>(image, connexity, ca, delta);
 }
