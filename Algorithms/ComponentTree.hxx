@@ -1512,7 +1512,7 @@ int64_t SalembierRecursiveImplementation<T>::computeArea(Node *tree)
 		Node::ContainerChilds::iterator it;
 		for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
 			{
-			tree->area+=computeArea(*it);
+            tree->area+=computeArea(*it);
 			}
 		return tree->area;
 		}
@@ -1594,6 +1594,77 @@ void SalembierRecursiveImplementation<T>::computeMSER(Node *tree, unsigned int d
                     ((long double)(area_father - area_node)) / ((long double)(area_father));
         }
     }
+}
+
+template <class T>
+int64_t SalembierRecursiveImplementation<T>::computeSum(Node *tree)
+{
+    if(tree!=0)
+    {
+        Node::ContainerChilds::iterator it;
+        for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
+        {
+            tree->sum += computeSum(*it);
+        }
+        return tree->sum;
+    }
+    // error
+    else return -1;
+}
+
+template <class T>
+int64_t SalembierRecursiveImplementation<T>::computeSumSquare(Node *tree)
+{
+    if(tree!=0)
+    {
+        Node::ContainerChilds::iterator it;
+        for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
+        {
+            tree->sum_square += computeSumSquare(*it);
+        }
+        return tree->sum_square;
+    }
+    // error
+    else return -1;
+}
+
+template <class T>
+void SalembierRecursiveImplementation<T>::computeMean(Node *tree)
+{
+    if(tree!=0)
+    {
+        Node::ContainerChilds::iterator it;
+        for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
+        {
+            computeMean(*it);
+        }
+        tree->mean = (long double)tree->sum / (long double)tree->area;
+    }
+}
+
+template <class T>
+void SalembierRecursiveImplementation<T>::computeVariance(Node *tree)
+{
+    if(tree!=0)
+    {
+        Node::ContainerChilds::iterator it;
+        for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
+        {
+            computeVariance(*it);
+        }
+        tree->variance = ((long double)tree->sum_square /
+                          (long double)tree->area
+                          ) - tree->mean*tree->mean;
+    }
+}
+
+template <class T>
+void SalembierRecursiveImplementation<T>::computeOtsu(Node *tree)
+{
+    tree->sum=computeSum(tree);
+    tree->sum_square=computeSumSquare(tree);
+    computeMean(tree);
+    computeVariance(tree);
 }
 
 template <class T>
@@ -1878,10 +1949,10 @@ int SalembierRecursiveImplementation<T>::computeComplexityAndCompacity(Node *tre
 			fifo.pop();
 
 			if(n->area!=0)
-				n->complexity=(int)(100.0*n->contourLength/n->area);
+                n->complexity=(int)(1000.0*n->contourLength/n->area);
 			if(n->contourLength!=0)
 				{
-				n->compacity=(int)(((double)(4*M_PI*n->area)/((double)n->contourLength*n->contourLength))*100);
+                n->compacity=(int)(((double)(4*M_PI*n->area)/((double)n->contourLength*n->contourLength))*1000);
 				//WARNING!!!!!!!!!!!!!!
 // 				if(n->compacity>100)
 // 					n->compacity=100;
@@ -1980,7 +2051,10 @@ void SalembierRecursiveImplementation<T>::computeAttributes(Node *tree, Computed
     if(tree!=0)
     {
         if(ca & ComputedAttributes::AREA)
+        {
             tree->area=computeArea(tree);
+            computeOtsu(tree);
+        }
         if(ca & ComputedAttributes::AREA_DERIVATIVES)
         {
             computeAreaDerivative(tree);
@@ -2045,7 +2119,9 @@ inline void SalembierRecursiveImplementation<T>::update_attributes(Node *n, TOff
 	TOffset imOffset=imCoord.x+imCoord.y*oriSize[0]+imCoord.z*oriSize[0]*oriSize[1];
 
 	n->pixels.push_back(imOffset);
-	n->area++;
+    n->area++;
+    n->sum += n->h;
+    n->sum_square += (n->h*n->h);
 
 	n->m10+=imCoord.x;
 	n->m01+=imCoord.y;

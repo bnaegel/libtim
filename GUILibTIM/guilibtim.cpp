@@ -372,7 +372,9 @@ void GUILibTIM::update_view_2_attribute_image()
 
     if(choice_attribute == "H"
             || choice_attribute == "CONTRAST"
-            || choice_attribute == "VOLUME") // int
+            || choice_attribute == "VOLUME"
+            || choice_attribute == "COMPLEXITY"
+            || choice_attribute == "COMPACITY") // int
     {
         Image<int64_t> res = componentTree->constructImageAttribute<int, long double>
                   (attribute, criterion, rule);
@@ -583,6 +585,14 @@ ComponentTree<U8>::Attribute GUILibTIM::AttributeFromQString(QString choice)
     {
         a = ComponentTree<U8>::MGB;
     }
+    else if(choice == "COMPLEXITY")
+    {
+        a = ComponentTree<U8>::COMPLEXITY;
+    }
+    else if(choice == "COMPACITY")
+    {
+        a = ComponentTree<U8>::COMPACITY;
+    }
     else
     {
         qDebug() << "ERROR : AttributeFromQString";
@@ -756,6 +766,7 @@ void GUILibTIM::computeComponentTree(Image<U8> &image)
     {
         connexity.make2DN9();
         ca = (ComputedAttributes)(ca | ComputedAttributes::BORDER_GRADIENT);
+        ca = (ComputedAttributes)(ca | ComputedAttributes::COMP_LEXITY_ACITY);
     }
 
     // componentTree = new ComponentTree<U8>(image, connexity, delta);

@@ -55,6 +55,7 @@ struct Node {
     mser(std::numeric_limits<long double>::max()),
     area_derivative_delta_h(std::numeric_limits<long double>::max()),
     area_derivative_delta_areaF(std::numeric_limits<long double>::max()),
+    sum(0), sum_square(0), mean(0), variance(0),
     contrast(0), volume(0),  contourLength(0),
     complexity(0), subNodes(0),status(true),
     m01(0),m10(0),m20(0),m02(0),
@@ -86,6 +87,11 @@ struct Node {
     long double area_derivative_delta_h;
     // (aire(father_d) - aire(noeud)) / aire(father_d)
     long double area_derivative_delta_areaF;
+    int64_t sum;
+    int64_t sum_square;
+    long double mean;
+    long double variance;
+    long double otsu;
     int contrast;
     int volume;
     long double mean_gradient_border;
@@ -368,6 +374,11 @@ class SalembierRecursiveImplementation: public ComponentTreeStrategy <T> {
     void computeAreaDerivative(Node *tree);
     void computeAreaDerivative2(Node *tree);
     void computeMSER(Node *tree, unsigned int delta);
+    int64_t computeSum(Node *tree);
+    int64_t computeSumSquare(Node *tree);
+    void computeMean(Node *tree);
+    void computeVariance(Node *tree);
+    void computeOtsu(Node *tree);
 	int computeContrast(Node *tree);
     int computeVolume(Node *tree);
     void computeBorderGradient(Node *tree);
