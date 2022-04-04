@@ -34,6 +34,7 @@ public:
 private slots:
     void on_actionImport_Image_triggered();
     void on_actionImport_ImageSequence_triggered();
+    void on_actionExport_Image_triggered();
     void on_actionInvert_Image_triggered();
     void on_actionFilterArea_triggered();
     void on_actionFilterContrast_triggered();
@@ -80,6 +81,7 @@ private:
     QValueAxis* axis_Y_criterion;
     QValueAxis* axis_Y_attribute;
     // grahic view (nodes pixel or attribute image)
+    QImage image_result;
     QGraphicsScene *graphicsScene_2;
     // grahic view (external)
     QGraphicsViewClick *external_view;

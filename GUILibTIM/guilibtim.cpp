@@ -110,6 +110,17 @@ void GUILibTIM::on_actionImport_ImageSequence_triggered()
     }
 }
 
+void GUILibTIM::on_actionExport_Image_triggered()
+{
+    QString filename = QFileDialog::getSaveFileName(
+                this, "Export Image", QDir::currentPath());
+
+    if(filename.isEmpty() || filename.isNull())
+        return;
+
+    image_result.save(filename + ".png");
+}
+
 void GUILibTIM::on_actionInvert_Image_triggered()
 {
     for (TSize i = 0; i < libtim_image.getSizeX(); i++)
@@ -150,7 +161,8 @@ void GUILibTIM::on_actionFilterArea_triggered()
     Image<U8> res = filter_tree.constructImage(construct_rule);
 
     graphicsScene_2->clear();
-    QPixmap pixmap = QPixmap::fromImage(QImageFromImage(res, selection_z));
+    image_result = QImageFromImage(res, selection_z);
+    QPixmap pixmap = QPixmap::fromImage(image_result);
     graphicsScene_2->addPixmap(pixmap);
 }
 
@@ -182,7 +194,8 @@ void GUILibTIM::on_actionFilterContrast_triggered()
     Image<U8> res = filter_tree.constructImage(construct_rule);
 
     graphicsScene_2->clear();
-    QPixmap pixmap = QPixmap::fromImage(QImageFromImage(res, selection_z));
+    image_result = QImageFromImage(res, selection_z);
+    QPixmap pixmap = QPixmap::fromImage(image_result);
     graphicsScene_2->addPixmap(pixmap);
 }
 
@@ -192,7 +205,8 @@ void GUILibTIM::on_actionMorphological_Gradient_triggered()
     Image<U8> res = morphologicalGradient(libtim_image, connexity);
 
     graphicsScene_2->clear();
-    QPixmap pixmap = QPixmap::fromImage(QImageFromImage(res, selection_z));
+    image_result = QImageFromImage(res, selection_z);
+    QPixmap pixmap = QPixmap::fromImage(image_result);
     graphicsScene_2->addPixmap(pixmap);
 }
 
@@ -202,7 +216,8 @@ void GUILibTIM::on_actionInternal_Morphological_Gradient_triggered()
     Image<U8> res = internalMorphologicalGradient(libtim_image, connexity);
 
     graphicsScene_2->clear();
-    QPixmap pixmap = QPixmap::fromImage(QImageFromImage(res, selection_z));
+    image_result = QImageFromImage(res, selection_z);
+    QPixmap pixmap = QPixmap::fromImage(image_result);
     graphicsScene_2->addPixmap(pixmap);
 }
 
@@ -212,7 +227,8 @@ void GUILibTIM::on_actionExternal_Morphological_Gradient_triggered()
     Image<U8> res = externalMorphologicalGradient(libtim_image, connexity);
 
     graphicsScene_2->clear();
-    QPixmap pixmap = QPixmap::fromImage(QImageFromImage(res, selection_z));
+    image_result = QImageFromImage(res, selection_z);
+    QPixmap pixmap = QPixmap::fromImage(image_result);
     graphicsScene_2->addPixmap(pixmap);
 }
 
@@ -350,7 +366,8 @@ void GUILibTIM::update_view_2_node_pixels()
     }
 
     graphicsScene_2->clear();
-    QPixmap pixmap = QPixmap::fromImage(view_image);
+    image_result = view_image;
+    QPixmap pixmap = QPixmap::fromImage(image_result);
     graphicsScene_2->addPixmap(pixmap);
 }
 
@@ -400,7 +417,8 @@ void GUILibTIM::update_view_2_attribute_image()
     }
 
     graphicsScene_2->clear();
-    QPixmap pixmap = QPixmap::fromImage(view_image);
+    image_result = view_image;
+    QPixmap pixmap = QPixmap::fromImage(image_result);
     graphicsScene_2->addPixmap(pixmap);
 
 }

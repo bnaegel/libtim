@@ -333,6 +333,7 @@
     </property>
     <addaction name="actionImport_Image"/>
     <addaction name="actionImport_ImageSequence"/>
+    <addaction name="actionExport_Image"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -411,6 +412,11 @@
   <action name="actionExternal_Morphological_Gradient">
    <property name="text">
     <string>External Morphological Gradient</string>
+   </property>
+  </action>
+  <action name="actionExport_Image">
+   <property name="text">
+    <string>Export Image</string>
    </property>
   </action>
  </widget>
