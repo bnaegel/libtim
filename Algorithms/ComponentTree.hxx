@@ -1754,7 +1754,7 @@ void SalembierRecursiveImplementation<T>::computeOtsu(Node *tree)
             computeOtsu(*it);
         }
         tree->otsu = ((tree->mean - tree->mean_nghb) * (tree->mean - tree->mean_nghb))
-                    / ((tree->variance * tree->variance) + (tree->variance_nghb * tree->variance_nghb));
+                    / (tree->variance + tree->variance_nghb);
     }
 }
 
