@@ -76,7 +76,12 @@ ComponentTree<T>::ComponentTree( Image< T > & img , FlatSE &connexity, ComputedA
     SalembierRecursiveImplementation<T> strategy(this,connexity);
 
     m_root=strategy.computeTree();
-    computeNeighborhoodAttributes(2);
+
+    if(ca & ComputedAttributes::OTSU)
+    {
+        computeNeighborhoodAttributes(delta);
+    }
+
     strategy.computeAttributes(m_root, ca, delta);
 }
 
@@ -2140,11 +2145,14 @@ void SalembierRecursiveImplementation<T>::computeAttributes(Node *tree, Computed
         {
             tree->area=computeArea(tree);
 
-            tree->sum=computeSum(tree);
-            tree->sum_square=computeSumSquare(tree);
-            computeMean(tree);
-            computeVariance(tree);
-            computeOtsu(tree);
+            if(ca & ComputedAttributes::OTSU)
+            {
+                tree->sum=computeSum(tree);
+                tree->sum_square=computeSumSquare(tree);
+                computeMean(tree);
+                computeVariance(tree);
+                computeOtsu(tree);
+            }
         }
         if(ca & ComputedAttributes::AREA_DERIVATIVES)
         {

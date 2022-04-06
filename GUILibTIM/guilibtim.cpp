@@ -803,14 +803,12 @@ void GUILibTIM::computeComponentTree(Image<U8> &image)
     else
     {
         connexity.make2DN9();
+        ca = (ComputedAttributes)(ca | ComputedAttributes::OTSU);
         ca = (ComputedAttributes)(ca | ComputedAttributes::BORDER_GRADIENT);
         ca = (ComputedAttributes)(ca | ComputedAttributes::COMP_LEXITY_ACITY);
     }
 
-    // componentTree = new ComponentTree<U8>(image, connexity, delta);
     qDebug() << QTime::currentTime().toString();
     componentTree = new ComponentTree<U8>(image, connexity, ca, delta);
-    qDebug() << QTime::currentTime().toString();
-    // computeNeighborhoodAttributes(*componentTree, 2);
     qDebug() << QTime::currentTime().toString();
 }

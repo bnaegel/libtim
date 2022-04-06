@@ -141,13 +141,14 @@ typedef std::vector<std::vector<Node *> > IndexType;
 enum ComputedAttributes {
     AREA                = 0b00000001,
     AREA_DERIVATIVES    = 0b00000010,
-    CONTRAST            = 0b00000100,
-    VOLUME              = 0b00001000,
-    BORDER_GRADIENT     = 0b00010000,
-    COMP_LEXITY_ACITY   = 0b00100000,
-    BOUNDING_BOX        = 0b01000000,
-    SUB_NODES           = 0b10000000,
-    INERTIA_MOMENT      = 0b0100000000,
+    OTSU                = 0b00000100,
+    CONTRAST            = 0b00001000,
+    VOLUME              = 0b00010000,
+    BORDER_GRADIENT     = 0b00100000,
+    COMP_LEXITY_ACITY   = 0b01000000,
+    BOUNDING_BOX        = 0b10000000,
+    SUB_NODES           = 0b0100000000,
+    INERTIA_MOMENT      = 0b1000000000,
 };
 
 template <class T>
