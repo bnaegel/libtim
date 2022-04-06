@@ -235,6 +235,31 @@
         </item>
         <item>
          <property name="text">
+          <string>MEAN</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>VARIANCE</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>MEAN_NGHB</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>VARIANCE_NGHB</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>OTSU</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>MGB</string>
          </property>
         </item>
@@ -324,7 +349,7 @@
      <x>0</x>
      <y>0</y>
      <width>897</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

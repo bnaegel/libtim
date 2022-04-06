@@ -76,6 +76,7 @@ ComponentTree<T>::ComponentTree( Image< T > & img , FlatSE &connexity, ComputedA
     SalembierRecursiveImplementation<T> strategy(this,connexity);
 
     m_root=strategy.computeTree();
+    computeNeighborhoodAttributes(2);
     strategy.computeAttributes(m_root, ca, delta);
 }
 
@@ -83,6 +84,75 @@ template <class T>
 ComponentTree<T>::~ComponentTree()
 {
 	erase_tree();
+}
+
+template <class T>
+int ComponentTree<T>::computeNeighborhoodAttributes(int r)
+{
+    FlatSE se;
+    se.make2DEuclidianBall(r);
+
+    std::queue<Node *> fifo;
+    fifo.push(m_root);
+
+    Image<bool> active(m_img.getSize());
+    active.fill(0);
+
+    // for each node, without recursive call
+    while(!fifo.empty())
+    {
+        // n = current node
+        Node *n=fifo.front();
+        fifo.pop();
+
+        // active pixels are neighborhs pixels
+        active.fill(true);
+        std::vector<TOffset> pixels=merge_pixels(n);
+        for(int i=0; i<pixels.size(); i++)
+            active(pixels[i])=false;
+
+        vector<int> ndg;
+
+        for(int i=0; i<pixels.size(); i++)
+        {
+            Point <TCoord> p=m_img.getCoord(pixels[i]);
+
+            for(int j=0; j<se.getNbPoints(); j++)
+            {
+                Point<TCoord> q=p+se.getPoint(j);
+
+                if(m_img.isPosValid(q))
+                {
+                    if(active(q)==true)
+                    {
+                        n->area_nghb += 1;
+                        n->sum_nghb += m_img(q);
+                        n->sum_square_nghb += m_img(q)*m_img(q);
+
+                        ndg.push_back(m_img(q));
+
+                        active(q)=false;
+                    }
+                }
+            }
+        }
+
+        if(n->area_nghb>0)
+        {
+            n->mean_nghb = (long double)n->sum_nghb / (long double)n->area_nghb;
+
+            n->variance_nghb = ((long double)n->sum_square_nghb /
+                              (long double)n->area_nghb
+                              ) - n->mean_nghb*n->mean_nghb;
+        }
+
+        for(int i=0; i<n->childs.size(); i++)
+        {
+            fifo.push(n->childs[i]);
+        }
+    }
+
+    return 0;
 }
 
 template <class T>
@@ -380,6 +450,16 @@ TVal ComponentTree<T>::getAttribute(Node *n, ComponentTree::Attribute attribute_
       return n->area_derivative_delta_h;
     case AREA_D_DELTA_AREAF:
       return n->area_derivative_delta_areaF;
+    case MEAN:
+        return n->mean;
+    case VARIANCE:
+        return n->variance;
+    case MEAN_NGHB:
+        return n->mean_nghb;
+    case VARIANCE_NGHB:
+        return n->variance_nghb;
+    case OTSU:
+        return n->otsu;
     case CONTRAST:
       return n->contrast;
     case VOLUME:
@@ -1661,10 +1741,16 @@ void SalembierRecursiveImplementation<T>::computeVariance(Node *tree)
 template <class T>
 void SalembierRecursiveImplementation<T>::computeOtsu(Node *tree)
 {
-    tree->sum=computeSum(tree);
-    tree->sum_square=computeSumSquare(tree);
-    computeMean(tree);
-    computeVariance(tree);
+    if(tree!=0)
+    {
+        Node::ContainerChilds::iterator it;
+        for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
+        {
+            computeOtsu(*it);
+        }
+        tree->otsu = ((tree->mean - tree->mean_nghb) * (tree->mean - tree->mean_nghb))
+                    / ((tree->variance * tree->variance) + (tree->variance_nghb * tree->variance_nghb));
+    }
 }
 
 template <class T>
@@ -2053,6 +2139,11 @@ void SalembierRecursiveImplementation<T>::computeAttributes(Node *tree, Computed
         if(ca & ComputedAttributes::AREA)
         {
             tree->area=computeArea(tree);
+
+            tree->sum=computeSum(tree);
+            tree->sum_square=computeSumSquare(tree);
+            computeMean(tree);
+            computeVariance(tree);
             computeOtsu(tree);
         }
         if(ca & ComputedAttributes::AREA_DERIVATIVES)

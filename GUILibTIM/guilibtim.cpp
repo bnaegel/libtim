@@ -591,6 +591,26 @@ ComponentTree<U8>::Attribute GUILibTIM::AttributeFromQString(QString choice)
     {
         a = ComponentTree<U8>::AREA_D_DELTA_AREAF;
     }
+    else if(choice == "MEAN")
+    {
+        a = ComponentTree<U8>::MEAN;
+    }
+    else if(choice == "VARIANCE")
+    {
+        a = ComponentTree<U8>::VARIANCE;
+    }
+    else if(choice == "MEAN_NGHB")
+    {
+        a = ComponentTree<U8>::MEAN_NGHB;
+    }
+    else if(choice == "VARIANCE_NGHB")
+    {
+        a = ComponentTree<U8>::VARIANCE_NGHB;
+    }
+    else if(choice == "OTSU")
+    {
+        a = ComponentTree<U8>::OTSU;
+    }
     else if(choice == "CONTRAST")
     {
         a = ComponentTree<U8>::CONTRAST;
@@ -788,5 +808,9 @@ void GUILibTIM::computeComponentTree(Image<U8> &image)
     }
 
     // componentTree = new ComponentTree<U8>(image, connexity, delta);
+    qDebug() << QTime::currentTime().toString();
     componentTree = new ComponentTree<U8>(image, connexity, ca, delta);
+    qDebug() << QTime::currentTime().toString();
+    // computeNeighborhoodAttributes(*componentTree, 2);
+    qDebug() << QTime::currentTime().toString();
 }
