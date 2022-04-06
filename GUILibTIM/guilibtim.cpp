@@ -142,7 +142,7 @@ void GUILibTIM::on_actionFilterArea_triggered()
     connexity.make3DN26();
     ComponentTree<U8> filter_tree = ComponentTree<U8>(libtim_image, connexity, 1);
 
-    QString choice_selection_rule = ui->comboBox_selection_rule->currentText();
+    QString choice_selection_rule = ui->comboBox_filter_rule->currentText();
     int min = (int)ui->doubleSpinBox_filter_min->value();
     int max = (int)ui->doubleSpinBox_filter_max->value();
 
@@ -175,7 +175,7 @@ void GUILibTIM::on_actionFilterContrast_triggered()
     connexity.make3DN26();
     ComponentTree<U8> filter_tree = ComponentTree<U8>(libtim_image, connexity, 1);
 
-    QString choice_selection_rule = ui->comboBox_selection_rule->currentText();
+    QString choice_selection_rule = ui->comboBox_filter_rule->currentText();
     int min = (int)ui->doubleSpinBox_filter_min->value();
     int max = (int)ui->doubleSpinBox_filter_max->value();
 
@@ -272,6 +272,11 @@ void GUILibTIM::on_checkBox_view_node_stateChanged(int)
     update_view_2_node_pixels();
 }
 
+void GUILibTIM::on_checkBox_view_node_border_stateChanged(int arg1)
+{
+    update_view_2_node_pixels();
+}
+
 void GUILibTIM::on_spinBox_view_node_branch_valueChanged(int)
 {
     update_view_chart();
@@ -357,12 +362,15 @@ void GUILibTIM::update_view_2_node_pixels()
         view_image.setPixelColor(p.x, p.y, QColor(255.0, 0.0, 0.0));
     }
 
-    std::vector<TOffset> pixels_border = n->pixels_border;
+    if(ui->checkBox_view_node_border->isChecked())
+    {
+        std::vector<TOffset> pixels_border = n->pixels_border;
 
-    for(std::vector<TOffset>::iterator it = std::begin(pixels_border); it != std::end(pixels_border); ++it) {
-        Point<TCoord> p = libtim_image.getCoord((*it));
+        for(std::vector<TOffset>::iterator it = std::begin(pixels_border); it != std::end(pixels_border); ++it) {
+            Point<TCoord> p = libtim_image.getCoord((*it));
 
-        view_image.setPixelColor(p.x, p.y, QColor(0.0, 0.0, 255.0));
+            view_image.setPixelColor(p.x, p.y, QColor(0.0, 0.0, 255.0));
+        }
     }
 
     graphicsScene_2->clear();
@@ -378,11 +386,15 @@ void GUILibTIM::update_view_2_attribute_image()
 
     QString choice_attribute = ui->comboBox_attribute->currentText();
     QString choice_criterion = ui->comboBox_criterion->currentText();
+    QString choice_limit_criterion = ui->comboBox_limit_criterion->currentText();
     QString choice_selection_rule = ui->comboBox_selection_rule->currentText();
 
     int64_t limit = ui->doubleSpinBox_max_attribute->value();
     ComponentTree<U8>::Attribute attribute = AttributeFromQString(choice_attribute);
     ComponentTree<U8>::Attribute criterion = AttributeFromQString(choice_criterion);
+    ComponentTree<U8>::Attribute limit_criterion = AttributeFromQString(choice_limit_criterion);
+    int64_t limit_criterion_min = ui->doubleSpinBox_min_limit_criterion->value();
+    int64_t limit_criterion_max = ui->doubleSpinBox_max_limit_criterion->value();
     ComponentTree<U8>::ConstructionDecision rule = ConstructionDecisionFromQString(choice_selection_rule);
 
     QImage view_image;
@@ -393,21 +405,48 @@ void GUILibTIM::update_view_2_attribute_image()
             || choice_attribute == "COMPLEXITY"
             || choice_attribute == "COMPACITY") // int
     {
-        Image<int64_t> res = componentTree->constructImageAttribute<int, long double>
-                  (attribute, criterion, rule);
+        Image<int64_t> res;
+        if(limit_criterion_min == 0 && limit_criterion_max == 0)
+        {
+            res = componentTree->constructImageAttribute<int, long double>
+                      (attribute, criterion, rule);
+        }
+        else
+        {
+            res = componentTree->constructImageAttribute<int, long double, int64_t>
+                      (attribute, criterion, rule, limit_criterion, limit_criterion_min, limit_criterion_max);
+        }
         view_image = QImageFromImage(res, limit, selection_z);
     }
     else if (choice_attribute == "AREA")// int64_t
     {
-        Image<int64_t> res = componentTree->constructImageAttribute<int64_t, long double>
-                  (attribute, criterion, rule);
+        Image<int64_t> res;
+        if(limit_criterion_min == 0 && limit_criterion_max == 0)
+        {
+            res = componentTree->constructImageAttribute<int64_t, long double>
+                      (attribute, criterion, rule);
+        }
+        else
+        {
+            res = componentTree->constructImageAttribute<int64_t, long double, int64_t>
+                      (attribute, criterion, rule, limit_criterion, limit_criterion_min, limit_criterion_max);
+        }
         view_image = QImageFromImage(res, limit, selection_z);
     }
     else if (choice_attribute == "MSER"
              || choice_attribute == "MGB") // long double
     {
-        Image<long double> res = componentTree->constructImageAttribute<long double, long double>
-                  (attribute, criterion, rule);
+        Image<long double> res;
+        if(limit_criterion_min == 0 && limit_criterion_max == 0)
+        {
+            res = componentTree->constructImageAttribute<long double, long double>
+                      (attribute, criterion, rule);
+        }
+        else
+        {
+            res = componentTree->constructImageAttribute<long double, long double, int64_t>
+                      (attribute, criterion, rule, limit_criterion, limit_criterion_min, limit_criterion_max);
+        }
         view_image = QImageFromImage(res, limit, selection_z);
     }
     else
@@ -787,7 +826,7 @@ void GUILibTIM::computeComponentTree(Image<U8> &image)
     if(componentTree != nullptr)
         delete componentTree;
 
-    unsigned int delta = 5;
+    unsigned int delta = 2;
 
     FlatSE connexity;
 
@@ -803,7 +842,7 @@ void GUILibTIM::computeComponentTree(Image<U8> &image)
     else
     {
         connexity.make2DN9();
-        ca = (ComputedAttributes)(ca | ComputedAttributes::OTSU);
+        // ca = (ComputedAttributes)(ca | ComputedAttributes::OTSU);
         ca = (ComputedAttributes)(ca | ComputedAttributes::BORDER_GRADIENT);
         ca = (ComputedAttributes)(ca | ComputedAttributes::COMP_LEXITY_ACITY);
     }

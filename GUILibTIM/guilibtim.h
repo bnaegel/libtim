@@ -52,6 +52,7 @@ private slots:
     void on_doubleSpinBox_max_attribute_valueChanged(double);
     void on_pushButton_view_attribute_image_clicked();
     void on_checkBox_view_node_stateChanged(int);
+    void on_checkBox_view_node_border_stateChanged(int);
     void on_spinBox_view_node_branch_valueChanged(int);
     void on_horizontalSlider_Z_valueChanged(int);
 

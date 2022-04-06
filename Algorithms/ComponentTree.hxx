@@ -509,13 +509,6 @@ void ComponentTree<T>::constructImageAttributeMin(Image<TVal> &res, ComponentTre
                         attr = attr_father;
                     }
                 }
-                /*
-                if(attr < 0)
-                {
-                    std::cout << "ERROR: NEGATIVE SELECTION ATTRIBUTE" << attr << std::endl;
-                    exit(1);
-                }
-                */
 
                 res(i, j, k) = getAttribute<TVal>(n_s, value_attribute);
             }
@@ -549,13 +542,6 @@ void ComponentTree<T>::constructImageAttributeMax(Image<TVal> &res, ComponentTre
                         attr = attr_father;
                     }
                 }
-                /*
-                if(attr < 0)
-                {
-                    std::cout << "ERROR: NEGATIVE SELECTION ATTRIBUTE" << attr << std::endl;
-                    exit(1);
-                }
-                */
 
                 res(i, j, k) = getAttribute<TVal>(n_s, value_attribute);
             }
@@ -572,6 +558,103 @@ void ComponentTree<T>::constructImageAttributeDirect(Image<TVal> &res, Component
             for (TSize k = 0; k < res.getSizeZ(); k++)
             {
                 Node *n = indexedCoordToNode(i, j, k, nodes);
+                TVal attr = getAttribute<TVal>(n, value_attribute);
+                res(i, j, k) = attr;
+            }
+}
+
+template<class T> template<class TVal, class TSel, class TLimit>
+void ComponentTree<T>::constructImageAttributeMin(Image<TVal> &res, ComponentTree::Attribute value_attribute, ComponentTree::Attribute selection_attribute, Attribute limit_attribute, TLimit limit_min, TLimit limit_max)
+{
+    res.fill(TVal(0));
+
+    std::vector<Node *> nodes = indexedNodes();
+    for (TSize i = 0; i < res.getSizeX(); i++)
+        for (TSize j = 0; j < res.getSizeY(); j++)
+            for (TSize k = 0; k < res.getSizeZ(); k++)
+            {
+                Node *n = indexedCoordToNode(i, j, k, nodes);
+                // limit min
+                while(n->father != m_root && getAttribute<TLimit>(n->father, limit_attribute) < limit_min)
+                {
+                    n = n->father;
+                }
+                // noeud selectionné
+                Node *n_s = n;
+                TSel attr = getAttribute<TSel>(n, selection_attribute);
+                // minimum, dans la branche parent
+                TSel attr_father;
+                // parcours de l'arbre et limit max
+                while(n->father != m_root && getAttribute<TLimit>(n->father, limit_attribute) < limit_max) {
+                    n = n->father;
+                    attr_father = getAttribute<TSel>(n, selection_attribute);
+
+                    if(attr_father < attr &&
+                       attr_father > 0)
+                    {
+                        n_s = n;
+                        attr = attr_father;
+                    }
+                }
+
+                res(i, j, k) = getAttribute<TVal>(n_s, value_attribute);
+            }
+}
+
+template<class T> template<class TVal, class TSel, class TLimit>
+void ComponentTree<T>::constructImageAttributeMax(Image<TVal> &res, ComponentTree::Attribute value_attribute, ComponentTree::Attribute selection_attribute, Attribute limit_attribute, TLimit limit_min, TLimit limit_max)
+{
+    res.fill(TVal(0));
+
+    std::vector<Node *> nodes = indexedNodes();
+    for (TSize i = 0; i < res.getSizeX(); i++)
+        for (TSize j = 0; j < res.getSizeY(); j++)
+            for (TSize k = 0; k < res.getSizeZ(); k++)
+            {
+                Node *n = indexedCoordToNode(i, j, k, nodes);
+                // limit min
+                while(n->father != m_root && getAttribute<TLimit>(n->father, limit_attribute) < limit_min)
+                {
+                    n = n->father;
+                }
+                // noeud selectionné
+                Node *n_s = n;
+                TSel attr = getAttribute<TSel>(n, selection_attribute);
+                // maximum dans la branche parent
+                TSel attr_father;
+                // parcours de l'arbre et limit max
+                while(n->father != m_root && getAttribute<TLimit>(n->father, limit_attribute) < limit_max) {
+                    n = n->father;
+                    attr_father = getAttribute<TSel>(n, selection_attribute);
+
+                    if(attr_father > attr &&
+                       attr_father < std::numeric_limits<TSel>::max())
+                    {
+                        n_s = n;
+                        attr = attr_father;
+                    }
+                }
+
+                res(i, j, k) = getAttribute<TVal>(n_s, value_attribute);
+            }
+}
+
+template<class T> template<class TVal, class TLimit>
+void ComponentTree<T>::constructImageAttributeDirect(Image<TVal> &res, ComponentTree::Attribute value_attribute, Attribute limit_attribute, TLimit limit_min, TLimit limit_max)
+{
+    res.fill(TVal(0));
+
+    std::vector<Node *> nodes = indexedNodes();
+    for (TSize i = 0; i < res.getSizeX(); i++)
+        for (TSize j = 0; j < res.getSizeY(); j++)
+            for (TSize k = 0; k < res.getSizeZ(); k++)
+            {
+                Node *n = indexedCoordToNode(i, j, k, nodes);
+                // limit min
+                while(n->father != m_root && getAttribute<TLimit>(n->father, limit_attribute) < limit_min)
+                {
+                    n = n->father;
+                }
                 TVal attr = getAttribute<TVal>(n, value_attribute);
                 res(i, j, k) = attr;
             }
@@ -594,6 +677,32 @@ Image<TVal> ComponentTree<T>::constructImageAttribute(ComponentTree::Attribute v
             break;
         case DIRECT:
             constructImageAttributeDirect<TVal>(res, value_attribute);
+            break;
+        }
+    }
+    else
+        res.fill(TVal(0));
+
+    return res;
+}
+
+template<class T> template<class TVal, class TSel, class TLimit>
+Image<TVal> ComponentTree<T>::constructImageAttribute(ComponentTree::Attribute value_attribute, ComponentTree::Attribute selection_attribute, ComponentTree::ConstructionDecision selection_rule, Attribute limit_attribute, TLimit limit_min, TLimit limit_max)
+{
+    Image <TVal> res(m_img.getSize());
+
+    if(m_root!=0)
+    {
+        switch(selection_rule)
+        {
+        case MIN:
+            constructImageAttributeMin<TVal, TSel, TLimit>(res, value_attribute, selection_attribute, limit_attribute, limit_min, limit_max);
+            break;
+        case MAX:
+            constructImageAttributeMax<TVal, TSel, TLimit>(res, value_attribute, selection_attribute, limit_attribute, limit_min, limit_max);
+            break;
+        case DIRECT:
+            constructImageAttributeDirect<TVal, TLimit>(res, value_attribute, limit_attribute, limit_min, limit_max);
             break;
         }
     }

@@ -198,6 +198,10 @@ class ComponentTree {
         template<class TVal, class TSel>
         Image <TVal> constructImageAttribute(Attribute value_attribute, Attribute selection_attribute=MSER, ConstructionDecision selection_rule=DIRECT);
 
+        template<class TVal, class TSel, class TLimit>
+        Image <TVal> constructImageAttribute(Attribute value_attribute, Attribute selection_attribute=MSER, ConstructionDecision selection_rule=DIRECT,
+                                             Attribute limit_attribute=AREA, TLimit limit_min=0, TLimit limit_max=std::numeric_limits<TLimit>::max());
+
 
 		/**
 		  * @brief Print tree on standard output
@@ -316,6 +320,13 @@ class ComponentTree {
         void constructImageAttributeMax(Image<TVal> &res, Attribute value_attribute, Attribute selection_attribute);
         template<class TVal>
         void constructImageAttributeDirect(Image<TVal> &res, Attribute value_attribute);
+
+        template<class TVal, class TSel, class TLimit>
+        void constructImageAttributeMin(Image<TVal> &res, Attribute value_attribute, Attribute selection_attribute, Attribute limit_attribute, TLimit limit_min, TLimit limit_max);
+        template<class TVal, class TSel, class TLimit>
+        void constructImageAttributeMax(Image<TVal> &res, Attribute value_attribute, Attribute selection_attribute, Attribute limit_attribute, TLimit limit_min, TLimit limit_max);
+        template<class TVal, class TLimit>
+        void constructImageAttributeDirect(Image<TVal> &res, Attribute value_attribute, Attribute limit_attribute, TLimit limit_min, TLimit limit_max);
 
 
 		void constructNode(Image <T> &res, Node *node);
