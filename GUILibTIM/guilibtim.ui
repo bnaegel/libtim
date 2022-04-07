@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>897</width>
+    <width>1200</width>
     <height>600</height>
    </rect>
   </property>
@@ -55,98 +55,7 @@
     </item>
     <item>
      <layout class="QGridLayout" name="gridLayout_bottom">
-      <item row="1" column="3">
-       <widget class="QLabel" name="label_view_node_branch">
-        <property name="text">
-         <string>node parent</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="13">
-       <widget class="QDoubleSpinBox" name="doubleSpinBox_max_attribute">
-        <property name="decimals">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <double>16777216.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="13">
-       <widget class="QDoubleSpinBox" name="doubleSpinBox_max_limit_criterion">
-        <property name="decimals">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <double>100000000.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_filter_min">
-        <property name="text">
-         <string>filter min</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="7">
-       <widget class="QComboBox" name="comboBox_selection_rule">
-        <item>
-         <property name="text">
-          <string>MIN</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>MAX</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>DIRECT</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="1" column="9">
-       <widget class="QLabel" name="label_criterion">
-        <property name="text">
-         <string>criterion</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_filter_max">
-        <property name="text">
-         <string>filter max</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="12">
-       <widget class="QDoubleSpinBox" name="doubleSpinBox_min_limit_criterion">
-        <property name="decimals">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <double>100000000.000000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="8" rowspan="3">
-       <widget class="Line" name="line_2">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="9">
-       <widget class="QLabel" name="label_limit_criterion">
-        <property name="text">
-         <string>limit criterion</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="10">
+      <item row="0" column="12">
        <widget class="QComboBox" name="comboBox_attribute">
         <property name="currentIndex">
          <number>1</number>
@@ -193,17 +102,72 @@
         </item>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QDoubleSpinBox" name="doubleSpinBox_filter_min">
+      <item row="2" column="15">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_max_limit_criterion">
         <property name="decimals">
-         <number>0</number>
+         <number>1</number>
         </property>
         <property name="maximum">
-         <double>1000000000000000000.000000000000000</double>
+         <double>100000000.000000000000000</double>
         </property>
        </widget>
       </item>
-      <item row="0" column="12">
+      <item row="1" column="9">
+       <widget class="QComboBox" name="comboBox_selection_rule">
+        <item>
+         <property name="text">
+          <string>MIN</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>MAX</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>DIRECT</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="label_filter_max">
+        <property name="text">
+         <string>filter max</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="checkBox_compute_border">
+        <property name="text">
+         <string>border</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="15">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_max_attribute">
+        <property name="decimals">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <double>16777216.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="12">
+       <widget class="QComboBox" name="comboBox_limit_criterion">
+        <item>
+         <property name="text">
+          <string>AREA</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="0" column="14">
        <widget class="QDoubleSpinBox" name="doubleSpinBox_min_attribute">
         <property name="decimals">
          <number>1</number>
@@ -216,7 +180,70 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="10">
+      <item row="1" column="2">
+       <widget class="QLabel" name="label_filter_min">
+        <property name="text">
+         <string>filter min</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="5" colspan="2">
+       <widget class="QCheckBox" name="checkBox_view_node_border">
+        <property name="text">
+         <string>view node border</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="11">
+       <widget class="QLabel" name="label_attribute">
+        <property name="text">
+         <string>attribute</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="checkBox_compute_neighborhood">
+        <property name="text">
+         <string>neighborhood</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_filter_max">
+        <property name="decimals">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <double>1000000000000000000.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QComboBox" name="comboBox_filter_rule">
+        <property name="currentIndex">
+         <number>2</number>
+        </property>
+        <item>
+         <property name="text">
+          <string>MIN</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>MAX</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>DIRECT</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="1" column="12">
        <widget class="QComboBox" name="comboBox_criterion">
         <property name="currentIndex">
          <number>4</number>
@@ -298,8 +325,29 @@
         </item>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QDoubleSpinBox" name="doubleSpinBox_filter_max">
+      <item row="2" column="11">
+       <widget class="QLabel" name="label_limit_criterion">
+        <property name="text">
+         <string>limit criterion</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="8">
+       <widget class="QLabel" name="label_rule">
+        <property name="text">
+         <string>rule</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="13" rowspan="3">
+       <widget class="QLabel" name="label_min_max_value">
+        <property name="text">
+         <string>min / max</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_filter_min">
         <property name="decimals">
          <number>0</number>
         </property>
@@ -308,49 +356,7 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="3" colspan="2">
-       <widget class="QCheckBox" name="checkBox_view_node">
-        <property name="text">
-         <string>view node pixels</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="5" rowspan="3">
-       <widget class="Line" name="line_3">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2" rowspan="3">
-       <widget class="Line" name="line">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="11" rowspan="3">
-       <widget class="QLabel" name="label_min_max_value">
-        <property name="text">
-         <string>min / max</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="9">
-       <widget class="QLabel" name="label_attribute">
-        <property name="text">
-         <string>attribute</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="4">
-       <widget class="QSpinBox" name="spinBox_view_node_branch">
-        <property name="maximum">
-         <number>255</number>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="13">
+      <item row="1" column="15">
        <widget class="QDoubleSpinBox" name="doubleSpinBox_max_criterion">
         <property name="decimals">
          <number>1</number>
@@ -360,7 +366,80 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="12">
+      <item row="0" column="8" colspan="2">
+       <widget class="QPushButton" name="pushButton_view_attribute_image">
+        <property name="text">
+         <string>view attribute image</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5" colspan="2">
+       <widget class="QCheckBox" name="checkBox_view_node">
+        <property name="text">
+         <string>view node pixels</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="5">
+       <widget class="QLabel" name="label_view_node_branch">
+        <property name="text">
+         <string>node parent</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_filter_rule">
+        <property name="text">
+         <string>filter rule</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="10" rowspan="3">
+       <widget class="Line" name="line_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="14">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_min_limit_criterion">
+        <property name="decimals">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <double>100000000.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="6">
+       <widget class="QSpinBox" name="spinBox_view_node_branch">
+        <property name="maximum">
+         <number>255</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="11">
+       <widget class="QLabel" name="label_criterion">
+        <property name="text">
+         <string>criterion</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="7" rowspan="3">
+       <widget class="Line" name="line_3">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4" rowspan="3">
+       <widget class="Line" name="line_1">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="14">
        <widget class="QDoubleSpinBox" name="doubleSpinBox_min_criterion">
         <property name="decimals">
          <number>1</number>
@@ -373,62 +452,17 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="10">
-       <widget class="QComboBox" name="comboBox_limit_criterion">
-        <item>
-         <property name="text">
-          <string>AREA</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="1" column="6">
-       <widget class="QLabel" name="label_rule">
-        <property name="text">
-         <string>rule</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="6" colspan="2">
-       <widget class="QPushButton" name="pushButton_view_attribute_image">
-        <property name="text">
-         <string>view attribute image</string>
+      <item row="0" column="1" rowspan="3">
+       <widget class="Line" name="line_4">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
         </property>
        </widget>
       </item>
       <item row="0" column="0">
-       <widget class="QLabel" name="label_filter_rule">
+       <widget class="QLabel" name="label_compute">
         <property name="text">
-         <string>filter rule</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="comboBox_filter_rule">
-        <property name="currentIndex">
-         <number>2</number>
-        </property>
-        <item>
-         <property name="text">
-          <string>MIN</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>MAX</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>DIRECT</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="2" column="3" colspan="2">
-       <widget class="QCheckBox" name="checkBox_view_node_border">
-        <property name="text">
-         <string>view node border</string>
+         <string>compute (2D only)</string>
         </property>
        </widget>
       </item>
@@ -441,7 +475,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>897</width>
+     <width>1200</width>
      <height>21</height>
     </rect>
    </property>

@@ -835,6 +835,7 @@ void GUILibTIM::computeComponentTree(Image<U8> &image)
     ca = (ComputedAttributes)(ca | ComputedAttributes::CONTRAST);
     ca = (ComputedAttributes)(ca | ComputedAttributes::VOLUME);
 
+
     if(image.getSizeZ() > 1)
     {
         connexity.make3DN27();
@@ -842,12 +843,24 @@ void GUILibTIM::computeComponentTree(Image<U8> &image)
     else
     {
         connexity.make2DN9();
-        // ca = (ComputedAttributes)(ca | ComputedAttributes::OTSU);
-        ca = (ComputedAttributes)(ca | ComputedAttributes::BORDER_GRADIENT);
-        ca = (ComputedAttributes)(ca | ComputedAttributes::COMP_LEXITY_ACITY);
+        if(ui->checkBox_compute_border->isChecked())
+        {
+            ca = (ComputedAttributes)(ca | ComputedAttributes::BORDER_GRADIENT);
+            ca = (ComputedAttributes)(ca | ComputedAttributes::COMP_LEXITY_ACITY);
+        }
+        if(ui->checkBox_compute_neighborhood->isChecked())
+        {
+            ca = (ComputedAttributes)(ca | ComputedAttributes::OTSU);
+        }
     }
 
-    qDebug() << QTime::currentTime().toString();
+    QTime t_start = QTime().currentTime();
+    qDebug() << t_start.toString();
+
     componentTree = new ComponentTree<U8>(image, connexity, ca, delta);
-    qDebug() << QTime::currentTime().toString();
+
+    QTime t_end = QTime().currentTime();
+    qint64 t_diff = t_start.msecsTo(t_end);
+    qDebug() << t_end.toString();
+    qDebug() << t_diff << "ms";
 }
