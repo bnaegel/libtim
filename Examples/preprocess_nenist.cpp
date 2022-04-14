@@ -83,10 +83,10 @@ int main(int argc, char *argv[])
     ca = (ComputedAttributes)(ca | ComputedAttributes::VOLUME);
     ca = (ComputedAttributes)(ca | ComputedAttributes::BORDER_GRADIENT);
     ca = (ComputedAttributes)(ca | ComputedAttributes::COMP_LEXITY_ACITY);
-    // ca = (ComputedAttributes)(ca | ComputedAttributes::OTSU);
+    ca = (ComputedAttributes)(ca | ComputedAttributes::OTSU);
 
     tree = new ComponentTree<U8>(im, connexity, ca, 5);
-    /*
+
     int64_t limit_criterion_min = 0;
     int64_t limit_criterion_max = 1048576;
     ComponentTree<U8>::Attribute attribute;
@@ -171,12 +171,11 @@ int main(int argc, char *argv[])
         std::cout << (int)res.getMin() << " " << (int)res.getMax() << std::endl;
     }
     res.save(getfname(argv[1], "COMPACITY_MAX_50-MAX_AREA_D_AREAN_H_D").c_str());
-    */
 
     // attributes signature images
     std::vector<Node *> nodes = tree->indexedNodes();
 
-    std::vector<Image<U8>> res_sign;
+    std::vector<Image<long double>> res_sign;
     std::vector<bool> set_sign;
     for(int i = 0; i < 26 ; ++i)
     {
@@ -185,10 +184,15 @@ int main(int argc, char *argv[])
         res_sign[i].fill(0);
     }
 
-    // MGB (MAX = 150 (150x2 = 300))
+    // MGB (MAX = 150)
     for (TSize x = 0; x < im.getSizeX(); x++) {
         for (TSize y = 0; y < im.getSizeY(); y++) {
             for (TSize z = 0; z < im.getSizeZ(); z++) {
+                for(int i = 0; i < 26 ; ++i)
+                {
+                    set_sign[i] = true;
+                }
+
                 Node* node = tree->indexedCoordToNode(x, y, z, nodes);
 
                 while(node != tree->m_root)
@@ -197,8 +201,7 @@ int main(int argc, char *argv[])
                     {
                         if(set_sign[i] && node->h <= i*10)
                         {
-                            std::cout << res_sign[i](x, y, z) << std::endl;
-                            res_sign[i](x, y, z) = 2*node->mean_gradient_border;
+                            res_sign[i](x, y, z) = node->mean_gradient_border;
                             set_sign[i] = false;
                         }
                     }
@@ -207,7 +210,6 @@ int main(int argc, char *argv[])
             }
         }
     }
-
     for(int i = 0; i < 26 ; ++i)
     {
         if(debug)
@@ -215,14 +217,50 @@ int main(int argc, char *argv[])
             std::cout << "SIGN_MGB_" << i*10 << std::endl;
             std::cout << (int)res_sign[i].getMin() << " " << (int)res_sign[i].getMax() << std::endl;
         }
-        normalize<U8>(res_sign[i], 300).save(getfname(argv[1], std::string("SIGN_MGB_") + std::to_string(i*10)).c_str());
+        res = normalize<U8>(res_sign[i], 150);
+        res.save(getfname(argv[1], std::string("SIGN_MGB_") + std::to_string(i*10)).c_str());
     }
 
     // OTSU (MAX = 20)
     for(int i = 0; i < 26 ; ++i)
     {
         res_sign[i].fill(0);
-        set_sign[i] = true;
+    }
+
+    for (TSize x = 0; x < im.getSizeX(); x++) {
+        for (TSize y = 0; y < im.getSizeY(); y++) {
+            for (TSize z = 0; z < im.getSizeZ(); z++) {
+                for(int i = 0; i < 26 ; ++i)
+                {
+                    set_sign[i] = true;
+                }
+
+                Node* node = tree->indexedCoordToNode(x, y, z, nodes);
+
+                while(node != tree->m_root)
+                {
+                    for(int i = 0; i < 26 ; ++i)
+                    {
+                        if(set_sign[i] && node->h <= i*10)
+                        {
+                            res_sign[i](x, y, z) = node->otsu;
+                            set_sign[i] = false;
+                        }
+                    }
+                    node = node->father;
+                }
+            }
+        }
+    }
+    for(int i = 0; i < 26 ; ++i)
+    {
+        if(debug)
+        {
+            std::cout << "SIGN_OTSU_" << i*10 << std::endl;
+            std::cout << (int)res_sign[i].getMin() << " " << (int)res_sign[i].getMax() << std::endl;
+        }
+        res = normalize<U8>(res_sign[i], 20);
+        res.save(getfname(argv[1], std::string("SIGN_OTSU_") + std::to_string(i*10)).c_str());
     }
 
     // area filtering
