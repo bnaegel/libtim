@@ -7,9 +7,13 @@
 
 using namespace LibTIM;
 
-std::string getfname(char* argv1, const char* fname)
+std::string getfname(char* argv1, std::string fname)
 {
     return (std::string(argv1)+ std::string("_") + std::string(fname) + std::string(".pgm"));
+}
+std::string getfname(char* argv1, const char* fname)
+{
+    return getfname(argv1, std::string(fname));
 }
 
 template<class T>
@@ -82,7 +86,7 @@ int main(int argc, char *argv[])
     // ca = (ComputedAttributes)(ca | ComputedAttributes::OTSU);
 
     tree = new ComponentTree<U8>(im, connexity, ca, 5);
-
+    /*
     int64_t limit_criterion_min = 0;
     int64_t limit_criterion_max = 1048576;
     ComponentTree<U8>::Attribute attribute;
@@ -167,38 +171,59 @@ int main(int argc, char *argv[])
         std::cout << (int)res.getMin() << " " << (int)res.getMax() << std::endl;
     }
     res.save(getfname(argv[1], "COMPACITY_MAX_50-MAX_AREA_D_AREAN_H_D").c_str());
+    */
 
-    // attributes signature images (h = 50, 100, 125, 150, 175)
-    Image<U8> res_sign_050(im.getSize());
-    Image<U8> res_sign_100(im.getSize());
-    Image<U8> res_sign_125(im.getSize());
-    Image<U8> res_sign_150(im.getSize());
-    Image<U8> res_sign_175(im.getSize());
+    // attributes signature images
+    std::vector<Node *> nodes = tree->indexedNodes();
 
-    // MGB (MAX = 150)
-    criterion = ComponentTree<U8>::MGB;
+    std::vector<Image<U8>> res_sign;
+    std::vector<bool> set_sign;
+    for(int i = 0; i < 26 ; ++i)
+    {
+        res_sign.push_back(im.getSize());
+        set_sign.push_back(true);
+        res_sign[i].fill(0);
+    }
+
+    // MGB (MAX = 150 (150x2 = 300))
     for (TSize x = 0; x < im.getSizeX(); x++) {
         for (TSize y = 0; y < im.getSizeY(); y++) {
             for (TSize z = 0; z < im.getSizeZ(); z++) {
+                Node* node = tree->indexedCoordToNode(x, y, z, nodes);
 
-                Node* node = tree->coordToNode(x, y, z);
-                // todo
-                tree->getAttribute<long double>(node, criterion);
                 while(node != tree->m_root)
                 {
+                    for(int i = 0; i < 26 ; ++i)
+                    {
+                        if(set_sign[i] && node->h <= i*10)
+                        {
+                            std::cout << res_sign[i](x, y, z) << std::endl;
+                            res_sign[i](x, y, z) = 2*node->mean_gradient_border;
+                            set_sign[i] = false;
+                        }
+                    }
                     node = node->father;
                 }
             }
         }
     }
 
-    res_sign_050.save(getfname(argv[1], "SIGN_MGB_050").c_str());
-    res_sign_100.save(getfname(argv[1], "SIGN_MGB_100").c_str());
-    res_sign_125.save(getfname(argv[1], "SIGN_MGB_125").c_str());
-    res_sign_150.save(getfname(argv[1], "SIGN_MGB_150").c_str());
-    res_sign_175.save(getfname(argv[1], "SIGN_MGB_175").c_str());
+    for(int i = 0; i < 26 ; ++i)
+    {
+        if(debug)
+        {
+            std::cout << "SIGN_MGB_" << i*10 << std::endl;
+            std::cout << (int)res_sign[i].getMin() << " " << (int)res_sign[i].getMax() << std::endl;
+        }
+        normalize<U8>(res_sign[i], 300).save(getfname(argv[1], std::string("SIGN_MGB_") + std::to_string(i*10)).c_str());
+    }
 
     // OTSU (MAX = 20)
+    for(int i = 0; i < 26 ; ++i)
+    {
+        res_sign[i].fill(0);
+        set_sign[i] = true;
+    }
 
     // area filtering
     int64_t area_min, area_max;
@@ -257,7 +282,7 @@ int main(int argc, char *argv[])
         std::cout << "CONTRAST 10 100" << std::endl;
         std::cout << (int)res.getMin() << " " << (int)res.getMax() << std::endl;
     }
-    res.save(getfname(argv[1], "CONTRAST_10_100").c_str());
+    res.save(getfname(argv[1], "CONTRAST_10_150").c_str());
 
     // contrast filtering dual
     delete tree;
@@ -271,7 +296,7 @@ int main(int argc, char *argv[])
         std::cout << "CONTRAST DUAL 10 100" << std::endl;
         std::cout << (int)res.getMin() << " " << (int)res.getMax() << std::endl;
     }
-    res.save(getfname(argv[1], "CONTRAST_DUAL_10_100").c_str());
+    res.save(getfname(argv[1], "CONTRAST_DUAL_10_150").c_str());
 
     std::cout << "[INFO] " << argv[1] << " end without error" << std::endl;
 
