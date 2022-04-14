@@ -56,15 +56,15 @@ int main(int argc, char *argv[])
     Image<U8> ori = im;
     // Dual de l'image
     Image<U8> im_dual = im;
-    for (TSize i = 0; i < im.getSizeX(); i++) {
-        for (TSize j = 0; j < im.getSizeY(); j++) {
-            for (TSize k = 0; k < im.getSizeZ(); k++) {
-                im_dual(i, j, k) = 255 - im_dual(i, j, k);
+    for (TSize x = 0; x < im.getSizeX(); x++) {
+        for (TSize y = 0; y < im.getSizeY(); y++) {
+            for (TSize z = 0; z < im.getSizeZ(); z++) {
+                im_dual(x, y, z) = 255 - im_dual(x, y, z);
             }
         }
     }
     // Image résultat
-    Image <U8> res;
+    Image<U8> res;
     Image<int> res_int;
     Image<long double> res_longdouble;
     // Arbre des composantes
@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
     ca = (ComputedAttributes)(ca | ComputedAttributes::VOLUME);
     ca = (ComputedAttributes)(ca | ComputedAttributes::BORDER_GRADIENT);
     ca = (ComputedAttributes)(ca | ComputedAttributes::COMP_LEXITY_ACITY);
-    ca = (ComputedAttributes)(ca | ComputedAttributes::OTSU);
+    // ca = (ComputedAttributes)(ca | ComputedAttributes::OTSU);
 
     tree = new ComponentTree<U8>(im, connexity, ca, 5);
 
@@ -168,9 +168,37 @@ int main(int argc, char *argv[])
     }
     res.save(getfname(argv[1], "COMPACITY_MAX_50-MAX_AREA_D_AREAN_H_D").c_str());
 
-    // attributes signature images
-    // OTSU
-    // MGB
+    // attributes signature images (h = 50, 100, 125, 150, 175)
+    Image<U8> res_sign_050(im.getSize());
+    Image<U8> res_sign_100(im.getSize());
+    Image<U8> res_sign_125(im.getSize());
+    Image<U8> res_sign_150(im.getSize());
+    Image<U8> res_sign_175(im.getSize());
+
+    // MGB (MAX = 150)
+    criterion = ComponentTree<U8>::MGB;
+    for (TSize x = 0; x < im.getSizeX(); x++) {
+        for (TSize y = 0; y < im.getSizeY(); y++) {
+            for (TSize z = 0; z < im.getSizeZ(); z++) {
+
+                Node* node = tree->coordToNode(x, y, z);
+                // todo
+                tree->getAttribute<long double>(node, criterion);
+                while(node != tree->m_root)
+                {
+                    node = node->father;
+                }
+            }
+        }
+    }
+
+    res_sign_050.save(getfname(argv[1], "SIGN_MGB_050").c_str());
+    res_sign_100.save(getfname(argv[1], "SIGN_MGB_100").c_str());
+    res_sign_125.save(getfname(argv[1], "SIGN_MGB_125").c_str());
+    res_sign_150.save(getfname(argv[1], "SIGN_MGB_150").c_str());
+    res_sign_175.save(getfname(argv[1], "SIGN_MGB_175").c_str());
+
+    // OTSU (MAX = 20)
 
     // area filtering
     int64_t area_min, area_max;
