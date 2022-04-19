@@ -64,6 +64,10 @@ void GUILibTIM::on_actionImport_Image_triggered()
             update_view_image(QImageFromImage(libtim_image));
             computeComponentTree(libtim_image);
         }
+        else
+        {
+            QMessageBox::critical(this, "Import Image", "cannot load image");
+        }
     }
     else
     {
