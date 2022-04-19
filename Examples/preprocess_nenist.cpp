@@ -7,10 +7,29 @@
 
 using namespace LibTIM;
 
+bool makePath(const std::string& path);
+void createDirSafe(std::string dirpath)
+{
+    makePath(dirpath);
+}
+
+std::string pathToDirpath(std::string path)
+{
+    return path.substr(0, path.find_last_of("\\/")) + "/";
+}
+
+std::string pathToFilename(std::string path)
+{
+    return path.substr(path.find_last_of("/\\") + 1);
+}
+
 std::string getfname(char* argv1, std::string fname)
 {
-    return (std::string(argv1)+ std::string("_") + std::string(fname) + std::string(".pgm"));
+    createDirSafe(pathToDirpath(argv1) + fname + "/");
+    return (pathToDirpath(argv1) + fname + "/" + pathToFilename(argv1));
+    // return (std::string(argv1)+ std::string("_") + std::string(fname) + std::string(".pgm"));
 }
+
 std::string getfname(char* argv1, const char* fname)
 {
     return getfname(argv1, std::string(fname));
@@ -339,4 +358,73 @@ int main(int argc, char *argv[])
     std::cout << "[INFO] " << argv[1] << " end without error" << std::endl;
 
     return 0;
+}
+
+
+// source : https://stackoverflow.com/questions/675039/how-can-i-create-directory-tree-in-c-linux
+#include <sys/stat.h> // stat
+#include <errno.h>    // errno, ENOENT, EEXIST
+#if defined(_WIN32)
+#include <direct.h>   // _mkdir
+#endif
+
+bool isDirExist(const std::string& path)
+{
+#if defined(_WIN32)
+    struct _stat info;
+    if (_stat(path.c_str(), &info) != 0)
+    {
+        return false;
+    }
+    return (info.st_mode & _S_IFDIR) != 0;
+#else
+    struct stat info;
+    if (stat(path.c_str(), &info) != 0)
+    {
+        return false;
+    }
+    return (info.st_mode & S_IFDIR) != 0;
+#endif
+}
+
+bool makePath(const std::string& path)
+{
+#if defined(_WIN32)
+    int ret = _mkdir(path.c_str());
+#else
+    mode_t mode = 0755;
+    int ret = mkdir(path.c_str(), mode);
+#endif
+    if (ret == 0)
+        return true;
+
+    switch (errno)
+    {
+    case ENOENT:
+        // parent didn't exist, try to create it
+        {
+            int pos = path.find_last_of('/');
+            if (pos == std::string::npos)
+#if defined(_WIN32)
+                pos = path.find_last_of('\\');
+            if (pos == std::string::npos)
+#endif
+                return false;
+            if (!makePath( path.substr(0, pos) ))
+                return false;
+        }
+        // now, try to create again
+#if defined(_WIN32)
+        return 0 == _mkdir(path.c_str());
+#else
+        return 0 == mkdir(path.c_str(), mode);
+#endif
+
+    case EEXIST:
+        // done!
+        return isDirExist(path);
+
+    default:
+        return false;
+    }
 }
