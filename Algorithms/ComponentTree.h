@@ -48,6 +48,15 @@ struct Node {
     Node()
     : label(-1),xmin(localMax),ymin(localMax),
     xmax(localMin),ymax(localMin),area(0),
+    area_derivative_areaN_h(std::numeric_limits<long double>::max()),
+    area_derivative_areaN_h_derivative(std::numeric_limits<long double>::max()),
+    area_derivative_h(std::numeric_limits<long double>::max()),
+    area_derivative_areaN(std::numeric_limits<long double>::max()),
+    mser(std::numeric_limits<long double>::max()),
+    area_derivative_delta_h(std::numeric_limits<long double>::max()),
+    area_derivative_delta_areaF(std::numeric_limits<long double>::max()),
+    sum(0), sum_square(0), mean(0), variance(0),
+    area_nghb(0), sum_nghb(0), sum_square_nghb(0), mean_nghb(0), variance_nghb(0),
     contrast(0), volume(0),  contourLength(0),
     complexity(0), subNodes(0),status(true),
     m01(0),m10(0),m20(0),m02(0),
@@ -62,16 +71,45 @@ struct Node {
     int xmax;
     int ymin;
     int ymax;
-    int area;
+    int zmin;
+    int zmax;
+    int64_t area;
+    // father correspond au noeud père
+    long double area_derivative_areaN_h;
+    long double area_derivative_areaN_h_derivative;
+    // (aire(father) - aire(noeud) / (h(noeud) - h(father))
+    long double area_derivative_h;
+    // (aire(father) - aire(noeud)) / aire(noeud)
+    long double area_derivative_areaN;
+    // father_d correspond au noeud dans la branche parent tel que  (h(noeud) - h(father_d)) >= delta
+    // (aire(father_d) - aire(noeud)) / aire(noeud)
+    long double mser;
+    // (aire(father_d) - aire(noeud)) / (h(noeud) - h(father_d))
+    long double area_derivative_delta_h;
+    // (aire(father_d) - aire(noeud)) / aire(father_d)
+    long double area_derivative_delta_areaF;
+    // otsu
+    int64_t sum;
+    int64_t sum_square;
+    long double mean;
+    long double variance;
+    int64_t area_nghb;
+    int64_t sum_nghb;
+    int64_t sum_square_nghb;
+    long double mean_nghb;
+    long double variance_nghb;
+    long double otsu;
+
     int contrast;
     int volume;
+    long double mean_gradient_border;
     int contourLength;
     int complexity;
     int compacity;
     
     int debug;
     
-    int subNodes;
+    int64_t subNodes;
     
     //experimental... moments
     long double m01;
@@ -91,6 +129,7 @@ struct Node {
     Node *father;
     typedef std::vector<TOffset> ContainerPixels;
     ContainerPixels pixels;
+    ContainerPixels pixels_border;
     typedef  std::vector<Node *> ContainerChilds;
     ContainerChilds childs;
     ContainerPixels contour;
@@ -99,6 +138,18 @@ struct Node {
 
 typedef std::vector<std::vector<Node *> > IndexType;
 
+enum ComputedAttributes {
+    AREA                = 0b00000001,
+    AREA_DERIVATIVES    = 0b00000010,
+    OTSU                = 0b00000100,
+    CONTRAST            = 0b00001000,
+    VOLUME              = 0b00010000,
+    BORDER_GRADIENT     = 0b00100000,
+    COMP_LEXITY_ACITY   = 0b01000000,
+    BOUNDING_BOX        = 0b10000000,
+    SUB_NODES           = 0b0100000000,
+    INERTIA_MOMENT      = 0b1000000000,
+};
 
 template <class T>
 class ComponentTreeStrategy;
@@ -110,17 +161,51 @@ template <class T>
 class ComponentTree {
 	public:
 		ComponentTree() {};
-		ComponentTree(Image <T> &img);
-		ComponentTree(Image <T> &img, FlatSE &connexity);
+        ComponentTree(Image <T> &img);
+        ComponentTree(Image <T> &img, FlatSE &connexity);
+        ComponentTree(Image <T> &img, FlatSE &connexity, unsigned int delta);
+        ComponentTree(Image <T> &img, FlatSE &connexity, ComputedAttributes ca, unsigned int delta);
 		~ComponentTree();
+
+        int computeNeighborhoodAttributes(int r);
 
 		enum ConstructionDecision {MIN,MAX,DIRECT};
 		Image <T> constructImage(ConstructionDecision decision=MIN);
-		Image <T> &constructImageOptimized();
+        Image <T> &constructImageOptimized();
+
+        enum Attribute {
+          H,
+          AREA,
+          AREA_D_AREAN_H,
+          AREA_D_AREAN_H_D,
+          AREA_D_H,
+          AREA_D_AREAN,
+          MSER,
+          AREA_D_DELTA_H,
+          AREA_D_DELTA_AREAF,
+          MEAN,
+          VARIANCE,
+          MEAN_NGHB,
+          VARIANCE_NGHB,
+          OTSU,
+          CONTRAST,
+          VOLUME,
+          MGB,
+          CONTOUR_LENGTH,
+          COMPLEXITY,
+          COMPACITY
+        };
+        template<class TVal, class TSel>
+        Image <TVal> constructImageAttribute(Attribute value_attribute, Attribute selection_attribute=MSER, ConstructionDecision selection_rule=DIRECT);
+
+        template<class TVal, class TSel, class TLimit>
+        Image <TVal> constructImageAttribute(Attribute value_attribute, Attribute selection_attribute=MSER, ConstructionDecision selection_rule=DIRECT,
+                                             Attribute limit_attribute=AREA, TLimit limit_min=0, TLimit limit_max=std::numeric_limits<TLimit>::max());
+
+
 		/**
 		  * @brief Print tree on standard output
 		**/
-
 		void print();
 
 		/**
@@ -150,7 +235,7 @@ class ComponentTree {
 		  * @brief Area filtering
 		**/
 
-		int areaFiltering(int tMin, int tMax=std::numeric_limits<int>::max());
+        int areaFiltering(int64_t tMin, int64_t tMax=std::numeric_limits<int64_t>::max());
 
 		/**
 		  * @brief Contrast filtering
@@ -179,7 +264,7 @@ class ComponentTree {
 
 
 		int complexityFiltering(int tMin, int tMax);
-		int compacityFiltering(int tMin, int tMax);
+        int compacityFiltering(int tMin, int tMax);
 		int intensityFiltering(int tMin, int tMax);
 
 		int boundingBoxFiltering(int min, int max);
@@ -215,12 +300,34 @@ class ComponentTree {
 		bool isInclude(FlatSE &se, Node::ContainerPixels &pixels);
 
 		Node * coordToNode(TCoord x, TCoord y);
+		Node * coordToNode(TCoord x, TCoord y, TCoord z);
+
+                Node * indexedCoordToNode(TCoord x, TCoord y, TCoord z, std::vector<Node *> &nodes);
+                std::vector <Node *> indexedNodes();
+
 		Node * offsetToNode(TOffset offset);
 
 		void constructImageMin(Image <T> &res);
 		void constructImageMax(Image<T> &res);
 		void constructImageDirect(Image<T> &res);
 		void constructImageDirectExpe(Image<T> &res);
+
+        template<class TVal>
+        TVal getAttribute(Node *n, Attribute attribute_id);
+        template<class TVal, class TSel>
+        void constructImageAttributeMin(Image<TVal> &res, Attribute value_attribute, Attribute selection_attribute);
+        template<class TVal, class TSel>
+        void constructImageAttributeMax(Image<TVal> &res, Attribute value_attribute, Attribute selection_attribute);
+        template<class TVal>
+        void constructImageAttributeDirect(Image<TVal> &res, Attribute value_attribute);
+
+        template<class TVal, class TSel, class TLimit>
+        void constructImageAttributeMin(Image<TVal> &res, Attribute value_attribute, Attribute selection_attribute, Attribute limit_attribute, TLimit limit_min, TLimit limit_max);
+        template<class TVal, class TSel, class TLimit>
+        void constructImageAttributeMax(Image<TVal> &res, Attribute value_attribute, Attribute selection_attribute, Attribute limit_attribute, TLimit limit_min, TLimit limit_max);
+        template<class TVal, class TLimit>
+        void constructImageAttributeDirect(Image<TVal> &res, Attribute value_attribute, Attribute limit_attribute, TLimit limit_min, TLimit limit_max);
+
 
 		void constructNode(Image <T> &res, Node *node);
 		void constructNodeDirect(Image <T> &res, Node *node);
@@ -241,7 +348,7 @@ class ComponentTree {
 		Image <int> STATUS;
 
 		//max-tree index
-		IndexType index;
+        IndexType index;
     
         //hmin
         int hMin;
@@ -285,13 +392,26 @@ class SalembierRecursiveImplementation: public ComponentTreeStrategy <T> {
 		delete[] hq;
 		}
 
-	Node *computeTree();
-	void computeAttributes(Node *tree);
+    Node *computeTree();
+    void computeAttributes(Node *tree);
+    void computeAttributes(Node *tree, unsigned int delta);
+    void computeAttributes(Node *tree, ComputedAttributes ca, unsigned int delta);
 
-	int computeArea(Node *tree);
+    int64_t computeArea(Node *tree);
+    void computeAreaDerivative(Node *tree);
+    void computeAreaDerivative2(Node *tree);
+    void computeMSER(Node *tree, unsigned int delta);
+
+    int64_t computeSum(Node *tree);
+    int64_t computeSumSquare(Node *tree);
+    void computeMean(Node *tree);
+    void computeVariance(Node *tree);
+    void computeOtsu(Node *tree);
+
 	int computeContrast(Node *tree);
-	int computeVolume(Node *tree);
-	int computeSubNodes(Node *tree);
+    int computeVolume(Node *tree);
+    void computeBorderGradient(Node *tree);
+    int64_t computeSubNodes(Node *tree);
 
 	long double computeM01(Node *tree);
 	long double computeM10(Node *tree);
@@ -300,7 +420,7 @@ class SalembierRecursiveImplementation: public ComponentTreeStrategy <T> {
 	void computeInertiaMoment(Node *tree);
 
 	//Shape-based attributes
-	int computeContourLength();
+    int computeContour(bool save_pixels=false);
 	int computeComplexityAndCompacity(Node *tree);
 
 	int computeBoundingBox(Node *tree);
@@ -319,8 +439,9 @@ class SalembierRecursiveImplementation: public ComponentTreeStrategy <T> {
 
 		
 
-		//members
-		Image <T> imBorder;
+        //members
+        Image <T> imBorder;
+        Image <T> imGradient;
 		FlatSE se;
 		TSize oriSize[3];
 

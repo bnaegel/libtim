@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>GUILibTIM</class>
+ <widget class="QMainWindow" name="GUILibTIM">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1200</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>GUILibTIM</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="mainLayout">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_main">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_left">
+        <item>
+         <widget class="QGraphicsViewClick" name="graphicsView_1"/>
+        </item>
+        <item>
+         <widget class="QSlider" name="horizontalSlider_Z">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_right">
+        <item>
+         <widget class="QGraphicsViewClick" name="graphicsView_2"/>
+        </item>
+        <item>
+         <widget class="QChartView" name="chartView" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QGridLayout" name="gridLayout_bottom">
+      <item row="0" column="12">
+       <widget class="QComboBox" name="comboBox_attribute">
+        <property name="currentIndex">
+         <number>1</number>
+        </property>
+        <item>
+         <property name="text">
+          <string>H</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>AREA</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>MSER</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>CONTRAST</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>VOLUME</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>MGB</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>COMPLEXITY</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>COMPACITY</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="2" column="15">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_max_limit_criterion">
+        <property name="decimals">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <double>100000000.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="9">
+       <widget class="QComboBox" name="comboBox_selection_rule">
+        <item>
+         <property name="text">
+          <string>MIN</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>MAX</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>DIRECT</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="label_filter_max">
+        <property name="text">
+         <string>filter max</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="checkBox_compute_border">
+        <property name="text">
+         <string>border</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="15">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_max_attribute">
+        <property name="decimals">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <double>16777216.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="12">
+       <widget class="QComboBox" name="comboBox_limit_criterion">
+        <item>
+         <property name="text">
+          <string>AREA</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="0" column="14">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_min_attribute">
+        <property name="decimals">
+         <number>1</number>
+        </property>
+        <property name="minimum">
+         <double>-16777216.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>0.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="label_filter_min">
+        <property name="text">
+         <string>filter min</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="5" colspan="2">
+       <widget class="QCheckBox" name="checkBox_view_node_border">
+        <property name="text">
+         <string>view node border</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="11">
+       <widget class="QLabel" name="label_attribute">
+        <property name="text">
+         <string>attribute</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="checkBox_compute_neighborhood">
+        <property name="text">
+         <string>neighborhood</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_filter_max">
+        <property name="decimals">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <double>1000000000000000000.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QComboBox" name="comboBox_filter_rule">
+        <property name="currentIndex">
+         <number>2</number>
+        </property>
+        <item>
+         <property name="text">
+          <string>MIN</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>MAX</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>DIRECT</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="1" column="12">
+       <widget class="QComboBox" name="comboBox_criterion">
+        <property name="currentIndex">
+         <number>4</number>
+        </property>
+        <item>
+         <property name="text">
+          <string>AREA_D_AREAN_H</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>AREA_D_AREAN_H_D</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>AREA_D_H</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>AREA_D_AREAN</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>MSER</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>AREA_D_DELTA_H</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>AREA_D_DELTA_AREAF</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>MEAN</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>VARIANCE</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>MEAN_NGHB</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>VARIANCE_NGHB</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>OTSU</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>MGB</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>COMPLEXITY</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>COMPACITY</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="2" column="11">
+       <widget class="QLabel" name="label_limit_criterion">
+        <property name="text">
+         <string>limit criterion</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="8">
+       <widget class="QLabel" name="label_rule">
+        <property name="text">
+         <string>rule</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="13" rowspan="3">
+       <widget class="QLabel" name="label_min_max_value">
+        <property name="text">
+         <string>min / max</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_filter_min">
+        <property name="decimals">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <double>1000000000000000000.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="15">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_max_criterion">
+        <property name="decimals">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <double>16777216.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="8" colspan="2">
+       <widget class="QPushButton" name="pushButton_view_attribute_image">
+        <property name="text">
+         <string>view attribute image</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5" colspan="2">
+       <widget class="QCheckBox" name="checkBox_view_node">
+        <property name="text">
+         <string>view node pixels</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="5">
+       <widget class="QLabel" name="label_view_node_branch">
+        <property name="text">
+         <string>node parent</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_filter_rule">
+        <property name="text">
+         <string>filter rule</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="10" rowspan="3">
+       <widget class="Line" name="line_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="14">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_min_limit_criterion">
+        <property name="decimals">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <double>100000000.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="6">
+       <widget class="QSpinBox" name="spinBox_view_node_branch">
+        <property name="maximum">
+         <number>255</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="11">
+       <widget class="QLabel" name="label_criterion">
+        <property name="text">
+         <string>criterion</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="7" rowspan="3">
+       <widget class="Line" name="line_3">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4" rowspan="3">
+       <widget class="Line" name="line_1">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="14">
+       <widget class="QDoubleSpinBox" name="doubleSpinBox_min_criterion">
+        <property name="decimals">
+         <number>1</number>
+        </property>
+        <property name="minimum">
+         <double>-16777216.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>0.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" rowspan="3">
+       <widget class="Line" name="line_4">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_compute">
+        <property name="text">
+         <string>compute (2D only)</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1200</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionImport_Image"/>
+    <addaction name="actionImport_ImageSequence"/>
+    <addaction name="actionExport_Image"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionInvert_Image"/>
+   </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <widget class="QMenu" name="menuFiltering">
+     <property name="title">
+      <string>Filtering</string>
+     </property>
+     <addaction name="actionFilterArea"/>
+     <addaction name="actionFilterContrast"/>
+    </widget>
+    <widget class="QMenu" name="menuMorphology">
+     <property name="title">
+      <string>Morphology</string>
+     </property>
+     <addaction name="actionMorphological_Gradient"/>
+     <addaction name="actionInternal_Morphological_Gradient"/>
+     <addaction name="actionExternal_Morphological_Gradient"/>
+    </widget>
+    <addaction name="menuMorphology"/>
+    <addaction name="menuFiltering"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuTools"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionImport_Image">
+   <property name="text">
+    <string>Import Image</string>
+   </property>
+  </action>
+  <action name="actionImport_ImageSequence">
+   <property name="text">
+    <string>Import Image Sequence</string>
+   </property>
+  </action>
+  <action name="actionInvert_Image">
+   <property name="text">
+    <string>Invert Image</string>
+   </property>
+  </action>
+  <action name="actionFilterArea">
+   <property name="text">
+    <string>Area</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+A</string>
+   </property>
+  </action>
+  <action name="actionFilterContrast">
+   <property name="text">
+    <string>Contrast</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+C</string>
+   </property>
+  </action>
+  <action name="actionMorphological_Gradient">
+   <property name="text">
+    <string>Morphological Gradient</string>
+   </property>
+  </action>
+  <action name="actionInternal_Morphological_Gradient">
+   <property name="text">
+    <string>Internal Morphological Gradient</string>
+   </property>
+  </action>
+  <action name="actionExternal_Morphological_Gradient">
+   <property name="text">
+    <string>External Morphological Gradient</string>
+   </property>
+  </action>
+  <action name="actionExport_Image">
+   <property name="text">
+    <string>Export Image</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QGraphicsViewClick</class>
+   <extends>QGraphicsView</extends>
+   <header>GUILibTIM/qgraphicsviewclick.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QChartView</class>
+   <extends>QWidget</extends>
+   <header>QChartView</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>graphicsView_1</tabstop>
+  <tabstop>graphicsView_2</tabstop>
+  <tabstop>horizontalSlider_Z</tabstop>
+  <tabstop>doubleSpinBox_filter_min</tabstop>
+  <tabstop>doubleSpinBox_filter_max</tabstop>
+  <tabstop>comboBox_criterion</tabstop>
+  <tabstop>doubleSpinBox_min_criterion</tabstop>
+  <tabstop>doubleSpinBox_max_criterion</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

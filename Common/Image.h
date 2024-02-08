@@ -303,22 +303,22 @@ public:
 			  TCoord px, TCoord py, TCoord pz);
 
 	void copyFast(Image<T> &im,
- 			                 int x1, int y1, int z1,
-		                     int x2, int y2, int z2,
-			                 int px, int py, int pz);
+                             long x1, long y1, long z1,
+                             long x2, long y2, long z2,
+                             long px, long py, long pz);
 	void copyFast(Image<T> &im,	 TCoord px, TCoord py, TCoord pz);
 	void copy(Image<T> &im,
 			  TCoord px, TCoord py, TCoord pz);
 
 	void enlarge();
 
-	int getOffset(TCoord x, TCoord y=0, TCoord z=0) {return x+y*size[0]+z*size[0]*size[1];}
+    long getOffset(TCoord x, TCoord y=0, TCoord z=0) {return x+y*size[0]+z*size[0]*size[1];}
 
-	int getOffset(Point <TCoord> p) {return p.x+p.y*size[0]+p.z*size[0]*size[1];}
+    long getOffset(Point <TCoord> p) {return p.x+p.y*size[0]+p.z*size[0]*size[1];}
 
 	const Point<TCoord> getCoord  (TOffset offset) const {
 		Point <TCoord> res;
-		res.z=(int)(offset/(getSizeX()*getSizeY()));
+        res.z=(long)(offset/(getSizeX()*getSizeY()));
 		res.y=(offset%(getSizeX()*getSizeY()))/getSizeX();
 		res.x=offset % getSizeX();
 		return res;
@@ -328,10 +328,10 @@ public:
 
 	void print()
 		{
-		for (int y=0; y<getSizeY(); y++)
+        for (long y=0; y<getSizeY(); y++)
 			{
-			for(int x=0; x<getSizeX(); x++)
-				std::cout << (int) operator()(x,y,0)<< "\t";
+            for(long x=0; x<getSizeX(); x++)
+                std::cout << (long) operator()(x,y,0)<< "\t";
 			std::cout << "\n";
 			}
 		std::cout << "\n";
@@ -376,7 +376,7 @@ template <class T>
 Image <T> operator+(Image <T> &a, T s)
 {
 	Image <T> res=a;
-	for(int i=0; i<a.getBufSize(); i++)
+    for(long i=0; i<a.getBufSize(); i++)
 		res(i)+=s;
 	return res;
 }
@@ -385,7 +385,7 @@ template <class T>
 Image <T> operator-(Image <T> &a, T s)
 {
 	Image <T> res=a;
-	for(int i=0; i<a.getBufSize(); i++)
+    for(long i=0; i<a.getBufSize(); i++)
 		res(i)-=s;
 	return res;
 }
@@ -394,7 +394,7 @@ template <class T>
 Image <T> operator*(Image <T> &a, T s)
 {
 	Image <T> res=a;
-	for(int i=0; i<a.getBufSize(); i++)
+    for(long i=0; i<a.getBufSize(); i++)
 		res(i)*=s;
 	return res;
 }

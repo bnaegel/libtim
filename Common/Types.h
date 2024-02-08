@@ -55,19 +55,19 @@ struct Table{
 typedef Table<U8,3> RGB;
 
 //Type of image size 
-typedef unsigned short TSize;
+typedef uint64_t TSize;
 
 //Type of point spacing
 typedef double TSpacing;
 
 //Type of points coordinates
-typedef int TCoord;
+typedef long TCoord;
 
 //Type of label
 typedef unsigned long TLabel;
 
 //Type of offset
-typedef  long TOffset;
+typedef long TOffset;
 
 const float FLOAT_EPSILON=0.0000000001f;
 }

@@ -28,6 +28,10 @@
 #include <stack>
 #include <map>
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 namespace LibTIM {
 
 using std::vector;
@@ -49,16 +53,111 @@ template <class T>
 ComponentTree<T>::ComponentTree( Image< T > & img , FlatSE &connexity)
 :m_root(0),m_img(img)
 {
-	SalembierRecursiveImplementation<T> strategy(this,connexity);
+    SalembierRecursiveImplementation<T> strategy(this,connexity);
 
-	m_root=strategy.computeTree();
-	strategy.computeAttributes(m_root);
+    m_root=strategy.computeTree();
+    strategy.computeAttributes(m_root);
+}
+
+template <class T>
+ComponentTree<T>::ComponentTree( Image< T > & img , FlatSE &connexity, unsigned int delta)
+:m_root(0),m_img(img)
+{
+    SalembierRecursiveImplementation<T> strategy(this,connexity);
+
+    m_root=strategy.computeTree();
+    strategy.computeAttributes(m_root, delta);
+}
+
+template <class T>
+ComponentTree<T>::ComponentTree( Image< T > & img , FlatSE &connexity, ComputedAttributes ca, unsigned int delta)
+:m_root(0),m_img(img)
+{
+    SalembierRecursiveImplementation<T> strategy(this,connexity);
+
+    m_root=strategy.computeTree();
+
+    if(ca & ComputedAttributes::OTSU)
+    {
+        computeNeighborhoodAttributes(delta);
+    }
+
+    strategy.computeAttributes(m_root, ca, delta);
 }
 
 template <class T>
 ComponentTree<T>::~ComponentTree()
 {
 	erase_tree();
+}
+
+template <class T>
+int ComponentTree<T>::computeNeighborhoodAttributes(int r)
+{
+    FlatSE se;
+    se.make2DEuclidianBall(r);
+
+    std::queue<Node *> fifo;
+    fifo.push(m_root);
+
+    Image<bool> active(m_img.getSize());
+    active.fill(0);
+
+    // for each node, without recursive call
+    while(!fifo.empty())
+    {
+        // n = current node
+        Node *n=fifo.front();
+        fifo.pop();
+
+        // active pixels are neighborhs pixels
+        active.fill(true);
+        std::vector<TOffset> pixels=merge_pixels(n);
+        for(int i=0; i<pixels.size(); i++)
+            active(pixels[i])=false;
+
+        vector<int> ndg;
+
+        for(int i=0; i<pixels.size(); i++)
+        {
+            Point <TCoord> p=m_img.getCoord(pixels[i]);
+
+            for(int j=0; j<se.getNbPoints(); j++)
+            {
+                Point<TCoord> q=p+se.getPoint(j);
+
+                if(m_img.isPosValid(q))
+                {
+                    if(active(q)==true)
+                    {
+                        n->area_nghb += 1;
+                        n->sum_nghb += m_img(q);
+                        n->sum_square_nghb += m_img(q)*m_img(q);
+
+                        ndg.push_back(m_img(q));
+
+                        active(q)=false;
+                    }
+                }
+            }
+        }
+
+        if(n->area_nghb>0)
+        {
+            n->mean_nghb = (long double)n->sum_nghb / (long double)n->area_nghb;
+
+            n->variance_nghb = ((long double)n->sum_square_nghb /
+                              (long double)n->area_nghb
+                              ) - n->mean_nghb*n->mean_nghb;
+        }
+
+        for(int i=0; i<n->childs.size(); i++)
+        {
+            fifo.push(n->childs[i]);
+        }
+    }
+
+    return 0;
 }
 
 template <class T>
@@ -334,6 +433,284 @@ Image <T> ComponentTree<T>::constructImage(ConstructionDecision decision)
 	return res;
 }
 
+template<class T> template<class TVal>
+TVal ComponentTree<T>::getAttribute(Node *n, ComponentTree::Attribute attribute_id)
+{
+    switch (attribute_id) {
+    case H:
+      return n->h;
+    case AREA:
+      return n->area;
+    case AREA_D_AREAN_H:
+      return n->area_derivative_areaN_h;
+    case AREA_D_AREAN_H_D:
+      return n->area_derivative_areaN_h_derivative;
+    case AREA_D_H:
+      return n->area_derivative_h;
+    case AREA_D_AREAN:
+      return n->area_derivative_areaN;
+    case MSER:
+      return n->mser;
+    case AREA_D_DELTA_H:
+      return n->area_derivative_delta_h;
+    case AREA_D_DELTA_AREAF:
+      return n->area_derivative_delta_areaF;
+    case MEAN:
+        return n->mean;
+    case VARIANCE:
+        return n->variance;
+    case MEAN_NGHB:
+        return n->mean_nghb;
+    case VARIANCE_NGHB:
+        return n->variance_nghb;
+    case OTSU:
+        return n->otsu;
+    case CONTRAST:
+      return n->contrast;
+    case VOLUME:
+      return n->volume;
+    case MGB:
+        return n->mean_gradient_border;
+    case CONTOUR_LENGTH:
+      return n->contourLength;
+    case COMPLEXITY:
+      return n->complexity;
+    case COMPACITY:
+      return n->compacity;
+  }
+  return 0;
+}
+
+template<class T> template<class TVal, class TSel>
+void ComponentTree<T>::constructImageAttributeMin(Image<TVal> &res, ComponentTree::Attribute value_attribute, ComponentTree::Attribute selection_attribute)
+{
+    res.fill(TVal(0));
+
+    std::vector<Node *> nodes = indexedNodes();
+    for (TSize i = 0; i < res.getSizeX(); i++)
+        for (TSize j = 0; j < res.getSizeY(); j++)
+            for (TSize k = 0; k < res.getSizeZ(); k++)
+            {
+                Node *n = indexedCoordToNode(i, j, k, nodes);
+                // noeud selectionné
+                Node *n_s = n;
+                TSel attr = getAttribute<TSel>(n, selection_attribute);
+                // minimum, dans la branche parent
+                TSel attr_father;
+                // parcours de l'arbre
+                while(n->father != m_root) {
+                    n = n->father;
+                    attr_father = getAttribute<TSel>(n, selection_attribute);
+
+                    if(attr_father < attr &&
+                       attr_father > 0)
+                    {
+                        n_s = n;
+                        attr = attr_father;
+                    }
+                }
+
+                res(i, j, k) = getAttribute<TVal>(n_s, value_attribute);
+            }
+}
+
+template<class T> template<class TVal, class TSel>
+void ComponentTree<T>::constructImageAttributeMax(Image<TVal> &res, ComponentTree::Attribute value_attribute, ComponentTree::Attribute selection_attribute)
+{
+    res.fill(TVal(0));
+
+    std::vector<Node *> nodes = indexedNodes();
+    for (TSize i = 0; i < res.getSizeX(); i++)
+        for (TSize j = 0; j < res.getSizeY(); j++)
+            for (TSize k = 0; k < res.getSizeZ(); k++)
+            {
+                Node *n = indexedCoordToNode(i, j, k, nodes);
+                // noeud selectionné
+                Node *n_s = n;
+                TSel attr = getAttribute<TSel>(n, selection_attribute);
+                // maximum dans la branche parent
+                TSel attr_father;
+                // parcours de l'arbre
+                while(n->father != m_root) {
+                    n = n->father;
+                    attr_father = getAttribute<TSel>(n, selection_attribute);
+
+                    if(attr_father > attr &&
+                       attr_father < std::numeric_limits<TSel>::max())
+                    {
+                        n_s = n;
+                        attr = attr_father;
+                    }
+                }
+
+                res(i, j, k) = getAttribute<TVal>(n_s, value_attribute);
+            }
+}
+
+template<class T> template<class TVal>
+void ComponentTree<T>::constructImageAttributeDirect(Image<TVal> &res, ComponentTree::Attribute value_attribute)
+{
+    res.fill(TVal(0));
+
+    std::vector<Node *> nodes = indexedNodes();
+    for (TSize i = 0; i < res.getSizeX(); i++)
+        for (TSize j = 0; j < res.getSizeY(); j++)
+            for (TSize k = 0; k < res.getSizeZ(); k++)
+            {
+                Node *n = indexedCoordToNode(i, j, k, nodes);
+                TVal attr = getAttribute<TVal>(n, value_attribute);
+                res(i, j, k) = attr;
+            }
+}
+
+template<class T> template<class TVal, class TSel, class TLimit>
+void ComponentTree<T>::constructImageAttributeMin(Image<TVal> &res, ComponentTree::Attribute value_attribute, ComponentTree::Attribute selection_attribute, Attribute limit_attribute, TLimit limit_min, TLimit limit_max)
+{
+    res.fill(TVal(0));
+
+    std::vector<Node *> nodes = indexedNodes();
+    for (TSize i = 0; i < res.getSizeX(); i++)
+        for (TSize j = 0; j < res.getSizeY(); j++)
+            for (TSize k = 0; k < res.getSizeZ(); k++)
+            {
+                Node *n = indexedCoordToNode(i, j, k, nodes);
+                // limit min
+                while(n->father != m_root && getAttribute<TLimit>(n->father, limit_attribute) < limit_min)
+                {
+                    n = n->father;
+                }
+                // noeud selectionné
+                Node *n_s = n;
+                TSel attr = getAttribute<TSel>(n, selection_attribute);
+                // minimum, dans la branche parent
+                TSel attr_father;
+                // parcours de l'arbre et limit max
+                while(n->father != m_root && getAttribute<TLimit>(n->father, limit_attribute) < limit_max) {
+                    n = n->father;
+                    attr_father = getAttribute<TSel>(n, selection_attribute);
+
+                    if(attr_father < attr &&
+                       attr_father > 0)
+                    {
+                        n_s = n;
+                        attr = attr_father;
+                    }
+                }
+
+                res(i, j, k) = getAttribute<TVal>(n_s, value_attribute);
+            }
+}
+
+template<class T> template<class TVal, class TSel, class TLimit>
+void ComponentTree<T>::constructImageAttributeMax(Image<TVal> &res, ComponentTree::Attribute value_attribute, ComponentTree::Attribute selection_attribute, Attribute limit_attribute, TLimit limit_min, TLimit limit_max)
+{
+    res.fill(TVal(0));
+
+    std::vector<Node *> nodes = indexedNodes();
+    for (TSize i = 0; i < res.getSizeX(); i++)
+        for (TSize j = 0; j < res.getSizeY(); j++)
+            for (TSize k = 0; k < res.getSizeZ(); k++)
+            {
+                Node *n = indexedCoordToNode(i, j, k, nodes);
+                // limit min
+                while(n->father != m_root && getAttribute<TLimit>(n->father, limit_attribute) < limit_min)
+                {
+                    n = n->father;
+                }
+                // noeud selectionné
+                Node *n_s = n;
+                TSel attr = getAttribute<TSel>(n, selection_attribute);
+                // maximum dans la branche parent
+                TSel attr_father;
+                // parcours de l'arbre et limit max
+                while(n->father != m_root && getAttribute<TLimit>(n->father, limit_attribute) < limit_max) {
+                    n = n->father;
+                    attr_father = getAttribute<TSel>(n, selection_attribute);
+
+                    if(attr_father > attr &&
+                       attr_father < std::numeric_limits<TSel>::max())
+                    {
+                        n_s = n;
+                        attr = attr_father;
+                    }
+                }
+
+                res(i, j, k) = getAttribute<TVal>(n_s, value_attribute);
+            }
+}
+
+template<class T> template<class TVal, class TLimit>
+void ComponentTree<T>::constructImageAttributeDirect(Image<TVal> &res, ComponentTree::Attribute value_attribute, Attribute limit_attribute, TLimit limit_min, TLimit limit_max)
+{
+    res.fill(TVal(0));
+
+    std::vector<Node *> nodes = indexedNodes();
+    for (TSize i = 0; i < res.getSizeX(); i++)
+        for (TSize j = 0; j < res.getSizeY(); j++)
+            for (TSize k = 0; k < res.getSizeZ(); k++)
+            {
+                Node *n = indexedCoordToNode(i, j, k, nodes);
+                // limit min
+                while(n->father != m_root && getAttribute<TLimit>(n->father, limit_attribute) < limit_min)
+                {
+                    n = n->father;
+                }
+                TVal attr = getAttribute<TVal>(n, value_attribute);
+                res(i, j, k) = attr;
+            }
+}
+
+template<class T> template<class TVal, class TSel>
+Image<TVal> ComponentTree<T>::constructImageAttribute(ComponentTree::Attribute value_attribute, ComponentTree::Attribute selection_attribute, ComponentTree::ConstructionDecision selection_rule)
+{
+    Image <TVal> res(m_img.getSize());
+
+    if(m_root!=0)
+    {
+        switch(selection_rule)
+        {
+        case MIN:
+            constructImageAttributeMin<TVal, TSel>(res, value_attribute, selection_attribute);
+            break;
+        case MAX:
+            constructImageAttributeMax<TVal, TSel>(res, value_attribute, selection_attribute);
+            break;
+        case DIRECT:
+            constructImageAttributeDirect<TVal>(res, value_attribute);
+            break;
+        }
+    }
+    else
+        res.fill(TVal(0));
+
+    return res;
+}
+
+template<class T> template<class TVal, class TSel, class TLimit>
+Image<TVal> ComponentTree<T>::constructImageAttribute(ComponentTree::Attribute value_attribute, ComponentTree::Attribute selection_attribute, ComponentTree::ConstructionDecision selection_rule, Attribute limit_attribute, TLimit limit_min, TLimit limit_max)
+{
+    Image <TVal> res(m_img.getSize());
+
+    if(m_root!=0)
+    {
+        switch(selection_rule)
+        {
+        case MIN:
+            constructImageAttributeMin<TVal, TSel, TLimit>(res, value_attribute, selection_attribute, limit_attribute, limit_min, limit_max);
+            break;
+        case MAX:
+            constructImageAttributeMax<TVal, TSel, TLimit>(res, value_attribute, selection_attribute, limit_attribute, limit_min, limit_max);
+            break;
+        case DIRECT:
+            constructImageAttributeDirect<TVal, TLimit>(res, value_attribute, limit_attribute, limit_min, limit_max);
+            break;
+        }
+    }
+    else
+        res.fill(TVal(0));
+
+    return res;
+}
 
 
 template <class T>
@@ -835,7 +1212,7 @@ int ComponentTree<T>::contrastFiltering(int tMin, int tMax)
 }
 
 template <class T>
-int ComponentTree<T>::areaFiltering(int tMin, int tMax)
+int ComponentTree<T>::areaFiltering(int64_t tMin, int64_t tMax)
 {
 	if(m_root!=0)
 		{
@@ -1024,8 +1401,12 @@ int ComponentTree<T>::boundingBoxFiltering(int min, int max)
 
 			if(tmp->father!=tmp)
 
-			if( ((tmp->xmax-tmp->xmin) <min && (tmp->ymax-tmp->ymin)<min )
-				|| ( (tmp->xmax-tmp->xmin) >max && (tmp->ymax-tmp->ymin)>max) )
+            if(((tmp->xmax - tmp->xmin) < min &&
+                (tmp->ymax - tmp->ymin) < min &&
+                (tmp->zmax - tmp->zmin) < min )
+            ||( (tmp->xmax - tmp->xmin) > max &&
+                (tmp->ymax - tmp->ymin) > max &&
+                (tmp->zmax - tmp->zmin) > max))
 				tmp->active=false;
 
 			std::vector<Node *>::iterator it;
@@ -1136,6 +1517,53 @@ Node * ComponentTree<T>::coordToNode(TCoord x, TCoord y)
 	return offsetToNode(offset);
 }
 
+
+template <class T>
+Node * ComponentTree<T>::coordToNode(TCoord x, TCoord y, TCoord z)
+{
+        TOffset offset=m_img.getOffset(x,y,z);
+        return offsetToNode(offset);
+}
+
+
+template <class T>
+Node * ComponentTree<T>::indexedCoordToNode(TCoord x, TCoord y, TCoord z, std::vector<Node *> &nodes)
+{
+        TOffset offset=m_img.getOffset(x,y,z);
+        return nodes[offset];
+}
+
+
+template <class T>
+std::vector<Node *> ComponentTree<T>::indexedNodes()
+{
+        unsigned int img_size = m_img.getSizeX() * m_img.getSizeY() * m_img.getSizeZ();
+        std::vector<Node *> index(img_size);
+
+        std::queue<Node *> fifo;
+        fifo.push(m_root);
+
+        while(!fifo.empty() )
+                {
+                Node *n=fifo.front();
+                fifo.pop();
+
+                if(n!=0)
+                        {
+                        Node::ContainerPixels::iterator it;
+                        for(it=n->pixels.begin(); it!=n->pixels.end(); ++it)
+                                {
+                                index[*it]=n;
+                                }
+                        Node::ContainerChilds::iterator jt;
+                        for(jt=n->childs.begin(); jt!=n->childs.end(); ++jt)
+                                fifo.push(*jt);
+                        }
+                }
+        return index;
+}
+
+
 template <class T>
 Node * ComponentTree<T>::offsetToNode(TOffset offset)
 {
@@ -1231,8 +1659,9 @@ int ComponentTree<T>::writeSignature(SignatureType &signature, const char *file)
  		outputFile << (int)it->first << " "
  		<< it->second->area << " "
   		<< it->second->contrast << " "
-  		<< it->second->xmax-it->second->xmin << " "
-  		<< it->second->ymax-it->second->ymin << " "
+        << it->second->xmax-it->second->xmin << " "
+        << it->second->ymax-it->second->ymin << " "
+        << it->second->zmax-it->second->zmin << " "
   		<< it->second->complexity << " "
  		<< it->second->compacity << "\n";
  	outputFile.close();
@@ -1270,14 +1699,14 @@ int SalembierRecursiveImplementation<T>::computeContrast(Node *tree)
 }
 
 template <class T>
-int SalembierRecursiveImplementation<T>::computeArea(Node *tree)
+int64_t SalembierRecursiveImplementation<T>::computeArea(Node *tree)
 {
 	if(tree!=0)
 		{
 		Node::ContainerChilds::iterator it;
 		for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
 			{
-			tree->area+=computeArea(*it);
+            tree->area+=computeArea(*it);
 			}
 		return tree->area;
 		}
@@ -1286,14 +1715,167 @@ int SalembierRecursiveImplementation<T>::computeArea(Node *tree)
 }
 
 template <class T>
-int SalembierRecursiveImplementation<T>::computeSubNodes(Node *tree)
+void SalembierRecursiveImplementation<T>::computeAreaDerivative(Node *tree)
+{
+    if(tree!=0)
+    {
+        Node::ContainerChilds::iterator it;
+        for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
+        {
+            computeAreaDerivative(*it);
+        }
+        tree->area_derivative_areaN_h = (((long double)(tree->father->area - tree->area)) / ((long double)(tree->h - tree->father->h))) / ((long double)(tree->area));
+        tree->area_derivative_h = ((long double)(tree->father->area - tree->area)) / ((long double)(tree->h - tree->father->h));
+        tree->area_derivative_areaN = ((long double)(tree->father->area - tree->area)) / ((long double)(tree->area));
+    }
+}
+
+template <class T>
+void SalembierRecursiveImplementation<T>::computeAreaDerivative2(Node *tree)
+{
+    if(tree!=0)
+    {
+        Node::ContainerChilds::iterator it;
+        for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
+        {
+            computeAreaDerivative2(*it);
+        }
+        tree->area_derivative_areaN_h_derivative = tree->father->area_derivative_areaN_h - tree->area_derivative_areaN_h;
+    }
+}
+
+template <class T>
+void SalembierRecursiveImplementation<T>::computeMSER(Node *tree, unsigned int delta)
+{
+    if(tree!=0)
+    {
+        Node::ContainerChilds::iterator it;
+        for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
+        {
+            computeMSER(*it, delta);
+        }
+
+        tree->mser = std::numeric_limits<long double>::max();
+        tree->area_derivative_delta_h = std::numeric_limits<long double>::max();
+        tree->area_derivative_delta_areaF = std::numeric_limits<long double>::max();
+
+        Node node = *tree;
+
+        int64_t area_node, area_father;
+        int h_node, h_father;
+
+        area_node = node.area;
+        h_node = node.h;
+
+        area_father = node.father->area;
+        h_father = node.father->h;
+
+        while((h_node - node.h < (int)delta) && (node.father != node.father->father))
+        {
+            node = *node.father;
+        }
+
+        if((h_node - node.h) >= (int)delta)
+        {
+            area_father = node.area;
+            h_father = node.h;
+
+            tree->mser =
+                    ((long double)(area_father - area_node)) / ((long double)(area_node));
+            tree->area_derivative_delta_h =
+                    ((long double)(area_father - area_node)) / ((long double)(h_node - h_father));
+            tree->area_derivative_delta_areaF =
+                    ((long double)(area_father - area_node)) / ((long double)(area_father));
+        }
+    }
+}
+
+template <class T>
+int64_t SalembierRecursiveImplementation<T>::computeSum(Node *tree)
+{
+    if(tree!=0)
+    {
+        Node::ContainerChilds::iterator it;
+        for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
+        {
+            tree->sum += computeSum(*it);
+        }
+        return tree->sum;
+    }
+    // error
+    else return -1;
+}
+
+template <class T>
+int64_t SalembierRecursiveImplementation<T>::computeSumSquare(Node *tree)
+{
+    if(tree!=0)
+    {
+        Node::ContainerChilds::iterator it;
+        for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
+        {
+            tree->sum_square += computeSumSquare(*it);
+        }
+        return tree->sum_square;
+    }
+    // error
+    else return -1;
+}
+
+template <class T>
+void SalembierRecursiveImplementation<T>::computeMean(Node *tree)
+{
+    if(tree!=0)
+    {
+        Node::ContainerChilds::iterator it;
+        for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
+        {
+            computeMean(*it);
+        }
+        tree->mean = (long double)tree->sum / (long double)tree->area;
+    }
+}
+
+template <class T>
+void SalembierRecursiveImplementation<T>::computeVariance(Node *tree)
+{
+    if(tree!=0)
+    {
+        Node::ContainerChilds::iterator it;
+        for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
+        {
+            computeVariance(*it);
+        }
+        tree->variance = ((long double)tree->sum_square /
+                          (long double)tree->area
+                          ) - tree->mean*tree->mean;
+    }
+}
+
+template <class T>
+void SalembierRecursiveImplementation<T>::computeOtsu(Node *tree)
+{
+    if(tree!=0)
+    {
+        Node::ContainerChilds::iterator it;
+        for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
+        {
+            computeOtsu(*it);
+        }
+        tree->otsu = ((tree->mean - tree->mean_nghb) * (tree->mean - tree->mean_nghb))
+                    / (tree->variance + tree->variance_nghb);
+    }
+}
+
+template <class T>
+int64_t SalembierRecursiveImplementation<T>::computeSubNodes(Node *tree)
 {
 	if(tree!=0)
 		{
 		Node::ContainerChilds::iterator it;
 		for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
 			{
-			tree->subNodes=tree->childs.size()+computeSubNodes(*it);
+            tree->subNodes=tree->childs.size()+computeSubNodes(*it);
 			}
 		return tree->subNodes;
 		}
@@ -1412,7 +1994,7 @@ int SalembierRecursiveImplementation<T>::computeVolume(Node *tree)
 			}
 		else local_contrast=tree->h-tree->father->h;
 
-		tree->volume=tree->area* local_contrast;
+        tree->volume=(int)tree->area * local_contrast;
 
 		Node::ContainerChilds::iterator it;
 		for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
@@ -1425,6 +2007,28 @@ int SalembierRecursiveImplementation<T>::computeVolume(Node *tree)
 	else return -1;
 }
 
+template <class T>
+void SalembierRecursiveImplementation<T>::computeBorderGradient(Node *tree)
+{
+    if(tree!=0)
+    {
+        Node::ContainerChilds::iterator it;
+        for(it=tree->childs.begin(); it!=tree->childs.end(); ++it)
+        {
+            computeBorderGradient(*it);
+        }
+
+        long double sum = 0;
+
+        Node::ContainerPixels::iterator itpix;
+        for(itpix=tree->pixels_border.begin(); itpix!=tree->pixels_border.end(); ++itpix)
+        {
+            sum += imGradient(*itpix);
+        }
+
+        tree->mean_gradient_border = sum / tree->pixels_border.size();
+    }
+}
 
 /** @brief Compute contour length
   *
@@ -1437,7 +2041,7 @@ int SalembierRecursiveImplementation<T>::computeVolume(Node *tree)
 //      (if p is not a pixel contour in n, it is not a pixel contour in the ancestors of n)
 
 template <class T>
-int SalembierRecursiveImplementation<T>::computeContourLength()
+int SalembierRecursiveImplementation<T>::computeContour(bool save_pixels)
 {
 	// we compute the contour length with STATUS image and m_img
 	typename Image<T>::iterator it;
@@ -1490,15 +2094,37 @@ int SalembierRecursiveImplementation<T>::computeContourLength()
 			if(hitsBorder==false)
 				while(tmp->h > minValue)
 					{
-					tmp->contourLength++;
+                    tmp->contourLength++;
+                    if(save_pixels)
+                    {
+                        //conversion offset imBorder->im
+                        Point <TCoord> imCoord=imBorder.getCoord(offset);
+                        imCoord.x-=back[0];
+                        imCoord.y-=back[1];
+                        imCoord.z-=back[2];
+                        TOffset imOffset=imCoord.x+imCoord.y*oriSize[0]+imCoord.z*oriSize[0]*oriSize[1];
+
+                        tmp->pixels_border.push_back(imOffset);
+                    }
 					tmp=tmp->father;
 					}
 			else
-				{
+                {
 				bool stop=false;
 				while(!stop)
 					{
-					tmp->contourLength++;
+                    tmp->contourLength++;
+                    if(save_pixels)
+                    {
+                        //conversion offset imBorder->im
+                        Point <TCoord> imCoord=imBorder.getCoord(offset);
+                        imCoord.x-=back[0];
+                        imCoord.y-=back[1];
+                        imCoord.z-=back[2];
+                        TOffset imOffset=imCoord.x+imCoord.y*oriSize[0]+imCoord.z*oriSize[0]*oriSize[1];
+
+                        tmp->pixels_border.push_back(imOffset);
+                    }
 					if(tmp!=tmp->father)
 						tmp=tmp->father;
 					else stop=true;
@@ -1512,8 +2138,6 @@ int SalembierRecursiveImplementation<T>::computeContourLength()
 template <class T>
 int SalembierRecursiveImplementation<T>::computeComplexityAndCompacity(Node *tree)
 {
-	computeContourLength();
-
 	if(tree!=0)
 		{
 		std::queue<Node *> fifo;
@@ -1525,10 +2149,10 @@ int SalembierRecursiveImplementation<T>::computeComplexityAndCompacity(Node *tre
 			fifo.pop();
 
 			if(n->area!=0)
-				n->complexity=(int)(100.0*n->contourLength/n->area);
+                n->complexity=(int)(1000.0*n->contourLength/n->area);
 			if(n->contourLength!=0)
 				{
-				n->compacity=(int)(((double)(4*M_PI*n->area)/((double)n->contourLength*n->contourLength))*100);
+                n->compacity=(int)(((double)(4*M_PI*n->area)/((double)n->contourLength*n->contourLength))*1000);
 				//WARNING!!!!!!!!!!!!!!
 // 				if(n->compacity>100)
 // 					n->compacity=100;
@@ -1549,7 +2173,6 @@ int SalembierRecursiveImplementation<T>::computeComplexityAndCompacity(Node *tre
 template <class T>
 int SalembierRecursiveImplementation<T>::computeBoundingBox(Node *tree)
 {
-	int xmin,xmax,ymin,ymax;
 	std::queue<Node *> fifo;
 	std::stack<Node *> stackNodes;
 
@@ -1575,9 +2198,11 @@ int SalembierRecursiveImplementation<T>::computeBoundingBox(Node *tree)
 		if(tmp->father!=tmp)
 			{
 			tmp->father->xmin=std::min(tmp->father->xmin, tmp->xmin);
-			tmp->father->xmax=std::max(tmp->father->xmax, tmp->xmax);
-			tmp->father->ymin=std::min(tmp->father->ymin, tmp->ymin);
-			tmp->father->ymax=std::max(tmp->father->ymax, tmp->ymax);
+            tmp->father->xmax=std::max(tmp->father->xmax, tmp->xmax);
+            tmp->father->ymin=std::min(tmp->father->ymin, tmp->ymin);
+            tmp->father->ymax=std::max(tmp->father->ymax, tmp->ymax);
+            tmp->father->zmin=std::min(tmp->father->zmin, tmp->zmin);
+            tmp->father->zmax=std::max(tmp->father->zmax, tmp->zmax);
 			}
 		}
     return 1;
@@ -1586,22 +2211,106 @@ int SalembierRecursiveImplementation<T>::computeBoundingBox(Node *tree)
 template <class T>
 void SalembierRecursiveImplementation<T>::computeAttributes(Node *tree)
 {
-	if(tree!=0)
-		{
-		tree->area=computeArea(tree);
-		tree->contrast=computeContrast(tree);
-		tree->volume=computeVolume(tree);
+    if(tree!=0)
+        {
+        tree->area=computeArea(tree);
+        tree->contrast=computeContrast(tree);
+        tree->volume=computeVolume(tree);
 
-		computeComplexityAndCompacity(tree);
- 		computeBoundingBox(tree);
-		tree->subNodes=computeSubNodes(tree);
-		tree->m01=computeM01(tree);
-		tree->m10=computeM10(tree);
-		tree->m20=computeM20(tree);
-		tree->m02=computeM02(tree);
-		computeInertiaMoment(tree);
-		}
-    
+        computeContour();
+        computeComplexityAndCompacity(tree);
+        computeBoundingBox(tree);
+        tree->subNodes=computeSubNodes(tree);
+        tree->m01=computeM01(tree);
+        tree->m10=computeM10(tree);
+        tree->m20=computeM20(tree);
+        tree->m02=computeM02(tree);
+        computeInertiaMoment(tree);
+        }
+
+}
+
+template <class T>
+void SalembierRecursiveImplementation<T>::computeAttributes(Node *tree, unsigned int delta)
+{
+    if(tree!=0)
+        {
+        tree->area=computeArea(tree);
+        computeAreaDerivative(tree);
+        computeAreaDerivative2(tree);
+        computeMSER(tree, delta);
+
+        tree->contrast=computeContrast(tree);
+        tree->volume=computeVolume(tree);
+        }
+}
+
+template <class T>
+void SalembierRecursiveImplementation<T>::computeAttributes(Node *tree, ComputedAttributes ca, unsigned int delta)
+{
+    if(tree!=0)
+    {
+        if(ca & ComputedAttributes::AREA)
+        {
+            tree->area=computeArea(tree);
+
+            if(ca & ComputedAttributes::OTSU)
+            {
+                tree->sum=computeSum(tree);
+                tree->sum_square=computeSumSquare(tree);
+                computeMean(tree);
+                computeVariance(tree);
+                computeOtsu(tree);
+            }
+        }
+        if(ca & ComputedAttributes::AREA_DERIVATIVES)
+        {
+            computeAreaDerivative(tree);
+            computeAreaDerivative2(tree);
+            computeMSER(tree, delta);
+        }
+        if(ca & ComputedAttributes::CONTRAST)
+        {
+            tree->contrast=computeContrast(tree);
+        }
+        if(ca & ComputedAttributes::VOLUME)
+        {
+            tree->volume=computeVolume(tree);
+        }
+        if(ca & ComputedAttributes::BORDER_GRADIENT)
+        {
+            computeContour(true);
+            computeBorderGradient(tree);
+        }
+        if(ca & ComputedAttributes::COMP_LEXITY_ACITY)
+        {
+            if(ca & ComputedAttributes::BORDER_GRADIENT)
+            {
+                computeComplexityAndCompacity(tree);
+            }
+            else
+            {
+                computeContour();
+                computeComplexityAndCompacity(tree);
+            }
+        }
+        if(ca & ComputedAttributes::BOUNDING_BOX)
+        {
+            computeBoundingBox(tree);
+        }
+        if(ca & ComputedAttributes::SUB_NODES)
+        {
+            tree->subNodes=computeSubNodes(tree);
+        }
+        if(ca & ComputedAttributes::INERTIA_MOMENT)
+        {
+            tree->m01=computeM01(tree);
+            tree->m10=computeM10(tree);
+            tree->m20=computeM20(tree);
+            tree->m02=computeM02(tree);
+            computeInertiaMoment(tree);
+        }
+    }
 }
 
 //////////////////////////////////////////////////////////////
@@ -1618,7 +2327,9 @@ inline void SalembierRecursiveImplementation<T>::update_attributes(Node *n, TOff
 	TOffset imOffset=imCoord.x+imCoord.y*oriSize[0]+imCoord.z*oriSize[0]*oriSize[1];
 
 	n->pixels.push_back(imOffset);
-	n->area++;
+    n->area++;
+    n->sum += n->h;
+    n->sum_square += (n->h*n->h);
 
 	n->m10+=imCoord.x;
 	n->m01+=imCoord.y;
@@ -1626,10 +2337,13 @@ inline void SalembierRecursiveImplementation<T>::update_attributes(Node *n, TOff
 	n->m02+=imCoord.y*imCoord.y;
 
 	if(imCoord.x < n->xmin) n->xmin=imCoord.x;
-	if(imCoord.x > n->xmax) n->xmax=imCoord.x;
+    if(imCoord.x > n->xmax) n->xmax=imCoord.x;
 
-	if(imCoord.y < n->ymin) n->ymin=imCoord.y;
-	if(imCoord.y > n->ymax) n->ymax=imCoord.y;
+    if(imCoord.y < n->ymin) n->ymin=imCoord.y;
+    if(imCoord.y > n->ymax) n->ymax=imCoord.y;
+
+    if(imCoord.z < n->zmin) n->zmin=imCoord.z;
+    if(imCoord.z > n->zmax) n->zmax=imCoord.z;
     
 }
 
@@ -1760,7 +2474,8 @@ void SalembierRecursiveImplementation<T>::init(Image <T> &img, FlatSE &connexity
 		front[i]=tmpFront[i];
 		}
 
-	imBorder=img;
+    imBorder=img;
+    imGradient=morphologicalGradient(img, connexity);
 	STATUS.setSize(img.getSize());
 	STATUS.fill(ACTIVE);
 
