@@ -134,7 +134,11 @@ namespace LibTIM {
                 im.spacing[i] = 1.0;
             }
             im.data = new U16 [im.dataSize];
-            file.read(reinterpret_cast<char *> (im.data),im.dataSize);
+            file.read(reinterpret_cast<char *> (im.data),sizeof(U16)*im.dataSize);
+
+            for (int k=0 ; k<im.dataSize ; k++) {
+        	    im.data[k] = (im.data[k] >> 8) | (im.data[k] << 8);
+    	 	}
         }
         file.close();
         return 1;
@@ -198,7 +202,7 @@ namespace LibTIM {
         
         TSize buf_size = width*height;
                 
-        file << "P5\n#CREATOR: GImage \n" << width << " " << height << "\n" << "255" ;
+        file << "P5\n#CREATOR: LibTIM \n" << width << " " << height << "\n" << "255" ;
         file << "\n";
         
         file.write(reinterpret_cast<char *> (this->data),buf_size);
@@ -229,7 +233,11 @@ namespace LibTIM {
         
         int maxVal=(int)(this->getMax());
         
-        file << "P5\n#CREATOR: GImage \n" << width << " " << height << "\n" << maxVal << "\n" ;
+        file << "P5\n#CREATOR: LibTIM \n" << width << " " << height << "\n" << maxVal << "\n" ;
+
+        for (int k=0 ; k<this->dataSize ; k++) {
+        	this->data[k] = (this->data[k] >> 8) | (this->data[k] << 8);
+    	}
         
         file.write(reinterpret_cast<char *> (this->data),buf_size);
         

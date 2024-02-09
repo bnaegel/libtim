@@ -422,7 +422,7 @@ Image<T> rankFilter(Image<T> im, FlatSE se, int rank)
 			std::sort(neighborsPtr,neighborsPtr+neighborSize );
 			*it=neighborsPtr[rank];
 			}
-		delete neighborsPtr;
+		delete[] neighborsPtr;
 		return  res;
 	}
 }
