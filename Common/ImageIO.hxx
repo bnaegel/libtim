@@ -231,7 +231,7 @@ namespace LibTIM {
         
         TSize buf_size = width*height*sizeof(U16);
         
-        int maxVal=(int)(this->getMax());
+        int maxVal=(int)(65535);
         
         file << "P5\n#CREATOR: LibTIM \n" << width << " " << height << "\n" << maxVal << "\n" ;
 
