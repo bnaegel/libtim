@@ -21,6 +21,8 @@
 #ifndef Types_h
 #define Types_h
 
+#include <cstdint>
+
 namespace LibTIM 
 {
 //Machine dependant typedefs
